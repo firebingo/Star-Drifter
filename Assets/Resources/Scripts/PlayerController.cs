@@ -3,7 +3,9 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour 
 {
+    [SerializeField]
     private float speed = 5;
+
     private Vector2 position;
     private float rotation;
     private Vector3 mousePosition;
@@ -14,7 +16,7 @@ public class PlayerController : MonoBehaviour
         position.y = transform.position.y;
 	}
 
-	void FixedUpdate () 
+	void Update () 
     {
         Move();
         FaceMouse();
@@ -24,22 +26,22 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.A))
         {
-            position.x -= speed * 0.01f;
+            position.x -= speed * Time.deltaTime;
         }
 
         if (Input.GetKey(KeyCode.D))
         {
-            position.x += speed * 0.01f;
+            position.x += speed * Time.deltaTime;
         }
 
         if (Input.GetKey(KeyCode.W))
         {
-            position.y += speed * 0.01f;
+            position.y += speed * Time.deltaTime;
         }
 
         if (Input.GetKey(KeyCode.S))
         {
-            position.y -= speed * 0.01f;
+            position.y -= speed * Time.deltaTime;
         }
 
         transform.position = position;
