@@ -11,20 +11,24 @@ public class BulletController : MonoBehaviour
 
     private float bulletTimer = 0;
 
-	// Use this for initialization
-	void Start () 
+    /// <summary>
+    /// Unity's Start Function
+    /// </summary>
+    void Start () 
     {
 	    
 	}
-	
-	// Update is called once per frame
-	void Update () 
+
+    /// <summary>
+    /// Unity's Update Function
+    /// </summary>
+    void Update () 
     {
-        transform.position += transform.up * speed * Time.deltaTime;
+        transform.position += transform.up.normalized * speed * Time.deltaTime;
+
         if (bulletTimer >= bulletTime)
-        {
             Destroy(this.gameObject);
-        }
+
         bulletTimer += Time.deltaTime;
 	}
 }

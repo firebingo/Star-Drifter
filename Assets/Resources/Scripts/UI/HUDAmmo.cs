@@ -16,13 +16,17 @@ public class HUDAmmo : MonoBehaviour
     public int maxClipAmount; //the max amount in a clip.
     public int currentAmount; //the amount of extra ammo held.
 
-    // Use this for initialization
+    /// <summary>
+    /// Unity's Start Function
+    /// </summary>
     void Start()
     {
 
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Unity's Update Function
+    /// </summary>
     void Update()
     {
         if(clipText != null)
