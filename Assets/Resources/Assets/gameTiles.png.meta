@@ -1,0 +1,777 @@
+fileFormatVersion: 2
+guid: 8b79ced93f572eb4595a326db2526292
+timeCreated: 1459175065
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: gameTiles_0
+    21300002: gameTiles_1
+    21300004: gameTiles_2
+    21300006: gameTiles_3
+    21300008: gameTiles_4
+    21300010: gameTiles_5
+    21300012: gameTiles_6
+    21300014: gameTiles_7
+    21300016: gameTiles_8
+    21300018: gameTiles_9
+    21300020: gameTiles_10
+    21300022: gameTiles_11
+    21300024: gameTiles_12
+    21300026: gameTiles_13
+    21300028: gameTiles_14
+    21300030: gameTiles_15
+    21300032: gameTiles_16
+    21300034: gameTiles_17
+    21300036: gameTiles_18
+    21300038: gameTiles_19
+    21300040: gameTiles_20
+    21300042: gameTiles_21
+    21300044: gameTiles_22
+    21300046: gameTiles_23
+    21300048: gameTiles_24
+    21300050: gameTiles_25
+    21300052: gameTiles_26
+    21300054: gameTiles_27
+    21300056: gameTiles_28
+    21300058: gameTiles_29
+    21300060: gameTiles_30
+    21300062: gameTiles_31
+    21300064: gameTiles_32
+    21300066: gameTiles_33
+    21300068: gameTiles_34
+    21300070: gameTiles_35
+    21300072: gameTiles_36
+    21300074: gameTiles_37
+    21300076: gameTiles_38
+    21300078: gameTiles_39
+    21300080: gameTiles_40
+    21300082: gameTiles_41
+    21300084: gameTiles_42
+    21300086: gameTiles_43
+    21300088: gameTiles_44
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 32
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: gameTiles_0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 133
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_1
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 133
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_2
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 133
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_3
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 133
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_4
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 133
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_5
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 133
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_6
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 133
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_7
+      rect:
+        serializedVersion: 2
+        x: 232
+        y: 133
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_8
+      rect:
+        serializedVersion: 2
+        x: 265
+        y: 133
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_9
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 100
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_10
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 100
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_11
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 100
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_12
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 100
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_13
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 100
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_14
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 100
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_15
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 100
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_16
+      rect:
+        serializedVersion: 2
+        x: 232
+        y: 100
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_17
+      rect:
+        serializedVersion: 2
+        x: 265
+        y: 100
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_18
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 67
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_19
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 67
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_20
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 67
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_21
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 67
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_22
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 67
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_23
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 67
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_24
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 67
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_25
+      rect:
+        serializedVersion: 2
+        x: 232
+        y: 67
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_26
+      rect:
+        serializedVersion: 2
+        x: 265
+        y: 67
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_27
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 34
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_28
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 34
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_29
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 34
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_30
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 34
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_31
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 34
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_32
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 34
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_33
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 34
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_34
+      rect:
+        serializedVersion: 2
+        x: 232
+        y: 34
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_35
+      rect:
+        serializedVersion: 2
+        x: 265
+        y: 34
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_36
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_37
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 1
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_38
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 1
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_39
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 1
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_40
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 1
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_41
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 1
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_42
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 1
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_43
+      rect:
+        serializedVersion: 2
+        x: 232
+        y: 1
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    - name: gameTiles_44
+      rect:
+        serializedVersion: 2
+        x: 265
+        y: 1
+        width: 32
+        height: 32
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 0, y: 0}
+        - {x: 0, y: -32}
+        - {x: 32, y: -32}
+        - {x: 32, y: 0}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
