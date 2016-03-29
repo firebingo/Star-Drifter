@@ -32,10 +32,20 @@ public class Occupant : MonoBehaviour
     private float rotation;
     private float targDist;     //Distance from target
 
+    //variables for Wander 
+    Vector3 wanderPoint;
+    float wanderBreak = 100.0f;
+    float range = 2.0f;
+
     //enum for FSM
     public enum AIFSM  {Wander, Attack, Wait, Avoid}
     public AIFSM AIState = AIFSM.Wait;
     private object distance;
+
+    //Some test crud
+ 
+    float walkingDirection = 1.0f;
+    Vector3 walkAmount;
 
     /// <summary>
     /// Gather info such as player distance, nearest obstacle, and nerest target
@@ -56,7 +66,7 @@ public class Occupant : MonoBehaviour
     /// <summary>
     ///  Use this for initialization
     /// </summary>
-    void init ()
+    void Start ()
     {
         health = 100;
         fireTimer = 0;
@@ -78,10 +88,14 @@ public class Occupant : MonoBehaviour
     /// </summary>  
     void Update ()
     {
-        
+
+
         switch (AIState)
         {
             case AIFSM.Wander:
+                walkAmount.x = walkingDirection * speed * Time.deltaTime;
+                walkingDirection = -1.0f;
+                transform.Translate(walkAmount); 
                 break;
             case AIFSM.Attack:
                 break;
