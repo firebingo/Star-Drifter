@@ -38,7 +38,7 @@ public class Occupant : MonoBehaviour
     float range = 2.0f;
 
     //enum for FSM
-    public enum AIFSM  {Wander, Attack, Wait, Avoid}
+    public enum AIFSM  {Wander, Attack, Shoot, Wait, Avoid}
     public AIFSM AIState = AIFSM.Wait;
     private object distance;
 
@@ -93,11 +93,13 @@ public class Occupant : MonoBehaviour
         switch (AIState)
         {
             case AIFSM.Wander:
-                walkAmount.x = walkingDirection * speed * Time.deltaTime;
-                walkingDirection = -1.0f;
-                transform.Translate(walkAmount); 
+                Wander();
                 break;
             case AIFSM.Attack:
+                Attack();
+                break;
+            case AIFSM.Shoot:
+                Shoot();
                 break;
             case AIFSM.Wait:
                 break;
@@ -118,9 +120,44 @@ public class Occupant : MonoBehaviour
     }
 
     //State Machine Functions (per update)
-    private void Wander() { }//Patrol
-    private void Attack() { }//Attack
+    private void Wander()
+    {
+        //Test: Move left (will be removed)
+        walkAmount.x = walkingDirection * speed * Time.deltaTime;
+        walkingDirection = -1.0f;
+        transform.Translate(walkAmount);
+
+    }//Wander
+
+    /// <summary>
+    /// The attack state, will pursue or fire 
+    /// </summary>
+    private void Attack()
+    {
+        //Can Fire>?
+        if (fireTimer > shotTimer)
+        {
+            //Change to firing state (Will move to takeStim() )
+            AIState = AIFSM.Shoot;
+
+        }
+        //Increment shot timer, aka Rate of Fire
+    fireTimer += 1 + Time.deltaTime;
+    }//Attack
+
+    private void Shoot()
+    {
+        //Reset fire timer
+        fireTimer = 0;
+        //Reset to attack state
+        AIState = AIFSM.Attack;
+     
+        //Fire
+        gameObject.GetComponent<Weapon>().Fire();
+    }//Shoot, a transition of Attack
+
     private void Wait() { }//Flee
+
     private void Avoid() { }//Avoid nearby obstacle
 
 }
