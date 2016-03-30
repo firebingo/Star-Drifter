@@ -6,24 +6,67 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float speed = 5;
     [SerializeField]
-    private int shotTimer = 50;
+    private int currentWeapon = 1;
+    [SerializeField]
+    private float maxHealth = 100;
+    [SerializeField]
+    private float currentHealth;
+    [SerializeField]
+    private Vector2 startingPosition;
+
+
+    private Weapon primary;  //Holds value for player's primary weapon.
+    private Weapon secondary; //Holds value for player's secondary weapon.
 
     private Vector2 position;
     private float rotation;
     public float timer;
 
+    private int spawn = 0; //Used to insure that the respawn code (OnEnable) doesn't run when player origanlly spawns. Also counts how many times the player spawns.
+
 	void Start () 
     {
-        position.x = transform.position.x;
-        position.y = transform.position.y;
+        GetComponent<PlayerRespawn>().enabled = false;
+        currentHealth = maxHealth;
+
+        transform.position = startingPosition;
+        position = transform.position;
+
         timer = 0;
+
+        primary = new Weapon();
+        primary.Initialize(50, 2, 50, 5, 8); // 8 is the player's layer
+        secondary = new Weapon();
+        secondary.Initialize(5, 10, 10, 0.50f, 8);
+
+        ChangeWeapon(primary);
 	}
+
+    void OnEnable() //Used for Respawning
+    {
+        if (spawn != 0)
+        {
+            GetComponent<PlayerRespawn>().enabled = false;
+            currentHealth = maxHealth;
+
+            transform.position = startingPosition;
+            position = transform.position;
+
+            timer = 0;
+
+            ChangeWeapon(primary);
+            currentWeapon = 1;
+        }
+        spawn++;
+    }
 
 	void Update () 
     {
         Move();
         FaceMouse();
         Shoot();
+        PrepareChangeWeapon();
+        Death();
 	}
 
     /// <summary>
@@ -54,12 +97,59 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetButton("Fire"))
         {
-            if (timer > shotTimer)
+            if (currentWeapon == 1)
             {
-                SendMessage("Fire");
-                timer = 0;
+                if (timer > primary.shotTimer)
+                {
+                    SendMessage("Fire");
+                    timer = 0;
+                }
+            }
+            else
+            {
+                if (timer > secondary.shotTimer)
+                {
+                    SendMessage("Fire");
+                    timer = 0;
+                }
             }
         }
         timer += 1 + Time.deltaTime;
+    }
+
+    void PrepareChangeWeapon()
+    {
+        if (Input.GetButtonDown("Swap") && currentWeapon == 1)
+        {
+            ChangeWeapon(secondary);
+            currentWeapon = 2;
+        }
+        else if (Input.GetButtonDown("Swap") && currentWeapon == 2)
+        {
+            ChangeWeapon(primary);
+            currentWeapon = 1;
+        }
+    }
+
+    void ChangeWeapon(Weapon weapon)
+    {
+        SendMessage("WeaponSwap", weapon);
+    }
+
+    void Death()
+    {
+        if (currentHealth <= 0)
+        {
+            foreach (MonoBehaviour c in GetComponents<MonoBehaviour>())
+                c.enabled = false;
+            GetComponent<PlayerRespawn>().enabled = true;
+            GetComponent<SpriteRenderer>().enabled = false;
+            SendMessage("Respawn");
+        }
+    }
+
+    void ApplyDamage(float damage)
+    {
+        currentHealth -= damage;
     }
 }

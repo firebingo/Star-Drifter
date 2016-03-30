@@ -3,11 +3,13 @@ using System.Collections;
 
 public class BulletController : MonoBehaviour 
 {
-    private int bulletSpeed;
+    private float bulletSpeed;
 
     private float bulletTime;
 
     private float bulletTimer;
+
+    private float damage;
 
     /// <summary>
     /// Unity's Start Function
@@ -29,9 +31,18 @@ public class BulletController : MonoBehaviour
 
         bulletTimer += Time.deltaTime;
 	}
-    public void Initialize(int speed, float time)
+    public void Initialize(float speed, float time, float bulletDamage, int type)
     {
         bulletSpeed = speed;
         bulletTime = time;
+        damage = bulletDamage;
+        gameObject.layer = type; //Determines collision layers (8 = player vs 9 = enemy)
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        Debug.Log("hit");
+        other.SendMessage("ApplyDamage", damage);
+        Destroy(this.gameObject);
     }
 }
