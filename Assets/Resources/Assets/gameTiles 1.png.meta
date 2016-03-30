@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 2878e5f25981e2346ac46b70f704df87
-timeCreated: 1459218536
+timeCreated: 1459342372
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -49,6 +49,7 @@ TextureImporter:
     21300084: gameTiles 1_42
     21300086: gameTiles 1_43
     21300088: gameTiles 1_44
+    21300090: gameTiles 1_0
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -102,14 +103,14 @@ TextureImporter:
         y: 133
         width: 32
         height: 32
-      alignment: 1
-      pivot: {x: 0, y: 1}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 0, y: 0}
-        - {x: 0, y: -32}
-        - {x: 32, y: -32}
-        - {x: 32, y: 0}
+      - - {x: -16, y: 16}
+        - {x: -16, y: -16}
+        - {x: 16, y: -16}
+        - {x: 16, y: 16}
     - name: SE Corner
       rect:
         serializedVersion: 2
@@ -117,14 +118,14 @@ TextureImporter:
         y: 133
         width: 32
         height: 32
-      alignment: 1
-      pivot: {x: 0, y: 1}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 0, y: 0}
-        - {x: 0, y: -32}
-        - {x: 32, y: -32}
-        - {x: 32, y: 0}
+      - - {x: -16, y: 16}
+        - {x: -16, y: -16}
+        - {x: 16, y: -16}
+        - {x: 16, y: 16}
     - name: S Wall
       rect:
         serializedVersion: 2
@@ -402,14 +403,14 @@ TextureImporter:
         y: 67
         width: 32
         height: 32
-      alignment: 1
-      pivot: {x: 0, y: 1}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 0, y: 0}
-        - {x: 0, y: -32}
-        - {x: 32, y: -32}
-        - {x: 32, y: 0}
+      - - {x: -16, y: 16}
+        - {x: -16, y: -16}
+        - {x: 16, y: -16}
+        - {x: 16, y: 16}
     - name: Red Human
       rect:
         serializedVersion: 2
@@ -417,14 +418,14 @@ TextureImporter:
         y: 67
         width: 32
         height: 32
-      alignment: 1
-      pivot: {x: 0, y: 1}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 0, y: 0}
-        - {x: 0, y: -32}
-        - {x: 32, y: -32}
-        - {x: 32, y: 0}
+      - - {x: -16, y: 16}
+        - {x: -16, y: -16}
+        - {x: 16, y: -16}
+        - {x: 16, y: 16}
     - name: Floor tile
       rect:
         serializedVersion: 2
@@ -537,14 +538,14 @@ TextureImporter:
         y: 34
         width: 32
         height: 32
-      alignment: 1
-      pivot: {x: 0, y: 1}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 0, y: 0}
-        - {x: 0, y: -32}
-        - {x: 32, y: -32}
-        - {x: 32, y: 0}
+      - - {x: -16, y: 16}
+        - {x: -16, y: -16}
+        - {x: 16, y: -16}
+        - {x: 16, y: 16}
     - name: Red armed Human
       rect:
         serializedVersion: 2
@@ -552,14 +553,14 @@ TextureImporter:
         y: 34
         width: 32
         height: 32
-      alignment: 1
-      pivot: {x: 0, y: 1}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 0, y: 0}
-        - {x: 0, y: -32}
-        - {x: 32, y: -32}
-        - {x: 32, y: 0}
+      - - {x: -16, y: 16}
+        - {x: -16, y: -16}
+        - {x: 16, y: -16}
+        - {x: 16, y: 16}
     - name: Stairs base
       rect:
         serializedVersion: 2
@@ -657,14 +658,14 @@ TextureImporter:
         y: 1
         width: 32
         height: 32
-      alignment: 1
-      pivot: {x: 0, y: 1}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 0, y: 0}
-        - {x: 0, y: -32}
-        - {x: 32, y: -32}
-        - {x: 32, y: 0}
+      - - {x: -16, y: 16}
+        - {x: -16, y: -16}
+        - {x: 16, y: -16}
+        - {x: 16, y: 16}
     - name: Alien
       rect:
         serializedVersion: 2
@@ -672,14 +673,14 @@ TextureImporter:
         y: 1
         width: 32
         height: 32
-      alignment: 1
-      pivot: {x: 0, y: 1}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 0, y: 0}
-        - {x: 0, y: -32}
-        - {x: 32, y: -32}
-        - {x: 32, y: 0}
+      - - {x: -16, y: 16}
+        - {x: -16, y: -16}
+        - {x: 16, y: -16}
+        - {x: 16, y: 16}
     - name: Armed alien
       rect:
         serializedVersion: 2
@@ -687,14 +688,14 @@ TextureImporter:
         y: 1
         width: 32
         height: 32
-      alignment: 1
-      pivot: {x: 0, y: 1}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 0, y: 0}
-        - {x: 0, y: -32}
-        - {x: 32, y: -32}
-        - {x: 32, y: 0}
+      - - {x: -16, y: 16}
+        - {x: -16, y: -16}
+        - {x: 16, y: -16}
+        - {x: 16, y: 16}
     - name: Metal
       rect:
         serializedVersion: 2
@@ -702,14 +703,14 @@ TextureImporter:
         y: 1
         width: 32
         height: 32
-      alignment: 1
-      pivot: {x: 0, y: 1}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 0, y: 0}
-        - {x: 0, y: -32}
-        - {x: 32, y: -32}
-        - {x: 32, y: 0}
+      - - {x: -16, y: 16}
+        - {x: -16, y: -16}
+        - {x: 16, y: -16}
+        - {x: 16, y: 16}
     - name: Power cell
       rect:
         serializedVersion: 2
@@ -770,6 +771,21 @@ TextureImporter:
         - {x: 0, y: -32}
         - {x: 32, y: -32}
         - {x: 32, y: 0}
+    - name: gameTiles 1_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2
+        width: 298
+        height: 164
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -149, y: 82}
+        - {x: -149, y: -82}
+        - {x: 149, y: -82}
+        - {x: 149, y: 82}
     outline: []
   spritePackingTag: 
   userData: 
