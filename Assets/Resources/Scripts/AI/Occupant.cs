@@ -53,7 +53,7 @@ public class Occupant : MonoBehaviour
     void TakeStim()
     {
         //Get target distance
-        TargDist(target);
+        //GetClosestEnemy(target);
 
         //DO stuff...
     }
@@ -109,15 +109,29 @@ public class Occupant : MonoBehaviour
         }//end switch
 
 	}//end update
-    
+
     /// <summary>
-    /// Distance function to target
+    /// Find nearest target function to target (will need work)
     /// </summary>
-    void TargDist(GameObject target)
+    Transform GetClosestEnemy(Transform[] enemies)
     {
-        //Needs work
-        //distance = Math.Sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)));
+        Transform bestTarget = null;
+        float closestDistanceSqr = Mathf.Infinity;
+        Vector3 currentPosition = transform.position;
+        foreach (Transform potentialTarget in enemies)
+        {
+            Vector3 directionToTarget = potentialTarget.position - currentPosition;
+            float dSqrToTarget = directionToTarget.sqrMagnitude;
+            if (dSqrToTarget < closestDistanceSqr)
+            {
+                closestDistanceSqr = dSqrToTarget;
+                bestTarget = potentialTarget;
+            }
+        }
+
+        return bestTarget;
     }
+
 
     //State Machine Functions (per update)
     private void Wander()
@@ -139,10 +153,9 @@ public class Occupant : MonoBehaviour
         {
             //Change to firing state (Will move to takeStim() )
             AIState = AIFSM.Shoot;
-
         }
         //Increment shot timer, aka Rate of Fire
-    fireTimer += 1 + Time.deltaTime;
+        fireTimer += 1 + Time.deltaTime;
     }//Attack
 
     private void Shoot()
@@ -152,7 +165,7 @@ public class Occupant : MonoBehaviour
         //Reset to attack state
         AIState = AIFSM.Attack;
      
-        //Fire
+        //Fire (seems like it should have some arguments)
         gameObject.GetComponent<Weapon>().Fire();
     }//Shoot, a transition of Attack
 
