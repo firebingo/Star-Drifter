@@ -1,6 +1,7 @@
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
+using System;
 
 /// <summary>
 /// This is the GameController class- it acts as the 'Main Loop' of the program.
@@ -21,6 +22,7 @@ public enum TileType
     WallNW
 }
 
+[RequireComponent(typeof(OptionsController))]
 public class GameController : MonoBehaviour
 {
     // Create a static instance variable for the GameController class
@@ -28,6 +30,9 @@ public class GameController : MonoBehaviour
 
     // Create a static dictionary for tile type textures
     public static Dictionary<TileType, Texture2D> TileDict { get; private set; }
+
+    [SerializeField]
+    public OptionsController options;
 
     // Use this for initialization
     void Start()
@@ -43,8 +48,11 @@ public class GameController : MonoBehaviour
         {
             // GameController class does not have an active instance, so set it to our current instance
             instance = this;
+            options = this.GetComponent<OptionsController>();
+            DontDestroyOnLoad(this.gameObject);
         }
 
+        options.InitOptions();
         // Populate the TileDict with resource 
         //TileDict.Add( TileType.Default, Resources.Load<Texture2D>("EmptyTile"));
     }
@@ -52,6 +60,57 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+       
     }
+
+    //quits the application
+    public void quitGame(bool save = false)
+    {
+        if(save)
+        {
+
+        }
+        Application.Quit();
+    }
+
+    
+
+    /// <summary>
+    /// Loads a level given a scene name. Only uses single scene loading.
+    /// This is needed so buttons on menus can call it since they only support
+    ///  one in parameter.
+    /// </summary>
+    /// <param name="levelName"></param>
+    public void loadLevel(string levelName)
+    {
+        SceneManager.LoadScene(levelName, LoadSceneMode.Single);
+    }
+
+    /// <summary>
+    /// Loads a level given a scene name. Has option for addative loading.
+    /// </summary>
+    /// <param name="levelName"></param>
+    /// <param name="addative"></param>
+    public void loadLevel(string levelName, bool addative = false)
+    {
+        if(addative)
+            SceneManager.LoadScene(levelName, LoadSceneMode.Additive);
+        else
+            SceneManager.LoadScene(levelName, LoadSceneMode.Single);
+    }
+
+    /// <summary>
+    /// Loads a level given a scene index. Has option for addative loading.
+    /// </summary>
+    /// <param name="levelIndex"></param>
+    /// <param name="addative"></param>
+    public void loadLevel(int levelIndex, bool addative = false)
+    {
+        if (addative)
+            SceneManager.LoadScene(levelIndex, LoadSceneMode.Additive);
+        else
+            SceneManager.LoadScene(levelIndex, LoadSceneMode.Single);
+    }
+
+    
 }

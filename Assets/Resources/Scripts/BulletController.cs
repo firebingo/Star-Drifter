@@ -31,6 +31,7 @@ public class BulletController : MonoBehaviour
 
         bulletTimer += Time.deltaTime;
 	}
+
     public void Initialize(float speed, float time, float bulletDamage, int type)
     {
         bulletSpeed = speed;
