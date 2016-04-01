@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 public class PlayerController : MonoBehaviour 
 {
     [SerializeField]
@@ -14,9 +15,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Vector2 startingPosition;
 
-
-    private Weapon primary;  //Holds value for player's primary weapon.
-    private Weapon secondary; //Holds value for player's secondary weapon.
+    private WeaponHolder primary;  //Holds value for player's primary weapon.
+    private WeaponHolder secondary; //Holds value for player's secondary weapon.
 
     private Vector2 position;
     private float rotation;
@@ -34,10 +34,10 @@ public class PlayerController : MonoBehaviour
 
         timer = 0;
 
-        primary = new Weapon();
-        primary.Initialize(50, 2, 50, 5, 8); // 8 is the player's layer
-        secondary = new Weapon();
-        secondary.Initialize(5, 10, 10, 0.50f, 8);
+        primary = new WeaponHolder();
+        primary.initialize(50, 8, 50, 5, 8); // 8 is the player's layer
+        secondary = new WeaponHolder();
+        secondary.initialize(5, 10, 10, 0.50f, 8);
 
         ChangeWeapon(primary);
 	}
@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour
         {
             if (currentWeapon == 1)
             {
-                if (timer > primary.shotTimer)
+                if (timer > primary.fireRate)
                 {
                     SendMessage("Fire");
                     timer = 0;
@@ -107,7 +107,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                if (timer > secondary.shotTimer)
+                if (timer > secondary.fireRate)
                 {
                     SendMessage("Fire");
                     timer = 0;
@@ -131,7 +131,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void ChangeWeapon(Weapon weapon)
+    void ChangeWeapon(WeaponHolder weapon)
     {
         SendMessage("WeaponSwap", weapon);
     }

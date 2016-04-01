@@ -24,12 +24,12 @@ public class Weapon : MonoBehaviour {
         temp.GetComponent<BulletController>().Initialize(bulletSpeed, bulletTime, damage, type);
     }
 
-    public void WeaponSwap(Weapon weapon) //Takes in the variables of the new weapon type.
+    public void WeaponSwap(WeaponHolder weapon) //Takes in the variables of the new weapon type.
     {
         damage = weapon.damage;
-        bulletSpeed = weapon.bulletSpeed;
-        shotTimer = weapon.shotTimer;
-        bulletTime = weapon.bulletTime;
+        bulletSpeed = weapon.speed;
+        shotTimer = weapon.fireRate;
+        bulletTime = weapon.decay;
         type = weapon.type;
     }
 
