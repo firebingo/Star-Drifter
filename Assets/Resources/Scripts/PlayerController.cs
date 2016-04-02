@@ -22,10 +22,13 @@ public class PlayerController : MonoBehaviour
     private float rotation;
     public float timer;
 
+    private Rigidbody2D rb;
+
     private int spawn = 0; //Used to insure that the respawn code (OnEnable) doesn't run when player origanlly spawns. Also counts how many times the player spawns.
 
 	void Start () 
     {
+        rb = GetComponent<Rigidbody2D>();
         GetComponent<PlayerRespawn>().enabled = false;
         currentHealth = maxHealth;
 
@@ -75,16 +78,14 @@ public class PlayerController : MonoBehaviour
     void Move()
     {
         if (Input.GetAxis("Horizontal") < 0)
-            position.x += speed * Input.GetAxis("Horizontal") * Time.deltaTime;
+            rb.AddForce(Vector2.right * speed * Input.GetAxis("Horizontal") * Time.deltaTime * 100);
         else if (Input.GetAxis("Horizontal") > 0)
-            position.x += speed * Input.GetAxis("Horizontal") * Time.deltaTime;
+            rb.AddForce(Vector2.right * speed * Input.GetAxis("Horizontal") * Time.deltaTime * 100);
 
         if (Input.GetAxis("Vertical") > 0)
-            position.y += speed * Input.GetAxis("Vertical") * Time.deltaTime;
+            rb.AddForce(Vector2.up * speed * Input.GetAxis("Vertical") * Time.deltaTime * 100);
         else if (Input.GetAxis("Vertical") < 0)
-            position.y += speed * Input.GetAxis("Vertical") * Time.deltaTime;
-
-        transform.position = position;
+            rb.AddForce(Vector2.up * speed * Input.GetAxis("Vertical") * Time.deltaTime * 100);
     }
 
     void FaceMouse() //Allows the player to rotate towards the mouse's position.
