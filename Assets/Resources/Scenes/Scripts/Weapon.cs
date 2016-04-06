@@ -18,10 +18,12 @@ public class Weapon : MonoBehaviour {
 
     private int type = 9;
 
+    float power = 0;
+
     public void Fire()
     {
         GameObject temp = Instantiate(bullet, transform.position, transform.rotation) as GameObject;
-        temp.GetComponent<BulletController>().Initialize(bulletSpeed, bulletTime, damage, type);
+        temp.GetComponent<BulletController>().Initialize(bulletSpeed, bulletTime, damage+power, type);
     }
 
     public void WeaponSwap(WeaponHolder weapon) //Takes in the variables of the new weapon type.
@@ -40,5 +42,10 @@ public class Weapon : MonoBehaviour {
         shotTimer = shotTime;
         bulletTime = bulletDecay;
         type = layerType;
+    }
+
+    void setStats()
+    {
+        power = GetComponent<Leveling>().stats.power;
     }
 }

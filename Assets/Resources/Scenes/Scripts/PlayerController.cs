@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     private float currentHealth;
     [SerializeField]
     private Vector2 startingPosition;
+    private float armor = 5;
 
     private WeaponHolder primary;  //Holds value for player's primary weapon.
     private WeaponHolder secondary; //Holds value for player's secondary weapon.
@@ -144,6 +145,7 @@ public class PlayerController : MonoBehaviour
             foreach (MonoBehaviour c in GetComponents<MonoBehaviour>())
                 c.enabled = false;
             GetComponent<PlayerRespawn>().enabled = true;
+            GetComponent<BoxCollider2D>().enabled = false;
             GetComponent<SpriteRenderer>().enabled = false;
             SendMessage("Respawn");
         }
@@ -151,6 +153,16 @@ public class PlayerController : MonoBehaviour
 
     void ApplyDamage(float damage)
     {
-        currentHealth -= damage;
+        float damageDealt = damage - armor;
+        if (damageDealt <= 0)
+            damageDealt = 1;
+        currentHealth -= damageDealt;
+    }
+
+    void setStats()
+    {
+        speed = GetComponent<Leveling>().stats.speed;
+        maxHealth = GetComponent<Leveling>().stats.life;
+        armor = GetComponent<Leveling>().stats.armor;
     }
 }
