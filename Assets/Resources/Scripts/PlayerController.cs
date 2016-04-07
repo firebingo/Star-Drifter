@@ -25,6 +25,9 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rb;
 
+    [SerializeField]
+    private GameObject faceObject;
+
     private int spawn = 0; //Used to insure that the respawn code (OnEnable) doesn't run when player origanlly spawns. Also counts how many times the player spawns.
 
 	void Start () 
@@ -66,12 +69,16 @@ public class PlayerController : MonoBehaviour
 
 	void Update () 
     {
-        Move();
         FaceMouse();
         Shoot();
         PrepareChangeWeapon();
         Death();
 	}
+
+    void FixedUpdate()
+    {
+        Move();
+    }
 
     /// <summary>
     /// Player Movement
@@ -79,20 +86,19 @@ public class PlayerController : MonoBehaviour
     void Move()
     {
         if (Input.GetAxis("Horizontal") < 0)
-            rb.AddForce(Vector2.right * speed * Input.GetAxis("Horizontal") * Time.deltaTime * 100);
+            rb.AddForce(Vector2.right * speed * Input.GetAxis("Horizontal") * Time.fixedDeltaTime * 100);
         else if (Input.GetAxis("Horizontal") > 0)
-            rb.AddForce(Vector2.right * speed * Input.GetAxis("Horizontal") * Time.deltaTime * 100);
+            rb.AddForce(Vector2.right * speed * Input.GetAxis("Horizontal") * Time.fixedDeltaTime * 100);
 
         if (Input.GetAxis("Vertical") > 0)
-            rb.AddForce(Vector2.up * speed * Input.GetAxis("Vertical") * Time.deltaTime * 100);
+            rb.AddForce(Vector2.up * speed * Input.GetAxis("Vertical") * Time.fixedDeltaTime * 100);
         else if (Input.GetAxis("Vertical") < 0)
-            rb.AddForce(Vector2.up * speed * Input.GetAxis("Vertical") * Time.deltaTime * 100);
+            rb.AddForce(Vector2.up * speed * Input.GetAxis("Vertical") * Time.fixedDeltaTime * 100);
     }
 
     void FaceMouse() //Allows the player to rotate towards the mouse's position.
     {
-        var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition); //Converts the mouses screen position to a position within the world space
-        transform.rotation = Quaternion.LookRotation(Vector3.forward, mousePosition - transform.position); //Assumes sprite is facing up can be changed.
+        transform.rotation = Quaternion.LookRotation(Vector3.forward, faceObject.transform.position - transform.position); //Assumes sprite is facing up can be changed.
     }
 
     void Shoot()
