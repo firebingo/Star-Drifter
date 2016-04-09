@@ -42,7 +42,6 @@ public class BulletController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("hit");
         other.SendMessage("ApplyDamage", damage);
         Destroy(this.gameObject);
     }

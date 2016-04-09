@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
 
     void OnEnable() //Used for Respawning
     {
-        if (spawn != 0)
+        if (spawn != 0 && GetComponent<PlayerRespawn>().enabled == true)
         {
             GetComponent<PlayerRespawn>().enabled = false;
             currentHealth = maxHealth;

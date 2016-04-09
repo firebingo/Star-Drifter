@@ -37,7 +37,7 @@ public class Leveling : MonoBehaviour
         expScaling = 2.1f; //Sets up the exp scaling per lvl;
 
         stats.power = 0;
-        stats.speed = 1;
+        stats.speed = 3;
         stats.life = 100;
         stats.armor = 0;
 
