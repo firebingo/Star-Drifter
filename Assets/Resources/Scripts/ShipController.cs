@@ -27,10 +27,33 @@ public class ShipController : MonoBehaviour {
     [SerializeField]
     private float time = 0;
 
+    private int currentWeapon = 1;
+
+    [SerializeField]
+    private float maxHealth = 100;
+    [SerializeField]
+    private float currentHealth;
+
+    public float timer;
+
+    private WeaponHolder primary;  //Holds value for the primary weapon.
+    private WeaponHolder secondary; //Holds value for the secondary weapon.
+
+    private GameObject player;
+
 	// Use this for initialization
 	void Start () 
     {
+        currentHealth = maxHealth;
         rb = GetComponent<Rigidbody2D>();
+        player = GameObject.FindGameObjectWithTag("Player");
+
+        primary = new WeaponHolder();
+        primary.initialize(100, 12, 30, 5, 8); // 8 is the player's layer
+        secondary = new WeaponHolder();
+        secondary.initialize(25, 15, 5, 0.50f, 8);
+        ChangeWeapon(primary);
+
 	}
 	
 	// Update is called once per frame
@@ -42,6 +65,9 @@ public class ShipController : MonoBehaviour {
             case 1:
                 FaceMouse();
                 ShipExit();
+                Shoot();
+                PrepareChangeWeapon();
+                Death();
                 break;
             default:
                 break;
@@ -107,6 +133,71 @@ public class ShipController : MonoBehaviour {
                 c.enabled = true;
             target.GetComponent<SpriteRenderer>().enabled = true;
             cases = 0;
+        }
+    }
+
+    void Shoot()
+    {
+        if (Input.GetButton("Fire"))
+        {
+            if (currentWeapon == 1)
+            {
+                if (timer > primary.fireRate)
+                {
+                    SendMessage("Fire");
+                    timer = 0;
+                }
+            }
+            else
+            {
+                if (timer > secondary.fireRate)
+                {
+                    SendMessage("Fire");
+                    timer = 0;
+                }
+            }
+        }
+        timer += 1 + Time.deltaTime;
+    }
+
+    void ChangeWeapon(WeaponHolder weapon)
+    {
+        SendMessage("WeaponSwap", weapon);
+    }
+
+    void ApplyDamage(float damage)
+    {
+        float damageDealt = damage;
+        if (damageDealt <= 0)
+            damageDealt = 1;
+        currentHealth -= damageDealt;
+    }
+
+    void PrepareChangeWeapon()
+    {
+        if (Input.GetButtonDown("Swap") && currentWeapon == 1)
+        {
+            ChangeWeapon(secondary);
+            currentWeapon = 2;
+        }
+        else if (Input.GetButtonDown("Swap") && currentWeapon == 2)
+        {
+            ChangeWeapon(primary);
+            currentWeapon = 1;
+        }
+    }
+
+    void Death()
+    {
+        if (currentHealth <= 0)
+        {
+            foreach (MonoBehaviour c in player.GetComponents<MonoBehaviour>())
+                c.enabled = false;
+            player.GetComponent<PlayerRespawn>().enabled = true;
+            player.GetComponent<BoxCollider2D>().enabled = false;
+            player.GetComponent<SpriteRenderer>().enabled = false;
+            player.SendMessage("Respawn");
+            Destroy(gameObject);
         }
     }
 }
