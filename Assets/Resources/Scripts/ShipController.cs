@@ -1,21 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ShipController : MonoBehaviour {
-
-    [SerializeField]
-    private float speed = 5;
-
+[RequireComponent(typeof(PlayerMovement))]
+[RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(SpriteRenderer))]
+public class ShipController : MonoBehaviour
+{
     [SerializeField]
     private Vector2 startingPosition;
 
-    private Rigidbody2D rb;
-
     [SerializeField]
     private int cases = 0;
-
-    [SerializeField]
-    private GameObject faceObject;
 
     private GameObject target;
 
@@ -23,7 +18,7 @@ public class ShipController : MonoBehaviour {
 
     [SerializeField]
     private float cooldown = 3;
-    
+
     [SerializeField]
     private float time = 0;
 
@@ -41,11 +36,20 @@ public class ShipController : MonoBehaviour {
 
     private GameObject player;
 
-	// Use this for initialization
-	void Start () 
+    private PlayerMovement Movement;
+    private BoxCollider2D Collider;
+    private SpriteRenderer Renderer;
+
+    // Use this for initialization
+    void Start()
     {
+        Movement = this.GetComponent<PlayerMovement>();
+        Collider = this.GetComponent<BoxCollider2D>();
+        Renderer = this.GetComponent<SpriteRenderer>();
+
+        Movement.enabled = false;
+
         currentHealth = maxHealth;
-        rb = GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player");
 
         primary = new WeaponHolder();
@@ -54,16 +58,15 @@ public class ShipController : MonoBehaviour {
         secondary.initialize(25, 15, 5, 0.50f, 8);
         ChangeWeapon(primary);
 
-	}
-	
-	// Update is called once per frame
+    }
+
+    // Update is called once per frame
 
     void Update()
     {
         switch (cases)
         {
             case 1:
-                FaceMouse();
                 ShipExit();
                 Shoot();
                 PrepareChangeWeapon();
@@ -74,35 +77,16 @@ public class ShipController : MonoBehaviour {
         }
     }
 
-	void FixedUpdate () 
+    void FixedUpdate()
     {
         switch (cases)
         {
             case 1:
-                Move();
                 Sync();
                 break;
             default:
                 break;
         }
-	}
-
-    void Move()
-    {
-        if (Input.GetAxis("Horizontal") < 0)
-            rb.AddForce(Vector2.right * speed * Input.GetAxis("Horizontal") * Time.fixedDeltaTime * 100);
-        else if (Input.GetAxis("Horizontal") > 0)
-            rb.AddForce(Vector2.right * speed * Input.GetAxis("Horizontal") * Time.fixedDeltaTime * 100);
-
-        if (Input.GetAxis("Vertical") > 0)
-            rb.AddForce(Vector2.up * speed * Input.GetAxis("Vertical") * Time.fixedDeltaTime * 100);
-        else if (Input.GetAxis("Vertical") < 0)
-            rb.AddForce(Vector2.up * speed * Input.GetAxis("Vertical") * Time.fixedDeltaTime * 100);
-    }
-
-    void FaceMouse() //Allows the player to rotate towards the mouse's position.
-    {
-        transform.rotation = Quaternion.LookRotation(Vector3.forward, faceObject.transform.position - transform.position); //Assumes sprite is facing up can be changed.
     }
 
     void Sync()
@@ -120,6 +104,7 @@ public class ShipController : MonoBehaviour {
                 c.enabled = false;
             tar.GetComponent<SpriteRenderer>().enabled = false;
             cases = 1;
+            Movement.enabled = true;
         }
     }
 
@@ -133,6 +118,7 @@ public class ShipController : MonoBehaviour {
                 c.enabled = true;
             target.GetComponent<SpriteRenderer>().enabled = true;
             cases = 0;
+            Movement.enabled = false;
         }
     }
 

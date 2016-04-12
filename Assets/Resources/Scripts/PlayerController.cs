@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-
-public class PlayerController : MonoBehaviour 
+[RequireComponent(typeof(PlayerMovement))]
+[RequireComponent(typeof(PlayerRespawn))]
+[RequireComponent(typeof(Leveling))]
+[RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(SpriteRenderer))]
+public class PlayerController : MonoBehaviour
 {
-    [SerializeField]
-    private float speed = 5;
     [SerializeField]
     private int currentWeapon = 1;
     [SerializeField]
@@ -16,6 +17,12 @@ public class PlayerController : MonoBehaviour
     private Vector2 startingPosition;
     private float armor = 5;
 
+    private PlayerMovement Movement;
+    private PlayerRespawn Respawn;
+    private Leveling Leveler;
+    private BoxCollider2D Collider;
+    private SpriteRenderer Renderer;
+
     private WeaponHolder primary;  //Holds value for player's primary weapon.
     private WeaponHolder secondary; //Holds value for player's secondary weapon.
 
@@ -23,17 +30,17 @@ public class PlayerController : MonoBehaviour
     private float rotation;
     public float timer;
 
-    private Rigidbody2D rb;
-
-    [SerializeField]
-    private GameObject faceObject;
-
     private int spawn = 0; //Used to insure that the respawn code (OnEnable) doesn't run when player origanlly spawns. Also counts how many times the player spawns.
 
-	void Start () 
+    void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        GetComponent<PlayerRespawn>().enabled = false;
+        Movement = this.GetComponent<PlayerMovement>();
+        Respawn = this.GetComponent<PlayerRespawn>();
+        Leveler = this.GetComponent<Leveling>();
+        Collider = this.GetComponent<BoxCollider2D>();
+        Renderer = this.GetComponent<SpriteRenderer>();
+
+        Respawn.enabled = false;
         currentHealth = maxHealth;
 
         transform.position = startingPosition;
@@ -47,13 +54,13 @@ public class PlayerController : MonoBehaviour
         secondary.initialize(5, 10, 10, 0.50f, 8);
 
         ChangeWeapon(primary);
-	}
+    }
 
     void OnEnable() //Used for Respawning
     {
-        if (spawn != 0 && GetComponent<PlayerRespawn>().enabled == true)
+        if (spawn != 0 && Respawn.enabled == true)
         {
-            GetComponent<PlayerRespawn>().enabled = false;
+            Respawn.enabled = false;
             currentHealth = maxHealth;
 
             transform.position = startingPosition;
@@ -67,38 +74,11 @@ public class PlayerController : MonoBehaviour
         spawn++;
     }
 
-	void Update () 
+    void Update()
     {
-        FaceMouse();
         Shoot();
         PrepareChangeWeapon();
         Death();
-	}
-
-    void FixedUpdate()
-    {
-        Move();
-    }
-
-    /// <summary>
-    /// Player Movement
-    /// </summary>
-    void Move()
-    {
-        if (Input.GetAxis("Horizontal") < 0)
-            rb.AddForce(Vector2.right * speed * Input.GetAxis("Horizontal") * Time.fixedDeltaTime * 100);
-        else if (Input.GetAxis("Horizontal") > 0)
-            rb.AddForce(Vector2.right * speed * Input.GetAxis("Horizontal") * Time.fixedDeltaTime * 100);
-
-        if (Input.GetAxis("Vertical") > 0)
-            rb.AddForce(Vector2.up * speed * Input.GetAxis("Vertical") * Time.fixedDeltaTime * 100);
-        else if (Input.GetAxis("Vertical") < 0)
-            rb.AddForce(Vector2.up * speed * Input.GetAxis("Vertical") * Time.fixedDeltaTime * 100);
-    }
-
-    void FaceMouse() //Allows the player to rotate towards the mouse's position.
-    {
-        transform.rotation = Quaternion.LookRotation(Vector3.forward, faceObject.transform.position - transform.position); //Assumes sprite is facing up can be changed.
     }
 
     void Shoot()
@@ -150,9 +130,9 @@ public class PlayerController : MonoBehaviour
         {
             foreach (MonoBehaviour c in GetComponents<MonoBehaviour>())
                 c.enabled = false;
-            GetComponent<PlayerRespawn>().enabled = true;
-            GetComponent<BoxCollider2D>().enabled = false;
-            GetComponent<SpriteRenderer>().enabled = false;
+            Respawn.enabled = true;
+            Collider.enabled = false;
+            Renderer.enabled = false;
             SendMessage("Respawn");
         }
     }
@@ -167,8 +147,8 @@ public class PlayerController : MonoBehaviour
 
     void setStats()
     {
-        speed = GetComponent<Leveling>().stats.speed;
-        maxHealth = GetComponent<Leveling>().stats.life;
-        armor = GetComponent<Leveling>().stats.armor;
+        Movement.speed = Leveler.stats.speed;
+        maxHealth = Leveler.stats.life;
+        armor = Leveler.stats.armor;
     }
 }
