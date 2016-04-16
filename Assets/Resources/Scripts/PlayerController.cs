@@ -3,6 +3,7 @@
 [RequireComponent(typeof(PlayerMovement))]
 [RequireComponent(typeof(PlayerRespawn))]
 [RequireComponent(typeof(Leveling))]
+[RequireComponent(typeof(Weapon))]
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(SpriteRenderer))]
 public class PlayerController : MonoBehaviour
@@ -22,6 +23,7 @@ public class PlayerController : MonoBehaviour
     private Leveling Leveler;
     private BoxCollider2D Collider;
     private SpriteRenderer Renderer;
+    private Weapon weapon;
 
     private WeaponHolder primary;  //Holds value for player's primary weapon.
     private WeaponHolder secondary; //Holds value for player's secondary weapon.
@@ -39,6 +41,7 @@ public class PlayerController : MonoBehaviour
         Leveler = this.GetComponent<Leveling>();
         Collider = this.GetComponent<BoxCollider2D>();
         Renderer = this.GetComponent<SpriteRenderer>();
+        weapon = this.GetComponent<Weapon>();
 
         Respawn.enabled = false;
         currentHealth = maxHealth;
@@ -89,7 +92,7 @@ public class PlayerController : MonoBehaviour
             {
                 if (timer > primary.fireRate)
                 {
-                    SendMessage("Fire");
+                    weapon.Fire();
                     timer = 0;
                 }
             }
@@ -97,12 +100,12 @@ public class PlayerController : MonoBehaviour
             {
                 if (timer > secondary.fireRate)
                 {
-                    SendMessage("Fire");
+                    weapon.Fire();
                     timer = 0;
                 }
             }
         }
-        timer += 1 + Time.deltaTime;
+        timer += Time.deltaTime;
     }
 
     void PrepareChangeWeapon()
