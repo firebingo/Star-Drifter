@@ -21,8 +21,6 @@ public class AlienDefender : MonoBehaviour {
    public  float targetDis;//distance from target
     bool spotted = false;// determines if the enemy has spotted the player before or not
 
-    //variables for AI transform
-    private Transform transform;
 
     //AI stat variables
     float speed = 1.0f;// movement speed variable
@@ -45,14 +43,14 @@ public class AlienDefender : MonoBehaviour {
     private float shotTimer = 1.3f;//cooldown time required for shooting
 
     //variables for Defend
-
+    private Rigidbody2D rb;
     void Awake() {
 
-        transform = gameObject.transform;
     }
 
 	// Use this for initialization
 	void Start () {
+        rb = GetComponent<Rigidbody2D>();
         fireTimer = 0;//start timer at 0;
         targetObj = GameObject.FindGameObjectWithTag("Player");//target the player
         target = targetObj.transform;//transform of target
@@ -177,9 +175,6 @@ public class AlienDefender : MonoBehaviour {
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
     }//rotateforward
-
-
-
 
 
 

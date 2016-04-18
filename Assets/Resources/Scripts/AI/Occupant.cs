@@ -64,10 +64,16 @@ public class Occupant : MonoBehaviour
     void Awake() { /*Do stuff?*/ }
     
     /// <summary>
-    ///  Use this for initialization
+    ///  Use this for initialization.
+    ///  This function not only sets all stats to 0, it will use the player's 
+    ///  level to decide the stats of the enemy. This is also the ground work 
+    ///  for the later task: loot generator.
+    ///  
+    /// Note: these settings override Unities debug settings
     /// </summary>
     void Start ()
     {
+        //Basics
         health = 100;
         fireTimer = 0;
         weaponHeld = 0;
@@ -78,8 +84,11 @@ public class Occupant : MonoBehaviour
 
         velocity = 0;
         rotation = 0;
-            
-    }
+
+        //Sett
+        AIState = AIFSM.Wander;
+
+}
 
     //void 
 
