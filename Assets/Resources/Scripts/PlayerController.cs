@@ -52,9 +52,9 @@ public class PlayerController : MonoBehaviour
         timer = 0;
 
         primary = new WeaponHolder();
-        primary.initialize(50, 8, 50, 5, 8); // 8 is the player's layer
+        primary.initialize(50, 8, 1, 5, 8); // 8 is the player's layer
         secondary = new WeaponHolder();
-        secondary.initialize(5, 10, 10, 0.50f, 8);
+        secondary.initialize(5, 10, 0.5f, 0.50f, 8);
 
         ChangeWeapon(primary);
     }
