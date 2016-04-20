@@ -79,7 +79,6 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        CenterCamera();
         Shoot();
         PrepareChangeWeapon();
         Death();
@@ -154,10 +153,5 @@ public class PlayerController : MonoBehaviour
         Movement.speed = Leveler.stats.speed;
         maxHealth = Leveler.stats.life;
         armor = Leveler.stats.armor;
-    }
-
-    void CenterCamera()
-    {
-        Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
     }
 }
