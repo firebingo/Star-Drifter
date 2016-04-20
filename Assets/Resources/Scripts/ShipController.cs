@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+﻿//4-20; Allen Changed BoxCollider to Circle Collider
+
+using UnityEngine;
 using System.Collections;
 
 [RequireComponent(typeof(PlayerMovement))]
-[RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(CircleCollider2D))]
 [RequireComponent(typeof(SpriteRenderer))]
 public class ShipController : MonoBehaviour
 {
