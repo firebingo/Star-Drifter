@@ -9,27 +9,16 @@ using System;
 /// Code that does not rely on MonoBehavior will probably be instanciated and executed from this file.
 /// </summary>
 
-// Defining a public enum for TileType here allows us to use it in any other class
-public enum TileType
-{
-    Default,
-    Floor,
-    WallEW,
-    WallNS,
-    WallNE,
-    WallES,
-    WallSW,
-    WallNW
-}
-
 [RequireComponent(typeof(OptionsController))]
 public class GameController : MonoBehaviour
 {
     // Create a static instance variable for the GameController class
     public static GameController instance { get; private set; }
 
-    // Create a static dictionary for tile type textures
-    public static Dictionary<TileType, Texture2D> TileDict { get; private set; }
+	// Create a public static dictionary for generation nodes and their contents
+	public static Dictionary<IntVector2, List<GameObject>> node { get; set; }
+
+	public static int tileSize = 1;
 
     [SerializeField]
     public OptionsController options;
@@ -52,9 +41,10 @@ public class GameController : MonoBehaviour
             DontDestroyOnLoad(this.gameObject);
         }
 
+		// Instantiate node dict
+		node = new Dictionary<IntVector2, List<GameObject>>();
+
         options.InitOptions();
-        // Populate the TileDict with resource 
-        //TileDict.Add( TileType.Default, Resources.Load<Texture2D>("EmptyTile"));
     }
 
     // Update is called once per frame
