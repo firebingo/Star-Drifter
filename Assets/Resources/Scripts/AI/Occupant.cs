@@ -94,7 +94,7 @@ public class Occupant : MonoBehaviour
         playerObj = GameObject.FindGameObjectsWithTag("Player");
         //playLv = playerObj.GetComponent<PlayerController>();
 
-        Ra
+        
     }
 
     //void 
