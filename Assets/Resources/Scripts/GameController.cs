@@ -20,7 +20,7 @@ public enum EntityType {
 }
 
 public enum NodeType {
-	Node_0, Node_1
+	Node_0, Node_1, Node_2
 }
 
 [RequireComponent(typeof(OptionsController))]
@@ -59,6 +59,8 @@ public class GameController : MonoBehaviour
 		nodes = new List<Node>();
 
 		EntityUtil.GenerateNode( new IntVector2( 0, 3 ), NodeType.Node_0 );
+		EntityUtil.GenerateNode( new IntVector2( -3, -20 ), NodeType.Node_1 );
+		EntityUtil.GenerateNode( new IntVector2( -25, -10 ), NodeType.Node_2 );
 
 		options.InitOptions();
     }

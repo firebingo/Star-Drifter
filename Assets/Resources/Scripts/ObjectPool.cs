@@ -65,7 +65,7 @@ public class ObjectPool : MonoBehaviour {
 		objectPool = new List<GameObject>();
 
 		// Populate the object pool
-		for ( int i = 0; i < poolSize + 10; i++ ) {
+		for ( int i = 0; i < poolSize; i++ ) {
 
 			// Instantiate a new gameobject
 			GameObject obj = (GameObject)Instantiate(pooledObject);
