@@ -10,10 +10,10 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField]
     private int currentWeapon = 1;
-    [SerializeField]
-    private float maxHealth = 100;
-    [SerializeField]
-    private float currentHealth;
+
+    public float maxHealth = 100;
+    public float currentHealth;
+
     [SerializeField]
     private Vector2 startingPosition;
     private float armor = 5;

@@ -17,12 +17,9 @@ public class Leveling : MonoBehaviour
 
     [SerializeField]
     int level = 1;
-    [SerializeField]
-    float currentExperience = 0f;
-    [SerializeField]
-    float toNextLevel = 100f;
-    [SerializeField]
-    float lastLevel = 0f;
+    public float currentExperience = 0f;
+    public float toNextLevel = 100f;
+    public float lastLevel = 0f;
     float expScaling;
     [SerializeField]
     float expYield = 10;
