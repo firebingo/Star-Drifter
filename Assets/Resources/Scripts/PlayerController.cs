@@ -11,8 +11,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private int currentWeapon = 1;
 
-    public float maxHealth = 100;
-    public float currentHealth;
+    [SerializeField]
+    public float maxHealth { get; private set; }
+    [SerializeField]
+    public float currentHealth { get; private set; }
 
     [SerializeField]
     private Vector2 startingPosition;
@@ -50,6 +52,8 @@ public class PlayerController : MonoBehaviour
         position = transform.position;
 
         timer = 0;
+
+        maxHealth = 100;
 
         primary = new WeaponHolder();
         primary.initialize(50, 8, 1, 5, 8); // 8 is the player's layer
