@@ -55,7 +55,7 @@ public class ObjectPool : MonoBehaviour {
 		if ( pooledObject == null ) {
 
 			// Throw a debug error
-			Debug.LogError( string.Format("Object Pool \"{0}\" does not have 'pooledObject' type set!", this.name) );
+			Debug.LogError( string.Format( "Object Pool \"{0}\" does not have 'pooledObject' type set!", this.name ) );
 
 			// Break execution
 			return;
@@ -72,6 +72,9 @@ public class ObjectPool : MonoBehaviour {
 
 			// Set it to disabled (for consistancy)
 			obj.SetActive( false );
+
+			// Set object as child of ObjectPool
+			obj.transform.parent = this.transform;
 
 			// Add it to the pool
 			objectPool.Add( obj );
@@ -112,6 +115,9 @@ public class ObjectPool : MonoBehaviour {
 
 			// Set object to inactive (for consistancy)
 			obj.SetActive( false );
+
+			// Set object as child of ObjectPool
+			obj.transform.parent = this.transform;
 
 			// Add it to the object pool
 			objectPool.Add( obj );

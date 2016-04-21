@@ -58,7 +58,7 @@ public class GameController : MonoBehaviour
 		// Instantiate node dict
 		nodes = new List<Node>();
 
-		EntityUtil.GenerateNode( new IntVector2( 0, 0 ), NodeType.Node_0 );
+		EntityUtil.GenerateNode( new IntVector2( 0, 3 ), NodeType.Node_0 );
 
 		options.InitOptions();
     }
