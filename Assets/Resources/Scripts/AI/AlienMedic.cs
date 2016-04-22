@@ -1,4 +1,11 @@
-﻿using UnityEngine;
+﻿//=========================================================
+// Author: Bobby Lewis
+// Date: 3-19-16
+// Version: 1.0
+// Description: This code runs the Alien Medic AI
+//==========================================================
+
+using UnityEngine;
 using System.Collections;
 
 public class AlienMedic : MonoBehaviour {
@@ -9,16 +16,16 @@ public class AlienMedic : MonoBehaviour {
 
 
     //variables for target;
-   public  GameObject[] AlliesObj;
+    public GameObject[] AlliesObj;
     public Transform[] Allies;
     public Transform allyTrans;
    
-
+  
 
     //variabls for health
     public float[] health;
     public AIHealth[] Ahealth;
-   public int ID = 0;
+    public int ID = 0;
     int allieSize = 0;
 
     //variables for AI stats
@@ -75,7 +82,6 @@ public class AlienMedic : MonoBehaviour {
         {
             case AIFSM.Seek:
                 allyTrans = FindHurtAlly(Allies,allieSize,ref ID);
-                
                 dis = Vector3.Magnitude((transform.position - allyTrans.position));
                 if (dis > 0.5f) { Seek(allyTrans); }
                 //if (dis < 1.0f){ Heal(ID); }
@@ -100,8 +106,8 @@ public class AlienMedic : MonoBehaviour {
 
     //State Machine Functions
     private void Seek(Transform AT) {
-        targetV = new Vector3(AT.position.x, AT.position.y, 0);
-        enemyV = new Vector3(transform.position.x, transform.position.y, 0);
+        targetV = new Vector3(AT.position.x, AT.position.y, -1);
+        enemyV = new Vector3(transform.position.x, transform.position.y, -1);
         NLinear = Norm(targetV, enemyV);
         transform.position += (NLinear * speed * Time.deltaTime);
         rotateForward(AT.position);

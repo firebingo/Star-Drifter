@@ -1,4 +1,11 @@
-﻿using UnityEngine;
+﻿//=========================================================
+// Author: Bobby Lewis
+// Date: 3-19-16
+// Version: 1.0
+// Description: This code runs the Pirate Assassin AI
+//==========================================================
+
+using UnityEngine;
 using System.Collections;
 
 public class PirateAssassin : MonoBehaviour {
@@ -7,7 +14,7 @@ public class PirateAssassin : MonoBehaviour {
     public enum AIFSM { Raid, Attack, Return }
     public AIFSM AIState = AIFSM.Raid;
 
-
+    
     //variables for AI stats
     float speed = 1.0f;
 
@@ -28,6 +35,8 @@ public class PirateAssassin : MonoBehaviour {
     //varaibles for Return
     GameObject shipObj;
     Transform ship;
+    bool loot = false;
+    int index;
 
     //temporary Vectors
     Vector3 targetV, enemyV, NLinear;
@@ -39,8 +48,10 @@ public class PirateAssassin : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        
+
         //get list of items
+        shipObj = GameObject.Find("PirateShip");
+        ship = shipObj.transform;
         itemObj = GameObject.FindGameObjectsWithTag("Item");
         itemSize = itemObj.Length;
         item = new Transform[itemSize];
@@ -74,6 +85,7 @@ public class PirateAssassin : MonoBehaviour {
                 Attack();
                 break;
             case AIFSM.Return:
+                Return();
                 break;
 
         }//end switch
@@ -92,10 +104,15 @@ public class PirateAssassin : MonoBehaviour {
         {
             AIState = AIFSM.Attack;
         }//end if
+        else if(loot)
+        {
+            AIState = AIFSM.Return;
+        }
         else {
 
             AIState = AIFSM.Raid;
         }
+        
 
     }//State()
 
@@ -107,6 +124,16 @@ public class PirateAssassin : MonoBehaviour {
         NLinear = Norm(targetV, enemyV);
         transform.position += (NLinear * speed * Time.deltaTime);
         rotateForward(CT.position);
+
+        dis = Vector3.Magnitude(transform.position - CT.position);
+       if (dis < 0.5)
+        {
+            loot = true;
+            DestroyObject(itemObj[index]);
+            
+        }
+
+
 
 
 
@@ -122,7 +149,16 @@ public class PirateAssassin : MonoBehaviour {
         rotateForward(target.position);
 
     }//Attack
-   private void Return() { }//Return
+   private void Return() {
+        targetV = new Vector3(ship.position.x, ship.position.y, 0);
+        enemyV = new Vector3(transform.position.x, transform.position.y, 0);
+        NLinear = Norm(targetV, enemyV);
+        transform.position += (NLinear * speed * Time.deltaTime);
+        rotateForward(ship.position);
+
+
+
+    }//Return
 
 
     /// //////////////////////////////////////////
@@ -162,6 +198,7 @@ public class PirateAssassin : MonoBehaviour {
 
                 near = item[i];
                 sDis = dis;
+                index = i;
             }
         }
 

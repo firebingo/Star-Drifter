@@ -14,7 +14,7 @@ public class AlienAttacker : MonoBehaviour {
     public AIFSM AIState = AIFSM.Patrol;
 
     //variables for AI stats
-    float speed = 1.0f;
+    float speed = 0.7f;
 
 
     //variables for patrol
@@ -106,8 +106,8 @@ public class AlienAttacker : MonoBehaviour {
     
     private void Attack(Transform target)
     {
-        targetV = new Vector3(target.position.x, target.position.y, 0);
-        enemyV = new Vector3(transform.position.x, transform.position.y, 0);
+        targetV = new Vector3(target.position.x, target.position.y, -1);
+        enemyV = new Vector3(transform.position.x, transform.position.y, -1);
         NLinear = Norm(targetV, enemyV);
         transform.position += (NLinear * speed * Time.deltaTime);
         rotateForward(target.position);
