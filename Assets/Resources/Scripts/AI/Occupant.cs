@@ -4,6 +4,7 @@
 // Version: 1.0
 // Description: This code runs the Occupant AI FSM
 // Allen:3/27:  Added aggression and stimuli functions. removed bullet object.
+// Allen:4/18:  Added Leveling system 
 //==========================================================
 
 using UnityEngine;
@@ -21,6 +22,7 @@ public class Occupant : MonoBehaviour
     //Variables
     private Vector2 position;
     private GameObject target;  //Current target ('GameObject' should be 'object'?)
+    public GameObject[] playerObj; //Find and store player info to reference Player lvl
 
     public float fireTimer;
 
@@ -64,10 +66,16 @@ public class Occupant : MonoBehaviour
     void Awake() { /*Do stuff?*/ }
     
     /// <summary>
-    ///  Use this for initialization
+    ///  Use this for initialization.
+    ///  This function not only sets all stats to 0, it will use the player's 
+    ///  level to decide the stats of the enemy. This is also the ground work 
+    ///  for the later task: loot generator.
+    ///  
+    /// Note: these settings override Unities debug settings
     /// </summary>
     void Start ()
     {
+        //Basics
         health = 100;
         fireTimer = 0;
         weaponHeld = 0;
@@ -78,7 +86,15 @@ public class Occupant : MonoBehaviour
 
         velocity = 0;
         rotation = 0;
-            
+
+        //Test, Set state to override Unity
+        AIState = AIFSM.Wander;
+
+        //Enemy Leveling 
+        playerObj = GameObject.FindGameObjectsWithTag("Player");
+        //playLv = playerObj.GetComponent<PlayerController>();
+
+        
     }
 
     //void 

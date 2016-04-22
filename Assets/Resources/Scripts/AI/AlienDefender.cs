@@ -12,8 +12,8 @@ using System.Collections;
 public class AlienDefender : MonoBehaviour {
 
     //Enums for the FSM
-    public  enum AIFSM { Wander,Attack, Defend};
-    public AIFSM AIState = AIFSM.Attack;
+    public  enum AIFSM { Wander,Attack, Defend, InShip};
+    public AIFSM AIState = AIFSM.Wander;
 
     //Target  variables
     private Transform target;
@@ -21,11 +21,9 @@ public class AlienDefender : MonoBehaviour {
    public  float targetDis;//distance from target
     bool spotted = false;// determines if the enemy has spotted the player before or not
 
-    //variables for AI transform
-    private Transform transform;
 
     //AI stat variables
-    float speed = 1.0f;// movement speed variable
+    float speed = 0.7f;// movement speed variable
 
     //max variables for AI
     float maxRotation;// max rotation of the enemy
@@ -45,25 +43,39 @@ public class AlienDefender : MonoBehaviour {
     private float shotTimer = 1.3f;//cooldown time required for shooting
 
     //variables for Defend
+    private Rigidbody2D rb;
+
+
+    //variables for ship boardning and deboarding
+    public ShipInteraction ShipI;
+    
 
     void Awake() {
 
-        transform = gameObject.transform;
     }
 
 	// Use this for initialization
 	void Start () {
+        rb = GetComponent<Rigidbody2D>();
         fireTimer = 0;//start timer at 0;
         targetObj = GameObject.FindGameObjectWithTag("Player");//target the player
         target = targetObj.transform;//transform of target
         Wander();//start off in wander state
+        ShipI = gameObject.GetComponent<ShipInteraction>();
+
 	}
 
     // Update is called once per frame
     void Update() {
         Debug.DrawLine(target.position, transform.position, Color.yellow);//Make sure that the right target is being pointed too
         targetDis = Vector3.Magnitude(transform.position - target.position);//magnitude/distane of enemy and target
-        State(target, targetDis);
+
+        if (ShipI.seat != ShipInteraction.ShipSeat.passenger) { State(target, targetDis); }
+        else
+        {
+            AIState = AIFSM.InShip;
+        }
+
         if (fireTimer <= 2) { 
         fireTimer += Time.deltaTime;
     }
@@ -91,6 +103,8 @@ public class AlienDefender : MonoBehaviour {
 
             case AIFSM.Defend:
                 Defend();
+                break;
+            case AIFSM.InShip:
                 break;
 
         }
@@ -125,8 +139,8 @@ public class AlienDefender : MonoBehaviour {
     }//Wander()
 
     private void Attack(Transform target) {
-        targetV = new Vector3(target.position.x, target.position.y, 0);
-        enemyV = new Vector3(transform.position.x, transform.position.y, 0);
+        targetV = new Vector3(target.position.x, target.position.y, -1);
+        enemyV = new Vector3(transform.position.x, transform.position.y, -1);
         NLinear = Norm(enemyV, targetV);
         transform.position += (NLinear * speed * Time.deltaTime);
         rotateForward(target.position);
@@ -177,9 +191,6 @@ public class AlienDefender : MonoBehaviour {
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
     }//rotateforward
-
-
-
 
 
 

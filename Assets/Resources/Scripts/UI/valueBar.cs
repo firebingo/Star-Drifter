@@ -43,16 +43,22 @@ public class valueBar : MonoBehaviour
         //check if the value of the bar has changed before updating.
         if (currentValue != lastValue && uiImage)
         {
-            //change the scale to match the ratio of the current and the max adjusted based on the min.
-            transform.localScale = new Vector3((currentValue - minValue) / (maxValue - minValue), 1.0f, 1.0f);
-
-            //fade the color based on the given full and empty colors.
-            if (colorFade)
-                uiImage.color = Color.Lerp(emptyColor, fullColor, transform.localScale.x);
-            else
-                uiImage.color = normalColor;
+            ManualUpdate();
         }
 
         lastValue = currentValue;
+    }
+
+    //used to manually update the bar if needed
+    public void ManualUpdate()
+    {
+        //change the scale to match the ratio of the current and the max adjusted based on the min.
+        transform.localScale = new Vector3((currentValue - minValue) / (maxValue - minValue), 1.0f, 1.0f);
+
+        //fade the color based on the given full and empty colors.
+        if (colorFade)
+            uiImage.color = Color.Lerp(emptyColor, fullColor, transform.localScale.x);
+        else
+            uiImage.color = normalColor;
     }
 }

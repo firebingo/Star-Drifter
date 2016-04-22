@@ -40,10 +40,9 @@ public class BulletController : MonoBehaviour
         gameObject.layer = type; //Determines collision layers (8 = player vs 9 = enemy)
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnCollisionEnter2D(Collision2D other)
     {
-        Debug.Log("hit");
-        other.SendMessage("ApplyDamage", damage);
-        Destroy(this.gameObject);
+            other.gameObject.SendMessage("ApplyDamage", damage);
+            Destroy(this.gameObject);
     }
 }

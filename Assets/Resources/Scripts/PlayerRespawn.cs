@@ -24,6 +24,7 @@ public class PlayerRespawn : MonoBehaviour {
             foreach (MonoBehaviour c in GetComponents<MonoBehaviour>())
                 c.enabled = true;
             GetComponent<SpriteRenderer>().enabled = true;
+            GetComponent<BoxCollider2D>().enabled = true;
             GetComponent<PlayerRespawn>().enabled = false;
             respawnTimer = 0;
         }

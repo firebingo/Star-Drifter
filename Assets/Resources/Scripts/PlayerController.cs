@@ -1,19 +1,31 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-
-public class PlayerController : MonoBehaviour 
+[RequireComponent(typeof(PlayerMovement))]
+[RequireComponent(typeof(PlayerRespawn))]
+[RequireComponent(typeof(Leveling))]
+[RequireComponent(typeof(Weapon))]
+[RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(SpriteRenderer))]
+public class PlayerController : MonoBehaviour
 {
     [SerializeField]
-    private float speed = 5;
-    [SerializeField]
     private int currentWeapon = 1;
+
     [SerializeField]
-    private float maxHealth = 100;
+    public float maxHealth { get; private set; }
     [SerializeField]
-    private float currentHealth;
+    public float currentHealth { get; private set; }
+
     [SerializeField]
     private Vector2 startingPosition;
+    private float armor = 5;
+
+    private PlayerMovement Movement;
+    private PlayerRespawn Respawn;
+    private Leveling Leveler;
+    private BoxCollider2D Collider;
+    private SpriteRenderer Renderer;
+    private Weapon weapon;
 
     private WeaponHolder primary;  //Holds value for player's primary weapon.
     private WeaponHolder secondary; //Holds value for player's secondary weapon.
@@ -22,14 +34,18 @@ public class PlayerController : MonoBehaviour
     private float rotation;
     public float timer;
 
-    private Rigidbody2D rb;
-
     private int spawn = 0; //Used to insure that the respawn code (OnEnable) doesn't run when player origanlly spawns. Also counts how many times the player spawns.
 
-	void Start () 
+    void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        GetComponent<PlayerRespawn>().enabled = false;
+        Movement = this.GetComponent<PlayerMovement>();
+        Respawn = this.GetComponent<PlayerRespawn>();
+        Leveler = this.GetComponent<Leveling>();
+        Collider = this.GetComponent<BoxCollider2D>();
+        Renderer = this.GetComponent<SpriteRenderer>();
+        weapon = this.GetComponent<Weapon>();
+
+        Respawn.enabled = false;
         currentHealth = maxHealth;
 
         transform.position = startingPosition;
@@ -37,19 +53,21 @@ public class PlayerController : MonoBehaviour
 
         timer = 0;
 
+        maxHealth = 100;
+
         primary = new WeaponHolder();
-        primary.initialize(50, 8, 50, 5, 8); // 8 is the player's layer
+        primary.initialize(50, 8, 1, 5, 8); // 8 is the player's layer
         secondary = new WeaponHolder();
-        secondary.initialize(5, 10, 10, 0.50f, 8);
+        secondary.initialize(5, 10, 0.5f, 0.50f, 8);
 
         ChangeWeapon(primary);
-	}
+    }
 
     void OnEnable() //Used for Respawning
     {
-        if (spawn != 0)
+        if (spawn != 0 && Respawn.enabled == true)
         {
-            GetComponent<PlayerRespawn>().enabled = false;
+            Respawn.enabled = false;
             currentHealth = maxHealth;
 
             transform.position = startingPosition;
@@ -63,35 +81,11 @@ public class PlayerController : MonoBehaviour
         spawn++;
     }
 
-	void Update () 
+    void Update()
     {
-        Move();
-        FaceMouse();
         Shoot();
         PrepareChangeWeapon();
         Death();
-	}
-
-    /// <summary>
-    /// Player Movement
-    /// </summary>
-    void Move()
-    {
-        if (Input.GetAxis("Horizontal") < 0)
-            rb.AddForce(Vector2.right * speed * Input.GetAxis("Horizontal") * Time.deltaTime * 100);
-        else if (Input.GetAxis("Horizontal") > 0)
-            rb.AddForce(Vector2.right * speed * Input.GetAxis("Horizontal") * Time.deltaTime * 100);
-
-        if (Input.GetAxis("Vertical") > 0)
-            rb.AddForce(Vector2.up * speed * Input.GetAxis("Vertical") * Time.deltaTime * 100);
-        else if (Input.GetAxis("Vertical") < 0)
-            rb.AddForce(Vector2.up * speed * Input.GetAxis("Vertical") * Time.deltaTime * 100);
-    }
-
-    void FaceMouse() //Allows the player to rotate towards the mouse's position.
-    {
-        var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition); //Converts the mouses screen position to a position within the world space
-        transform.rotation = Quaternion.LookRotation(Vector3.forward, mousePosition - transform.position); //Assumes sprite is facing up can be changed.
     }
 
     void Shoot()
@@ -102,7 +96,7 @@ public class PlayerController : MonoBehaviour
             {
                 if (timer > primary.fireRate)
                 {
-                    SendMessage("Fire");
+                    weapon.Fire();
                     timer = 0;
                 }
             }
@@ -110,12 +104,12 @@ public class PlayerController : MonoBehaviour
             {
                 if (timer > secondary.fireRate)
                 {
-                    SendMessage("Fire");
+                    weapon.Fire();
                     timer = 0;
                 }
             }
         }
-        timer += 1 + Time.deltaTime;
+        timer += Time.deltaTime;
     }
 
     void PrepareChangeWeapon()
@@ -143,14 +137,25 @@ public class PlayerController : MonoBehaviour
         {
             foreach (MonoBehaviour c in GetComponents<MonoBehaviour>())
                 c.enabled = false;
-            GetComponent<PlayerRespawn>().enabled = true;
-            GetComponent<SpriteRenderer>().enabled = false;
+            Respawn.enabled = true;
+            Collider.enabled = false;
+            Renderer.enabled = false;
             SendMessage("Respawn");
         }
     }
 
     void ApplyDamage(float damage)
     {
-        currentHealth -= damage;
+        float damageDealt = damage - armor;
+        if (damageDealt <= 0)
+            damageDealt = 1;
+        currentHealth -= damageDealt;
+    }
+
+    void setStats()
+    {
+        Movement.speed = Leveler.stats.speed;
+        maxHealth = Leveler.stats.life;
+        armor = Leveler.stats.armor;
     }
 }
