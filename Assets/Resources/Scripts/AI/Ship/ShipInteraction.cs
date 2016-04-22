@@ -1,32 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ShipInteraction : MonoBehaviour {
-
-
-
-
+public class ShipInteraction : MonoBehaviour
+{
     private GameObject shipObj;
     Transform ship;
     public float dis;
     public AIShip boarded;
-    public enum ShipSeat { passenger, pilot,none};
+    public enum ShipSeat { passenger, pilot, none };
     public ShipSeat seat = ShipSeat.none;
 
-
-	// Use this for initialization
-	void Start () {
-
+    // Use this for initialization
+    void Start()
+    {
         shipObj = GameObject.Find("AlienShip");
         ship = shipObj.transform;
         boarded = shipObj.GetComponent<AIShip>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    }
 
-
-       
+    // Update is called once per frame
+    void Update()
+    {
         // steerShipPilot();
 
         switch (seat)
@@ -35,9 +29,7 @@ public class ShipInteraction : MonoBehaviour {
                 dis = Vector3.Magnitude(transform.position - ship.position);
                 if (dis < 1.3f)
                 {
-
                     FindSeat();
-
                 }
                 break;
             case ShipSeat.passenger:
@@ -46,14 +38,8 @@ public class ShipInteraction : MonoBehaviour {
             case ShipSeat.pilot:
                 SteerShipPilot();
                 break;
-
-
-
         }
-
-
-
-	}
+    }
 
     private void SteerShipPilot()
     {
@@ -75,24 +61,18 @@ public class ShipInteraction : MonoBehaviour {
     {
         if (!boarded.boreded)
         {
-         boarded.boreded = true;
+            boarded.boreded = true;
         }
         if (boarded.passengers > 0 && boarded.passengers < boarded.maxSpace)
         {
             seat = ShipSeat.passenger;
             boarded.passengers++;
-
         }
 
         if (boarded.passengers == 0)
         {
             seat = ShipSeat.pilot;
             boarded.passengers++;
-
         }
-       
-
     }//FIndSeat
-
-
 }

@@ -43,9 +43,7 @@ public class GameController : MonoBehaviour
         // Check to see if the GameController class already has an active instance
         if (instance != null)
         {
-            // GameController class already has an active instance, so throw an error and pause execution
-            Debug.LogError("You cannot have multiple instances of the GameController class!");
-            Debug.Break();
+            Destroy(this.gameObject);
         }
         else
         {
@@ -57,10 +55,6 @@ public class GameController : MonoBehaviour
 
 		// Instantiate node dict
 		nodes = new List<Node>();
-
-		EntityUtil.GenerateNode( new IntVector2( 0, 3 ), NodeType.Node_0 );
-		EntityUtil.GenerateNode( new IntVector2( -3, -20 ), NodeType.Node_1 );
-		EntityUtil.GenerateNode( new IntVector2( -25, -10 ), NodeType.Node_2 );
 
 		options.InitOptions();
     }
@@ -81,7 +75,15 @@ public class GameController : MonoBehaviour
         Application.Quit();
     }
 
-    
+    public void OnLevelWasLoaded(int level)
+    {
+        if (level == 1)
+        {
+            EntityUtil.GenerateNode(new IntVector2(0, 3), NodeType.Node_0);
+            EntityUtil.GenerateNode(new IntVector2(-3, -20), NodeType.Node_1);
+            EntityUtil.GenerateNode(new IntVector2(-25, -10), NodeType.Node_2);
+        }
+    }
 
     /// <summary>
     /// Loads a level given a scene name. Only uses single scene loading.
