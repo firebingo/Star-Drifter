@@ -7,10 +7,12 @@
 
 using UnityEngine;
 using System.Collections;
+using System;
 
-public class AlienAttacker : MonoBehaviour {
+public class AlienAttacker : MonoBehaviour
+{
     //enum for FSM
-    public enum AIFSM  {Patrol, Attack, Flee}
+    public enum AIFSM { Patrol, Attack, Flee }
     public AIFSM AIState = AIFSM.Patrol;
 
     //variables for AI stats
@@ -23,13 +25,15 @@ public class AlienAttacker : MonoBehaviour {
     private float patrolSpeed = 0.3f;
 
     //variables for attack
-     Vector3 targetV, enemyV, NLinear;
+    Vector3 targetV, enemyV, NLinear;
     public float fireTimer;//cooldown timer for shooting
     private float shotTimer = 1.3f;//cooldown time required for shooting
 
     //variables for flee
     private float fleeSpeed = 0.5f;
 
+    public Inventory alienInventory;
+    public Guid weaponId;
 
     //variables for targeting player
     GameObject targetObj;
@@ -37,23 +41,29 @@ public class AlienAttacker : MonoBehaviour {
     private float targetDis;
     private bool spotted = false;
 
-
-    void Awake() { }
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
+        alienInventory = this.GetComponent<Inventory>();
+        Weapon tempWeapon = new Weapon();
+        tempWeapon.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 5f, 5f, shotTimer, 3f, weaponTypes.Pistol, weaponLayers.Enemy);
+        alienInventory.items.Add(tempWeapon.itemId, tempWeapon);
+        weaponId = tempWeapon.itemId;
 
         targetObj = GameObject.FindGameObjectWithTag("Player");//target the player
         target = targetObj.transform;//target transform
         Patrol();
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
         Debug.DrawLine(target.position, transform.position, Color.yellow);//Make sure that the right target is being pointed too
         targetDis = Vector3.Magnitude(transform.position - target.position);//magnitude/distane of enemy and target
         State(target, targetDis);
 
-        switch (AIState) {
+        switch (AIState)
+        {
             case AIFSM.Patrol:
                 if ((transform.position - patrolPoint).magnitude < 2.0f)// if the distance is less than 2.0f
                 {
@@ -76,34 +86,28 @@ public class AlienAttacker : MonoBehaviour {
                 break;
 
         }//end switch
-
-	}
-
-
-
+    }
 
     //State Machine Functions
     //determines which state the enemy should be in
     private void State(Transform target, float distance)
     {
-
         if (0.8f <= distance && distance <= 2.8f && spotted == true)
         {
             AIState = AIFSM.Attack;
         }//end if
-       
+
     }//State()
 
-
-    private void Patrol() {
-
-        patrolPoint = new Vector3(Random.Range(transform.position.x - patrolRange, transform.position.x + patrolRange), Random.Range(transform.position.y - patrolRange, transform.position.y + patrolRange), 1.0f);
+    private void Patrol()
+    {
+        patrolPoint = new Vector3(UnityEngine.Random.Range(transform.position.x - patrolRange, transform.position.x + patrolRange), UnityEngine.Random.Range(transform.position.y - patrolRange, transform.position.y + patrolRange), 1.0f);
         patrolPoint.z = 1.0f;
         NLinear = Norm(patrolPoint, transform.position);
         transform.position += (NLinear * patrolSpeed * Time.deltaTime);
 
     }//Patrol
-    
+
     private void Attack(Transform target)
     {
         targetV = new Vector3(target.position.x, target.position.y, -1);
@@ -113,26 +117,25 @@ public class AlienAttacker : MonoBehaviour {
         rotateForward(target.position);
         if (fireTimer > shotTimer)
         {
-            gameObject.GetComponent<Weapon>().Fire();
-            fireTimer = 0.0f;
+            var tempWeapon = alienInventory.items[weaponId] as Weapon;
+            if (tempWeapon)
+            {
+                tempWeapon.Fire(this.transform);
+                fireTimer = 0.0f;
+            }
         }
 
 
     }//Attack()
 
-    private void Flee(Transform target) {
+    private void Flee(Transform target)
+    {
         targetV = new Vector3(target.position.x, target.position.y, 0);
         enemyV = new Vector3(transform.position.x, transform.position.y, 0);
         NLinear = Norm(enemyV, targetV);
         transform.position += (NLinear * speed * Time.deltaTime);
         rotateForward(transform.position);
-
-
     }
-
-
-
-
 
     /// //////////////////////////////////////////
     /// ///////extra functions///////////////////
@@ -156,7 +159,4 @@ public class AlienAttacker : MonoBehaviour {
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
     }//rotateforward
-
-
-
 }

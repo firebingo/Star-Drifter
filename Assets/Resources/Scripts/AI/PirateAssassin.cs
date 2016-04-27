@@ -129,16 +129,8 @@ public class PirateAssassin : MonoBehaviour {
        if (dis < 0.5)
         {
             loot = true;
-            DestroyObject(itemObj[index]);
-            
+            DestroyObject(itemObj[index]); 
         }
-
-
-
-
-
-
-
     }//Raid
 
    private void Attack() {

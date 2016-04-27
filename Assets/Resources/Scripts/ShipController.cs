@@ -2,6 +2,7 @@
 
 using UnityEngine;
 using System.Collections;
+using System;
 
 [RequireComponent(typeof(PlayerMovement))]
 [RequireComponent(typeof(CircleCollider2D))]
@@ -31,10 +32,10 @@ public class ShipController : MonoBehaviour
     [SerializeField]
     private float currentHealth;
 
-    public float timer;
-
-    private WeaponHolder primary;  //Holds value for the primary weapon.
-    private WeaponHolder secondary; //Holds value for the secondary weapon.
+    private Inventory shipInventory;
+    private Guid primaryWeapon;  //Hold the id of the player's primary weapon so it can be accessed from the inventory.
+    private Guid secondaryWeapon; //Hold the id of the player's secondary weapon so it can be accessed from the inventory.
+    bool usingPrimary; //whether the player is using the primary or secondary weapon.
 
     private GameObject player;
 
@@ -54,12 +55,14 @@ public class ShipController : MonoBehaviour
         currentHealth = maxHealth;
         player = GameObject.FindGameObjectWithTag("Player");
 
-        primary = new WeaponHolder();
-        primary.initialize(100, 12, 30, 5, 8); // 8 is the player's layer
-        secondary = new WeaponHolder();
-        secondary.initialize(25, 15, 5, 0.50f, 8);
-        ChangeWeapon(primary);
+        Weapon tempPrimary = new Weapon();
+        tempPrimary.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 100f, 12f, 30f, 5f, weaponTypes.Pistol, weaponLayers.Player);
+        primaryWeapon = tempPrimary.itemId;
+        Weapon tempSecondary = new Weapon();
+        tempPrimary.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 25f, 15f, 5f, 0.5f, weaponTypes.Pistol, weaponLayers.Player);
+        secondaryWeapon = tempSecondary.itemId;
 
+        ChangeWeapon(true);
     }
 
     // Update is called once per frame
@@ -71,7 +74,7 @@ public class ShipController : MonoBehaviour
             case 1:
                 ShipExit();
                 Shoot();
-                PrepareChangeWeapon();
+                CheckChangeWeapon();
                 Death();
                 break;
             default:
@@ -128,29 +131,32 @@ public class ShipController : MonoBehaviour
     {
         if (Input.GetButton("Fire"))
         {
-            if (currentWeapon == 1)
+            if (usingPrimary)
             {
-                if (timer > primary.fireRate)
-                {
-                    SendMessage("Fire");
-                    timer = 0;
-                }
+                var tempWeapon = shipInventory.items[primaryWeapon] as Weapon;
+                if (tempWeapon)
+                    tempWeapon.Fire(this.transform);
             }
             else
             {
-                if (timer > secondary.fireRate)
-                {
-                    SendMessage("Fire");
-                    timer = 0;
-                }
+                var tempWeapon = shipInventory.items[secondaryWeapon] as Weapon;
+                if (tempWeapon)
+                    tempWeapon.Fire(this.transform);
             }
         }
-        timer += 1 + Time.deltaTime;
     }
 
-    void ChangeWeapon(WeaponHolder weapon)
+    void CheckChangeWeapon()
     {
-        SendMessage("WeaponSwap", weapon);
+        if (Input.GetButtonDown("Swap") && usingPrimary)
+            ChangeWeapon(false);
+        else if (Input.GetButtonDown("Swap") && !usingPrimary)
+            ChangeWeapon(true);
+    }
+
+    void ChangeWeapon(bool usingPrimary)
+    {
+        this.usingPrimary = usingPrimary;
     }
 
     void ApplyDamage(float damage)
@@ -159,20 +165,6 @@ public class ShipController : MonoBehaviour
         if (damageDealt <= 0)
             damageDealt = 1;
         currentHealth -= damageDealt;
-    }
-
-    void PrepareChangeWeapon()
-    {
-        if (Input.GetButtonDown("Swap") && currentWeapon == 1)
-        {
-            ChangeWeapon(secondary);
-            currentWeapon = 2;
-        }
-        else if (Input.GetButtonDown("Swap") && currentWeapon == 2)
-        {
-            ChangeWeapon(primary);
-            currentWeapon = 1;
-        }
     }
 
     void Death()

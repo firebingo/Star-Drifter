@@ -1,8 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BulletController : MonoBehaviour 
+public enum bulletTypes
 {
+    Basic
+}
+
+public class BulletController : MonoBehaviour
+{
+    public bulletTypes bulletType;
+
     private float bulletSpeed;
 
     private float bulletTime;
@@ -12,17 +19,9 @@ public class BulletController : MonoBehaviour
     private float damage;
 
     /// <summary>
-    /// Unity's Start Function
-    /// </summary>
-    void Start () 
-    {
-
-	}
-
-    /// <summary>
     /// Unity's Update Function
     /// </summary>
-    void Update () 
+    void Update()
     {
         transform.position += transform.up.normalized * bulletSpeed * Time.deltaTime;
 
@@ -30,19 +29,20 @@ public class BulletController : MonoBehaviour
             Destroy(this.gameObject);
 
         bulletTimer += Time.deltaTime;
-	}
+    }
 
-    public void Initialize(float speed, float time, float bulletDamage, int type)
+    public void Initialize(bulletTypes bType, float speed, float time, float bulletDamage, weaponLayers type)
     {
+        bulletType = bType;
         bulletSpeed = speed;
         bulletTime = time;
         damage = bulletDamage;
-        gameObject.layer = type; //Determines collision layers (8 = player vs 9 = enemy)
+        gameObject.layer = (int)type; //Determines collision layers (8 = player vs 9 = enemy)
     }
 
     void OnCollisionEnter2D(Collision2D other)
     {
-            other.gameObject.SendMessage("ApplyDamage", damage);
-            Destroy(this.gameObject);
+        other.gameObject.SendMessage("ApplyDamage", damage);
+        Destroy(this.gameObject);
     }
 }

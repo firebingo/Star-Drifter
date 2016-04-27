@@ -8,17 +8,19 @@
 
 using UnityEngine;
 using System.Collections;
+using System;
 
-public class AlienDefender : MonoBehaviour {
+public class AlienDefender : MonoBehaviour
+{
 
     //Enums for the FSM
-    public  enum AIFSM { Wander,Attack, Defend, InShip};
+    public enum AIFSM { Wander, Attack, Defend, InShip };
     public AIFSM AIState = AIFSM.Wander;
 
     //Target  variables
     private Transform target;
     public GameObject targetObj;
-   public  float targetDis;//distance from target
+    public float targetDis;//distance from target
     bool spotted = false;// determines if the enemy has spotted the player before or not
 
 
@@ -35,27 +37,30 @@ public class AlienDefender : MonoBehaviour {
     float wanderRange = 2.0f;//range for how far the enemy will walk during the wander state
     float wanderSpeed = 0.3f;//the speed the enemy will walk when wandering
 
-
     //variables for Attack
     float attackRange = 20.0f;//range before shooting
-    Vector3  targetV, enemyV, NLinear;//new vectors for attacking
+    Vector3 targetV, enemyV, NLinear;//new vectors for attacking
     public float fireTimer;//cooldown timer for shooting
     private float shotTimer = 1.3f;//cooldown time required for shooting
 
     //variables for Defend
     private Rigidbody2D rb;
 
-
     //variables for ship boardning and deboarding
     public ShipInteraction ShipI;
-    
 
-    void Awake() {
+    public Inventory alienInventory;
+    public Guid weaponId;
 
-    }
+    // Use this for initialization
+    void Start()
+    {
+        alienInventory = this.GetComponent<Inventory>();
+        Weapon tempWeapon = new Weapon();
+        tempWeapon.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 5f, 5f, shotTimer, 3f, weaponTypes.Pistol, weaponLayers.Enemy);
+        alienInventory.items.Add(tempWeapon.itemId, tempWeapon);
+        weaponId = tempWeapon.itemId;
 
-	// Use this for initialization
-	void Start () {
         rb = GetComponent<Rigidbody2D>();
         fireTimer = 0;//start timer at 0;
         targetObj = GameObject.FindGameObjectWithTag("Player");//target the player
@@ -63,10 +68,11 @@ public class AlienDefender : MonoBehaviour {
         Wander();//start off in wander state
         ShipI = gameObject.GetComponent<ShipInteraction>();
 
-	}
+    }
 
     // Update is called once per frame
-    void Update() {
+    void Update()
+    {
         Debug.DrawLine(target.position, transform.position, Color.yellow);//Make sure that the right target is being pointed too
         targetDis = Vector3.Magnitude(transform.position - target.position);//magnitude/distane of enemy and target
 
@@ -76,9 +82,10 @@ public class AlienDefender : MonoBehaviour {
             AIState = AIFSM.InShip;
         }
 
-        if (fireTimer <= 2) { 
-        fireTimer += Time.deltaTime;
-    }
+        if (fireTimer <= 2)
+        {
+            fireTimer += Time.deltaTime;
+        }
 
         switch (AIState)//FSM 
         {
@@ -95,7 +102,7 @@ public class AlienDefender : MonoBehaviour {
                 }
                 if (targetDis < 2.5f)
                 { spotted = true; }
-                    break;
+                break;
 
             case AIFSM.Attack:
                 Attack(target);
@@ -106,39 +113,37 @@ public class AlienDefender : MonoBehaviour {
                 break;
             case AIFSM.InShip:
                 break;
-
         }
-
-        
-
-
-           
     }
-    
-     //////////////////////////////////////////
-     ////////STATE MACHINE FUNCTIONS //////////
-     //////////////////////////////////////////
-   
+
+    //////////////////////////////////////////
+    ////////STATE MACHINE FUNCTIONS //////////
+    //////////////////////////////////////////
+
     //determines which state the enemy should be in
-    private void State(Transform target, float distance) {
+    private void State(Transform target, float distance)
+    {
 
         if (0.8f <= distance && distance <= 2.8f && spotted == true)
         {
             AIState = AIFSM.Attack;
         }//end if
-        else if(distance >= 2.8f && spotted == true){
-        AIState = AIFSM.Defend;
+        else if (distance >= 2.8f && spotted == true)
+        {
+            AIState = AIFSM.Defend;
         }
     }//State()
 
-    private void Wander(){
-        wanderPoint = new  Vector3(Random.Range(transform.position.x - wanderRange, transform.position.x + wanderRange),  Random.Range(transform.position.y - wanderRange, transform.position.y + wanderRange), 1.0f);
+    private void Wander()
+    {
+        wanderPoint = new Vector3(UnityEngine.Random.Range(transform.position.x - wanderRange, transform.position.x + wanderRange), UnityEngine.Random.Range(transform.position.y - wanderRange, transform.position.y + wanderRange), 1.0f);
         wanderPoint.z = 1.0f;
         NLinear = Norm(transform.position, wanderPoint);
         transform.position += (NLinear * wanderSpeed * Time.deltaTime);
     }//Wander()
 
-    private void Attack(Transform target) {
+    private void Attack(Transform target)
+    {
         targetV = new Vector3(target.position.x, target.position.y, -1);
         enemyV = new Vector3(transform.position.x, transform.position.y, -1);
         NLinear = Norm(enemyV, targetV);
@@ -146,44 +151,51 @@ public class AlienDefender : MonoBehaviour {
         rotateForward(target.position);
         if (fireTimer > shotTimer)
         {
-            gameObject.GetComponent<Weapon>().Fire();
-            fireTimer = 0.0f;
+            var tempWeapon = alienInventory.items[weaponId] as Weapon;
+            if (tempWeapon)
+            {
+                tempWeapon.Fire(this.transform);
+                fireTimer = 0.0f;
+            }
         }
-        
-
     }//Attack()
 
-    private void Defend() {
+    private void Defend()
+    {
         if (targetDis <= 5.0f)
         {
 
             rotateForward(target.position);
-            if (targetDis <= 4.0f) {
+            if (targetDis <= 4.0f)
+            {
                 if (fireTimer > shotTimer)
                 {
-                    gameObject.GetComponent<Weapon>().Fire();
-                    fireTimer = 0.0f;
+                    var tempWeapon = alienInventory.items[weaponId] as Weapon;
+                    if (tempWeapon)
+                    {
+                        tempWeapon.Fire(this.transform);
+                        fireTimer = 0.0f;
+                    }
                 }
-              }
-            
+            }
         }
-        
     }//Defend()
 
-
-    /// //////////////////////////////////////////
-    /// ///////extra functions///////////////////
-    /// /////////////////////////////////////////
+    /////////////////////////////////////////////
+    //////////extra functions///////////////////
+    ////////////////////////////////////////////
 
     //normalize vectors
-    private Vector3 Norm(Vector3 position, Vector3 target) {
+    private Vector3 Norm(Vector3 position, Vector3 target)
+    {
         Vector3 linear = target - position;
         linear = linear.normalized;
         return linear;
     }//Norm()
 
     //Ensure the enemy is facing direction it is moving in
-    private void rotateForward(Vector3 target) {
+    private void rotateForward(Vector3 target)
+    {
         Vector3 dir = target - transform.position;
         if (dir != Vector3.zero)
         {
@@ -191,11 +203,4 @@ public class AlienDefender : MonoBehaviour {
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
     }//rotateforward
-
-
-
-
-
-
-
 }

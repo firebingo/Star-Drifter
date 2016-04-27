@@ -9,18 +9,20 @@ using System;
 /// Code that does not rely on MonoBehavior will probably be instanciated and executed from this file.
 /// </summary>
 
-public enum EntityType {
-	Tile_0, Tile_1, Tile_2, Tile_3, Tile_4,
-	Tile_5, Tile_6, Tile_7, Tile_8, Tile_9,
-	Tile_10, Tile_11, Tile_12, Tile_13, Tile_14,
-	Tile_15, Tile_16, Tile_17, Tile_18, Tile_19,
-	Tile_20, Tile_21, Tile_22, Tile_23, Tile_24,
-	Tile_25, Tile_26, Tile_27, Tile_28, Tile_29,
-	Tile_30, Tile_31
+public enum EntityType
+{
+    Tile_0, Tile_1, Tile_2, Tile_3, Tile_4,
+    Tile_5, Tile_6, Tile_7, Tile_8, Tile_9,
+    Tile_10, Tile_11, Tile_12, Tile_13, Tile_14,
+    Tile_15, Tile_16, Tile_17, Tile_18, Tile_19,
+    Tile_20, Tile_21, Tile_22, Tile_23, Tile_24,
+    Tile_25, Tile_26, Tile_27, Tile_28, Tile_29,
+    Tile_30, Tile_31
 }
 
-public enum NodeType {
-	Node_0, Node_1, Node_2
+public enum NodeType
+{
+    Node_0, Node_1, Node_2
 }
 
 [RequireComponent(typeof(OptionsController))]
@@ -29,10 +31,10 @@ public class GameController : MonoBehaviour
     // Create a static instance variable for the GameController class
     public static GameController instance { get; private set; }
 
-	// Create a public static dictionary for generation nodes and their contents
-	public static List<Node> nodes { get; set; }
+    // Create a public static dictionary for generation nodes and their contents
+    public static List<Node> nodes { get; set; }
 
-	public static int tileSize = 1;
+    public static int tileSize = 1;
 
     [SerializeField]
     public OptionsController options;
@@ -53,22 +55,22 @@ public class GameController : MonoBehaviour
             DontDestroyOnLoad(this.gameObject);
         }
 
-		// Instantiate node dict
-		nodes = new List<Node>();
+        // Instantiate node dict
+        nodes = new List<Node>();
 
-		options.InitOptions();
+        options.InitOptions();
     }
 
     // Update is called once per frame
     void Update()
     {
-       
+
     }
 
     //quits the application
     public void quitGame(bool save = false)
     {
-        if(save)
+        if (save)
         {
 
         }
@@ -103,7 +105,7 @@ public class GameController : MonoBehaviour
     /// <param name="addative"></param>
     public void loadLevel(string levelName, bool addative = false)
     {
-        if(addative)
+        if (addative)
             SceneManager.LoadScene(levelName, LoadSceneMode.Additive);
         else
             SceneManager.LoadScene(levelName, LoadSceneMode.Single);
@@ -122,5 +124,5 @@ public class GameController : MonoBehaviour
             SceneManager.LoadScene(levelIndex, LoadSceneMode.Single);
     }
 
-    
+
 }

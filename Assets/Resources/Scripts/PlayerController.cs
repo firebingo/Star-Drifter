@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 
 [RequireComponent(typeof(PlayerMovement))]
 [RequireComponent(typeof(PlayerRespawn))]
@@ -25,10 +26,11 @@ public class PlayerController : MonoBehaviour
     private Leveling Leveler;
     private BoxCollider2D Collider;
     private SpriteRenderer Renderer;
-    private Weapon weapon;
 
-    private WeaponHolder primary;  //Holds value for player's primary weapon.
-    private WeaponHolder secondary; //Holds value for player's secondary weapon.
+    private Inventory playerInventory;
+    private Guid primaryWeapon;  //Hold the id of the player's primary weapon so it can be accessed from the inventory.
+    private Guid secondaryWeapon; //Hold the id of the player's secondary weapon so it can be accessed from the inventory.
+    bool usingPrimary; //whether the player is using the primary or secondary weapon.
 
     private Vector2 position;
     private float rotation;
@@ -43,7 +45,7 @@ public class PlayerController : MonoBehaviour
         Leveler = this.GetComponent<Leveling>();
         Collider = this.GetComponent<BoxCollider2D>();
         Renderer = this.GetComponent<SpriteRenderer>();
-        weapon = this.GetComponent<Weapon>();
+        playerInventory = this.GetComponent<Inventory>();
 
         Respawn.enabled = false;
         currentHealth = maxHealth;
@@ -55,12 +57,20 @@ public class PlayerController : MonoBehaviour
 
         maxHealth = 100;
 
-        primary = new WeaponHolder();
-        primary.initialize(50, 8, 1, 5, 8); // 8 is the player's layer
-        secondary = new WeaponHolder();
-        secondary.initialize(5, 10, 0.5f, 0.50f, 8);
+        Weapon tempPrimary = new Weapon();
+        tempPrimary.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 50f, 8f, 1f, 5f, weaponTypes.Pistol, weaponLayers.Player);
+        primaryWeapon = tempPrimary.itemId;
+        Weapon tempSecondary = new Weapon();
+        tempSecondary.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 5f, 10f, 0.5f, 0.5f, weaponTypes.Pistol, weaponLayers.Player);
+        secondaryWeapon = tempSecondary.itemId;
 
-        ChangeWeapon(primary);
+        playerInventory.items.Add(tempPrimary.itemId, tempPrimary);
+        playerInventory.items.Add(tempSecondary.itemId, tempSecondary);
+
+        //secondary = new WeaponHolder();
+        //secondary.initialize(5, 10, 0.5f, 0.50f, 8);
+
+        ChangeWeapon(true);
     }
 
     void OnEnable() //Used for Respawning
@@ -75,7 +85,7 @@ public class PlayerController : MonoBehaviour
 
             timer = 0;
 
-            ChangeWeapon(primary);
+            ChangeWeapon(true);
             currentWeapon = 1;
         }
         spawn++;
@@ -84,7 +94,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         Shoot();
-        PrepareChangeWeapon();
+        CheckChangeWeapon();
         Death();
     }
 
@@ -92,43 +102,32 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetButton("Fire"))
         {
-            if (currentWeapon == 1)
+            if (usingPrimary)
             {
-                if (timer > primary.fireRate)
-                {
-                    weapon.Fire();
-                    timer = 0;
-                }
+                var tempWeapon = playerInventory.items[primaryWeapon] as Weapon;
+                if (tempWeapon)
+                    tempWeapon.Fire(this.transform);
             }
             else
             {
-                if (timer > secondary.fireRate)
-                {
-                    weapon.Fire();
-                    timer = 0;
-                }
+                var tempWeapon = playerInventory.items[secondaryWeapon] as Weapon;
+                if (tempWeapon)
+                    tempWeapon.Fire(this.transform);
             }
         }
-        timer += Time.deltaTime;
     }
 
-    void PrepareChangeWeapon()
+    void CheckChangeWeapon()
     {
-        if (Input.GetButtonDown("Swap") && currentWeapon == 1)
-        {
-            ChangeWeapon(secondary);
-            currentWeapon = 2;
-        }
-        else if (Input.GetButtonDown("Swap") && currentWeapon == 2)
-        {
-            ChangeWeapon(primary);
-            currentWeapon = 1;
-        }
+        if (Input.GetButtonDown("Swap") && usingPrimary)
+            ChangeWeapon(false);
+        else if (Input.GetButtonDown("Swap") && !usingPrimary)
+            ChangeWeapon(true);
     }
 
-    void ChangeWeapon(WeaponHolder weapon)
+    void ChangeWeapon(bool usingPrimary)
     {
-        SendMessage("WeaponSwap", weapon);
+        this.usingPrimary = usingPrimary;
     }
 
     void Death()

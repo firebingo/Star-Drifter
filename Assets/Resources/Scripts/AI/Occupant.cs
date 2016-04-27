@@ -44,8 +44,10 @@ public class Occupant : MonoBehaviour
     public AIFSM AIState = AIFSM.Wait;
     private object distance;
 
+    public Inventory occupantInventory;
+    public Guid weaponId;
+
     //Some test crud
- 
     float walkingDirection = 1.0f;
     Vector3 walkAmount;
 
@@ -59,11 +61,6 @@ public class Occupant : MonoBehaviour
 
         //DO stuff...
     }
-
-    /// <summary>
-    /// AI bot is awake
-    /// </summary>
-    void Awake() { /*Do stuff?*/ }
     
     /// <summary>
     ///  Use this for initialization.
@@ -75,6 +72,12 @@ public class Occupant : MonoBehaviour
     /// </summary>
     void Start ()
     {
+        occupantInventory = this.GetComponent<Inventory>();
+        Weapon tempWeapon = new Weapon();
+        tempWeapon.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 5f, 5f, shotTimer, 3f, weaponTypes.Pistol, weaponLayers.Enemy);
+        occupantInventory.items.Add(tempWeapon.itemId, tempWeapon);
+        weaponId = tempWeapon.itemId;
+
         //Basics
         health = 100;
         fireTimer = 0;
@@ -93,8 +96,6 @@ public class Occupant : MonoBehaviour
         //Enemy Leveling 
         playerObj = GameObject.FindGameObjectsWithTag("Player");
         //playLv = playerObj.GetComponent<PlayerController>();
-
-        
     }
 
     //void 
@@ -104,8 +105,6 @@ public class Occupant : MonoBehaviour
     /// </summary>  
     void Update ()
     {
-
-
         switch (AIState)
         {
             case AIFSM.Wander:
@@ -148,7 +147,6 @@ public class Occupant : MonoBehaviour
         return bestTarget;
     }
 
-
     //State Machine Functions (per update)
     private void Wander()
     {
@@ -180,13 +178,14 @@ public class Occupant : MonoBehaviour
         fireTimer = 0;
         //Reset to attack state
         AIState = AIFSM.Attack;
-     
-        //Fire (seems like it should have some arguments)
-        gameObject.GetComponent<Weapon>().Fire();
+
+        //Fire
+        var tempWeapon = occupantInventory.items[weaponId] as Weapon;
+        if (tempWeapon)
+            tempWeapon.Fire(this.transform);
     }//Shoot, a transition of Attack
 
     private void Wait() { }//Flee
 
     private void Avoid() { }//Avoid nearby obstacle
-
 }
