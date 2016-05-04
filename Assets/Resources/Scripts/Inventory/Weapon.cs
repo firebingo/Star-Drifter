@@ -47,6 +47,10 @@ public class Weapon : ScriptableObject, inventoryItem
 
     public Guid itemId { get; private set; }  //a unique id for the weapon.
 
+    public int count { get; set; }
+
+    public string itemName { get; private set; }
+
     public void updateItem()
     {
         if (Timer < shotTimer)
