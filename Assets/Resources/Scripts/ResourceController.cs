@@ -3,7 +3,7 @@ using System.Collections;
 
 /// <summary>
 /// The resource manager, a single script to control 
-/// every type of resource pickup: Money, ammo, resources, items
+/// every type of resource pickup: Money, ammo, resources
 /// </summary>
 /// 
 [RequireComponent(typeof(ResourceMovement))]
