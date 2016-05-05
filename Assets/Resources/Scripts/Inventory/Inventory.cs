@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Inventory : MonoBehaviour
 {
@@ -19,5 +20,11 @@ public class Inventory : MonoBehaviour
         {
             item.Value.updateItem();
         }
+    }
+
+    public void Merge(Dictionary<Guid, inventoryItem> merger) //Not tested
+    {
+        var result = items.Concat(merger).GroupBy(item => item.Key).ToDictionary(item => item.Key, item => item.First().Value);
+        items = result;
     }
 }

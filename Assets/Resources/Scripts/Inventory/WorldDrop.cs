@@ -6,6 +6,13 @@ public class WorldDrop : Inventory
     [SerializeField]
     bool inRange;
 
+    Inventory playerInventory;
+
+    void Start()
+    {
+        playerInventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
+    }
+
     void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.tag == "Player")
@@ -22,19 +29,16 @@ public class WorldDrop : Inventory
     {
         if (inRange == true)
         {
-            foreach (var item in items)
-            {
-                //Display items to player to transfer
-            }
+            //Call Merge on Player/Enemies inventory script.
+            playerInventory.Merge(items); //Not tested
+            Destroy(this.gameObject);
+            
         }
 
         foreach (var item in items)
         {
             item.Value.updateItem();
         }
-
-        //if (items.Count <= 0)    //Will be added once items are placed into the drop either manually for resources, or populated by defeating an enemy.
-            //Destroy(this.gameObject);
     }
 
 }
