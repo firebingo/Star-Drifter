@@ -14,6 +14,7 @@ public class WorldDrop : Inventory
 
     void Start()
     {
+        loot = new Inventory();
         //Test
         Weapon weapon1 = new Weapon();
         weapon1.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 50f, 8f, 1f, 5f, weaponTypes.Pistol, weaponLayers.Player);
