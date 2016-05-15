@@ -9,7 +9,9 @@ public class TestCode : MonoBehaviour
     GameObject objStartCube, objEndCube;
     private float elapsedTime = 0.0f;
     //Interval time between pathfinding
-    public float intervalTime = 1.0f;    void Start()
+    public float intervalTime = 1.0f;
+
+    void Start()
     {
         objStartCube = GameObject.FindGameObjectWithTag("Start");
         objEndCube = GameObject.FindGameObjectWithTag("End");
@@ -23,7 +25,9 @@ public class TestCode : MonoBehaviour
         {
             elapsedTime = 0.0f;
             FindPath();
+           
         }
+       
     }
     void FindPath()
     {
