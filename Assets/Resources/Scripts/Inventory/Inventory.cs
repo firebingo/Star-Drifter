@@ -24,7 +24,11 @@ public class Inventory : MonoBehaviour
 
     public void Merge(Dictionary<Guid, inventoryItem> merger) //Not tested
     {
-        var result = items.Concat(merger).GroupBy(item => item.Key).ToDictionary(item => item.Key, item => item.First().Value);
-        items = result;
+        foreach (KeyValuePair<Guid, inventoryItem> item in merger)
+        {
+            items.Add(item.Key, item.Value);
+        }
+        //items = items.Concat(merger).ToDictionary(item => item.Key, item => item.Value);
+        //merger.ToList().ForEach(item => items.Add(item.Key, item.Value));
     }
 }

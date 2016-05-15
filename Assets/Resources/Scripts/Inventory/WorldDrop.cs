@@ -1,16 +1,26 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 public class WorldDrop : Inventory 
 {
     [SerializeField]
     bool inRange;
 
-    Inventory playerInventory;
+    public Inventory loot;
+
+    //Inventory playerInventory; 
 
     void Start()
     {
-        playerInventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
+        //Test
+        Weapon weapon1 = new Weapon();
+        weapon1.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 50f, 8f, 1f, 5f, weaponTypes.Pistol, weaponLayers.Player);
+        Guid id = weapon1.itemId;
+
+        loot.items.Add(weapon1.itemId, weapon1);
+        //Test
     }
 
     void OnTriggerEnter2D(Collider2D collider)
@@ -30,14 +40,18 @@ public class WorldDrop : Inventory
         if (inRange == true)
         {
             //Call Merge on Player/Enemies inventory script.
-            playerInventory.Merge(items); //Not tested
-            Destroy(this.gameObject);
-            
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().playerInventory.Merge(loot.items);
+            Destroy(this.gameObject);    
         }
 
         foreach (var item in items)
         {
             item.Value.updateItem();
+        }
+
+        if (loot.items.Count <= 0)
+        {
+            Destroy(this.gameObject);
         }
     }
 

@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
     private BoxCollider2D Collider;
     private SpriteRenderer Renderer;
 
-    private Inventory playerInventory;
+    public Inventory playerInventory;
     private Guid primaryWeapon;  //Hold the id of the player's primary weapon so it can be accessed from the inventory.
     private Guid secondaryWeapon; //Hold the id of the player's secondary weapon so it can be accessed from the inventory.
     bool usingPrimary; //whether the player is using the primary or secondary weapon.
