@@ -77,7 +77,7 @@ public class GridManager : MonoBehaviour
         int col = GetColumn(index);
         float xPosInGrid = col * gridCellSize;
         float yPosInGrid = row * gridCellSize;
-        return Origin + new Vector3(xPosInGrid, 0.0f, yPosInGrid);
+        return Origin + new Vector3(xPosInGrid, yPosInGrid, 0.0f);
     }
     public int GetGridIndex(Vector3 pos)
     {
