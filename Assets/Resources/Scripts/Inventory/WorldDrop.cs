@@ -8,19 +8,16 @@ public class WorldDrop : Inventory
     [SerializeField]
     bool inRange;
 
-    public Inventory loot;
-
-    //Inventory playerInventory; 
-
     void Start()
     {
-        loot = new Inventory();
+        items = new Dictionary<Guid, inventoryItem>();
+
         //Test
         Weapon weapon1 = new Weapon();
         weapon1.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 50f, 8f, 1f, 5f, weaponTypes.Pistol, weaponLayers.Player);
         Guid id = weapon1.itemId;
 
-        loot.items.Add(weapon1.itemId, weapon1);
+        items.Add(weapon1.itemId, weapon1);
         //Test
     }
 
@@ -41,7 +38,7 @@ public class WorldDrop : Inventory
         if (inRange == true)
         {
             //Call Merge on Player/Enemies inventory script.
-            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().playerInventory.Merge(loot.items);
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().playerInventory.Merge(items);
             Destroy(this.gameObject);    
         }
 
@@ -50,7 +47,7 @@ public class WorldDrop : Inventory
             item.Value.updateItem();
         }
 
-        if (loot.items.Count <= 0)
+        if (items.Count <= 0)
         {
             Destroy(this.gameObject);
         }
