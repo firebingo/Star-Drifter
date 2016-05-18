@@ -9,7 +9,7 @@ public class HUDCategories : MonoBehaviour
 {
     private List<string> categoryNames;
     private List<UICategory> categories;
-    private int currentCategories;
+    private itemType currentCategories;
     private UIInventory parentInventory;
 
     // Use this for initialization
@@ -24,7 +24,7 @@ public class HUDCategories : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        currentCategories = parentInventory.currentCategory;
     }
 
     void OnEnable()
@@ -45,24 +45,56 @@ public class HUDCategories : MonoBehaviour
             var toAdd = Resources.Load("Prefabs/UI/InventoryUICategory") as GameObject;
             if (toAdd)
             {
-                var created = Instantiate(toAdd);
-                created.transform.parent = this.transform;
+                var created = Instantiate(toAdd);             
                 if(created)
                 {
+                    created.transform.parent = this.transform;
+                    created.transform.localPosition = new Vector3(7.5f, -13, 0);
                     var Text = created.transform.GetChild(0).GetComponent<Text>();
                     Text.text = name;
                     var categoryScript = created.transform.GetChild(0).GetComponent<UICategory>();
                     categories.Add(categoryScript);
                     categoryNames.Add(name);
                     categoryScript.categoryType = (itemType)Enum.Parse(typeof(itemType), name);
+                    if (categoryScript.categoryType != parentInventory.currentCategory)
+                        created.SetActive(false);
                 }
             }
         }
 
-        foreach(var cat in categories)
+        //foreach(var cat in categories)
+        //{
+        //    if(cat.categoryType != parentInventory.currentCategory)
+        //        cat.gameObject.SetActive(false);
+        //}
+    }
+
+    /// <summary>
+    /// Changes the ui category.
+    /// true is right(+), false is left(-).
+    /// </summary>
+    /// <param name="direction"></param>
+    public void changeCategory(bool direction)
+    {
+        if (direction)
         {
-            if(cat.categoryType != parentInventory.currentCategory)
-                cat.gameObject.SetActive(false);
+            if (parentInventory.currentCategory < (itemType)Enum.GetValues(typeof(itemType)).Length-1)
+            {
+                categories[(int)currentCategories].gameObject.transform.parent.gameObject.SetActive(false);
+                parentInventory.currentCategory = ++parentInventory.currentCategory;
+                currentCategories = parentInventory.currentCategory;
+                categories[(int)currentCategories].gameObject.transform.parent.gameObject.SetActive(true);
+            }
+        }
+        else
+        {
+            if (parentInventory.currentCategory > 0)
+            {
+                categories[(int)currentCategories].gameObject.transform.parent.gameObject.SetActive(false);
+                parentInventory.currentCategory = --parentInventory.currentCategory;
+                currentCategories = parentInventory.currentCategory;
+                categories[(int)currentCategories].gameObject.transform.parent.gameObject.SetActive(true);
+            }
         }
     }
 }
