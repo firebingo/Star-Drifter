@@ -8,7 +8,7 @@ public class HUDManager : MonoBehaviour
     private int playerEXP;
 
     [SerializeField]
-    PlayerController player;
+    public PlayerController player;
     [SerializeField]
     Leveling playerLeveling;
 
@@ -17,10 +17,13 @@ public class HUDManager : MonoBehaviour
     [SerializeField]
     valueBar EXPBar;
 
+    [SerializeField]
+    GameObject inventoryParent;
+
     // Update is called once per frame
     void Update()
     {
-        if(EXPBar && healthBar && player && playerLeveling)
+        if(EXPBar && healthBar && player && playerLeveling && inventoryParent)
         {
             healthBar.maxValue = player.maxHealth;
             healthBar.currentValue = player.currentHealth;
