@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Linq;
 using System.Collections.Generic;
+using System;
 
 public class UIInventory : MonoBehaviour
 {
@@ -9,7 +10,6 @@ public class UIInventory : MonoBehaviour
     public itemType lastCategory; //the last category selected.
 
     [SerializeField]
-    private Scrollbar inventoryBar;
     public int currentItemIndex; //the current item at the top of the inventory scrolling.
 
     [SerializeField]
@@ -17,7 +17,13 @@ public class UIInventory : MonoBehaviour
 
     private List<UIItem> uiItems;
 
-    
+    private GameObject itemDetails;
+
+    //Delegate for item details.
+    //This is used so this event can be called for each itemtype and it will call the proper
+    // function and generate the details for the item type.
+    delegate void generateCurrentItemDetails();
+    static event generateCurrentItemDetails generateDetails;
 
     // Use this for initialization
     void Start()
@@ -31,21 +37,57 @@ public class UIInventory : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!hudManager)
+        if (!hudManager)
         {
-            Debug.Log("Inventory missing HUD Manager Reference");
+            Debug.Log("Inventory Missing HUD Manager Reference");
             return;
         }
-        if(currentCategory != lastCategory)
+        if (currentCategory != lastCategory)
         {
-            lastCategory = currentCategory;
+            currentItemIndex = 0;
+
+            foreach (var item in uiItems)
+            {
+                Destroy(item.gameObject);
+            }
+            uiItems.Clear();
             generateUIItems(currentCategory);
+
+            registerDelegate(currentCategory);
+            generateDetails();
+
+            lastCategory = currentCategory;
+
+        }
+    }
+
+    void registerDelegate(itemType category)
+    {
+        if (generateDetails != null)
+        {
+            foreach (var d in generateDetails.GetInvocationList())
+                generateDetails -= (d as generateCurrentItemDetails);
+        }
+
+        switch (category)
+        {
+            case itemType.Weapon:
+                generateDetails += generateCurrentWeaponDetails;
+                break;
+            case itemType.Ammo:
+                //TODO: Implement
+                break;
+            case itemType.Scrap:
+                //TODO: Implement
+                break;
+            default:
+                break;
         }
     }
 
     void OnEnable()
     {
-        foreach(var item in uiItems)
+        foreach (var item in uiItems)
         {
             Destroy(item.gameObject);
         }
@@ -62,7 +104,7 @@ public class UIInventory : MonoBehaviour
     {
         var items = hudManager.player.playerInventory.items.Values.Where(i => i.inventoryItemType == currentCategory).ToList();
 
-        foreach(var item in items)
+        foreach (var item in items)
         {
             int i = 0;
             var toAdd = Resources.Load("Prefabs/UI/InventoryUIItem") as GameObject;
@@ -75,9 +117,9 @@ public class UIInventory : MonoBehaviour
                     created.transform.localPosition = new Vector3(-133, 198 - (i * 85), 0);
                     var itemScript = created.GetComponent<UIItem>();
                     uiItems.Add(itemScript);
-                    itemScript.Initilize("Textures/Items/" + item.itemName, item.itemName, item.count);
+                    itemScript.Initilize("Textures/Items/" + item.itemName, item.itemName, item.count, item.itemId);
                     itemScript.index = i;
-                    if(i > currentItemIndex + 5)
+                    if (i > currentItemIndex + 5)
                         created.SetActive(false);
                 }
             }
@@ -103,6 +145,8 @@ public class UIInventory : MonoBehaviour
                     if (item.index < currentItemIndex + 5)
                         item.gameObject.SetActive(true);
                 }
+                if (generateDetails != null)
+                    generateDetails();
             }
         }
         else
@@ -116,7 +160,40 @@ public class UIInventory : MonoBehaviour
                     if (item.index < currentItemIndex + 5)
                         item.gameObject.SetActive(true);
                 }
+                if (generateDetails != null)
+                    generateDetails();
             }
         }
     }
+
+    #region Item Details Generation
+    void generateCurrentWeaponDetails()
+    {
+        if (itemDetails)
+        {
+            Destroy(itemDetails);
+            itemDetails = null;
+        }
+
+        var item = hudManager.player.playerInventory.items[uiItems[currentItemIndex].itemId] as Weapon;
+
+        if (item)
+        {
+            var toAdd = Resources.Load("Prefabs/UI/InventoryWeaponDetails") as GameObject;
+            if (toAdd)
+            {
+                var created = Instantiate(toAdd);
+                if (created)
+                {
+                    created.transform.parent = this.transform;
+                    created.transform.localPosition = new Vector3(145, -13, 0);
+                    itemDetails = created;
+                    var detailScript = created.GetComponent<WeaponDetails>();
+                    detailScript.Initilize(item.itemName, Enum.GetName(typeof(weaponTypes), item.Type), Enum.GetName(typeof(bulletTypes), item.bulletType),
+                        item.bulletSpeed.ToString(), item.Damage.ToString(), item.shotTimer.ToString());
+                }
+            }
+        }
+    }
+    #endregion
 }
