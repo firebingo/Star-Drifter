@@ -26,6 +26,11 @@ public class Weapon : ScriptableObject, inventoryItem
     [SerializeField]
     public float bulletSpeed { get; private set; }
 
+    //Accuracy of the weapon, determines the spread
+    [SerializeField]
+    public float bulletSpread { get; private set; }
+
+
     [SerializeField]
     public float bulletTime { get; private set; } //How long the bullet lasts
 
