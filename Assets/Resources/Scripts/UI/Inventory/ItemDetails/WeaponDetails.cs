@@ -25,7 +25,7 @@ public class WeaponDetails : MonoBehaviour
     }
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         GameObject temp = this.gameObject.transform.FindChild("WeaponType").gameObject;
         weaponClass = temp ? temp.GetComponent<Text>() : null;

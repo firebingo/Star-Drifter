@@ -12,13 +12,24 @@ public class HUDCategories : MonoBehaviour
     private itemType currentCategories;
     private UIInventory parentInventory;
 
+    private bool isInit = false;
+
     // Use this for initialization
     void Start()
     {
-        parentInventory = transform.parent.GetComponent<UIInventory>();
-        categoryNames = Enum.GetNames(typeof(itemType)).ToList();
-        categories = new List<UICategory>();
-        categoryNames = new List<string>();
+        Intilize();
+    }
+
+    void Intilize()
+    {
+        if (!isInit)
+        {
+            parentInventory = transform.parent.GetComponent<UIInventory>();
+            categoryNames = Enum.GetNames(typeof(itemType)).ToList();
+            categories = new List<UICategory>();
+            categoryNames = new List<string>();
+            isInit = true;
+        }
     }
 
     // Update is called once per frame
@@ -29,9 +40,10 @@ public class HUDCategories : MonoBehaviour
 
     void OnEnable()
     {
+        Intilize();
         foreach (var item in categories)
         {
-            Destroy(item.gameObject.transform.parent);
+            Destroy(item.gameObject.transform.parent.gameObject);
         }
         categories.Clear();
         categoryNames.Clear();
@@ -40,24 +52,27 @@ public class HUDCategories : MonoBehaviour
 
     void generateCategories()
     {
-        foreach(var name in Enum.GetNames(typeof(itemType))) 
+        foreach (var name in Enum.GetNames(typeof(itemType)))
         {
-            var toAdd = Resources.Load("Prefabs/UI/InventoryUICategory") as GameObject;
-            if (toAdd)
+            if (name != "Null")
             {
-                var created = Instantiate(toAdd);             
-                if(created)
+                var toAdd = Resources.Load("Prefabs/UI/InventoryUICategory") as GameObject;
+                if (toAdd)
                 {
-                    created.transform.parent = this.transform;
-                    created.transform.localPosition = new Vector3(7.5f, -13, 0);
-                    var Text = created.transform.GetChild(0).GetComponent<Text>();
-                    Text.text = name;
-                    var categoryScript = created.transform.GetChild(0).GetComponent<UICategory>();
-                    categories.Add(categoryScript);
-                    categoryNames.Add(name);
-                    categoryScript.categoryType = (itemType)Enum.Parse(typeof(itemType), name);
-                    if (categoryScript.categoryType != parentInventory.currentCategory)
-                        created.SetActive(false);
+                    var created = Instantiate(toAdd);
+                    if (created)
+                    {
+                        created.transform.SetParent(this.transform);
+                        created.transform.localPosition = new Vector3(7.5f, -13, 0);
+                        var Text = created.transform.GetChild(0).GetComponent<Text>();
+                        Text.text = name;
+                        var categoryScript = created.transform.GetChild(0).GetComponent<UICategory>();
+                        categories.Add(categoryScript);
+                        categoryNames.Add(name);
+                        categoryScript.categoryType = (itemType)Enum.Parse(typeof(itemType), name);
+                        if (categoryScript.categoryType != parentInventory.currentCategory)
+                            created.SetActive(false);
+                    }
                 }
             }
         }
@@ -78,7 +93,7 @@ public class HUDCategories : MonoBehaviour
     {
         if (direction)
         {
-            if (parentInventory.currentCategory < (itemType)Enum.GetValues(typeof(itemType)).Length-1)
+            if (parentInventory.currentCategory < Enum.GetValues(typeof(itemType)).Cast<itemType>().Max())
             {
                 categories[(int)currentCategories].gameObject.transform.parent.gameObject.SetActive(false);
                 parentInventory.currentCategory = ++parentInventory.currentCategory;

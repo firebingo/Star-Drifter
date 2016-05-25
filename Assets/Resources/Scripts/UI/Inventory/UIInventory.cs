@@ -19,6 +19,8 @@ public class UIInventory : MonoBehaviour
 
     private GameObject itemDetails;
 
+    private bool isInit = false;
+
     //Delegate for item details.
     //This is used so this event can be called for each itemtype and it will call the proper
     // function and generate the details for the item type.
@@ -28,10 +30,19 @@ public class UIInventory : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        currentCategory = 0;
-        lastCategory = 0;
+        Intilize();
+    }
 
-        uiItems = new List<UIItem>();
+    void Intilize()
+    {
+        if(!isInit)
+        {
+            currentCategory = 0;
+            lastCategory = itemType.Null;
+
+            uiItems = new List<UIItem>();
+            isInit = true;
+        }
     }
 
     // Update is called once per frame
@@ -46,18 +57,33 @@ public class UIInventory : MonoBehaviour
         {
             currentItemIndex = 0;
 
+            cleanItems();
+            generateUIItems(currentCategory);
+
+            registerDelegate(currentCategory);
+            if(generateDetails != null)
+                generateDetails();
+
+            lastCategory = currentCategory;
+
+        }
+    }
+
+    void cleanItems()
+    {
+        if (uiItems != null)
+        {
             foreach (var item in uiItems)
             {
                 Destroy(item.gameObject);
             }
             uiItems.Clear();
-            generateUIItems(currentCategory);
+        }
 
-            registerDelegate(currentCategory);
-            generateDetails();
-
-            lastCategory = currentCategory;
-
+        if (itemDetails)
+        {
+            Destroy(itemDetails.gameObject);
+            itemDetails = null;
         }
     }
 
@@ -87,11 +113,9 @@ public class UIInventory : MonoBehaviour
 
     void OnEnable()
     {
-        foreach (var item in uiItems)
-        {
-            Destroy(item.gameObject);
-        }
-        uiItems.Clear();
+        Intilize();
+        cleanItems();
+        lastCategory = itemType.Null;
         generateUIItems(currentCategory);
     }
 
@@ -104,26 +128,26 @@ public class UIInventory : MonoBehaviour
     {
         var items = hudManager.player.playerInventory.items.Values.Where(i => i.inventoryItemType == currentCategory).ToList();
 
+        int index = 0;
         foreach (var item in items)
         {
-            int i = 0;
             var toAdd = Resources.Load("Prefabs/UI/InventoryUIItem") as GameObject;
             if (toAdd)
             {
                 var created = Instantiate(toAdd);
                 if (created)
                 {
-                    created.transform.parent = this.transform;
-                    created.transform.localPosition = new Vector3(-133, 198 - (i * 85), 0);
+                    created.transform.SetParent(this.transform);
+                    created.transform.localPosition = new Vector3(-133, 198 - (index * 85), 0);
                     var itemScript = created.GetComponent<UIItem>();
                     uiItems.Add(itemScript);
                     itemScript.Initilize("Textures/Items/" + item.itemName, item.itemName, item.count, item.itemId);
-                    itemScript.index = i;
-                    if (i > currentItemIndex + 5)
+                    itemScript.index = index;
+                    if (index > currentItemIndex + 5)
                         created.SetActive(false);
                 }
             }
-            ++i;
+            ++index;
         }
     }
 
@@ -138,7 +162,7 @@ public class UIInventory : MonoBehaviour
         {
             if (currentItemIndex > 0)
             {
-                ++currentItemIndex;
+                --currentItemIndex;
                 foreach (var item in uiItems)
                 {
                     item.gameObject.SetActive(false);
@@ -151,9 +175,9 @@ public class UIInventory : MonoBehaviour
         }
         else
         {
-            if (currentItemIndex < uiItems.Count)
+            if (currentItemIndex < uiItems.Count-1)
             {
-                --currentItemIndex;
+                ++currentItemIndex;
                 foreach (var item in uiItems)
                 {
                     item.gameObject.SetActive(false);
@@ -171,7 +195,7 @@ public class UIInventory : MonoBehaviour
     {
         if (itemDetails)
         {
-            Destroy(itemDetails);
+            Destroy(itemDetails.gameObject);
             itemDetails = null;
         }
 
@@ -185,12 +209,15 @@ public class UIInventory : MonoBehaviour
                 var created = Instantiate(toAdd);
                 if (created)
                 {
-                    created.transform.parent = this.transform;
+                    created.transform.SetParent(this.transform);
                     created.transform.localPosition = new Vector3(145, -13, 0);
                     itemDetails = created;
                     var detailScript = created.GetComponent<WeaponDetails>();
-                    detailScript.Initilize(item.itemName, Enum.GetName(typeof(weaponTypes), item.Type), Enum.GetName(typeof(bulletTypes), item.bulletType),
-                        item.bulletSpeed.ToString(), item.Damage.ToString(), item.shotTimer.ToString());
+                    if (detailScript)
+                    {
+                        detailScript.Initilize(item.itemName, Enum.GetName(typeof(weaponTypes), item.Type), Enum.GetName(typeof(bulletTypes), item.bulletType),
+                            item.bulletSpeed.ToString(), item.Damage.ToString(), item.shotTimer.ToString());
+                    }
                 }
             }
         }

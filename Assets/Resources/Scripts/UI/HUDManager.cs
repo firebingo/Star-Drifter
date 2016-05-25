@@ -18,7 +18,7 @@ public class HUDManager : MonoBehaviour
     valueBar EXPBar;
 
     [SerializeField]
-    GameObject inventoryParent;
+    public GameObject inventoryParent;
 
     // Update is called once per frame
     void Update()
@@ -32,6 +32,7 @@ public class HUDManager : MonoBehaviour
             EXPBar.currentValue = playerLeveling.currentExperience;
             EXPBar.minValue = playerLeveling.lastLevel;
             EXPBar.ManualUpdate();
+            player.HudManager = this;
         }
         else
         {

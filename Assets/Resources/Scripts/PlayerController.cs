@@ -23,9 +23,10 @@ public class PlayerController : MonoBehaviour
 
     private PlayerMovement Movement;
     private PlayerRespawn Respawn;
-    private Leveling Leveler;
+    public Leveling Leveler { get; private set; }
     private BoxCollider2D Collider;
     private SpriteRenderer Renderer;
+    public HUDManager HudManager;
 
     public Inventory playerInventory;
     private Guid primaryWeapon;  //Hold the id of the player's primary weapon so it can be accessed from the inventory.
@@ -95,6 +96,11 @@ public class PlayerController : MonoBehaviour
     {
         Shoot();
         CheckChangeWeapon();
+        if(HudManager)
+        {
+            if (Input.GetButtonDown("Inventory"))
+                HudManager.inventoryParent.SetActive(!HudManager.inventoryParent.activeSelf);
+        }
         Death();
     }
 
