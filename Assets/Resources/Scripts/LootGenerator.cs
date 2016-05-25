@@ -11,13 +11,16 @@ using System.Collections;
 [RequireComponent(typeof(Weapon))]
 public class LootGenerator : MonoBehaviour
 {
+    [SerializeField]
+    public PlayerController player;
+
     /// <summary>
     /// Destributes stat points randomly to each stat, to a defined max, based on player level.
     /// </summary>
     public void setStats()
     {
-       // int StatMax = 
-
+        // int StatMax = 
+        int StatMax = 6;
         int[] stats = { 2, 2, 2, 2 };
         while (Sum(stats) < 16)
         {
@@ -25,10 +28,10 @@ public class LootGenerator : MonoBehaviour
             if (stats[statIndex] < StatMax)
                 stats[statIndex]++;
         }
-        Damage          = stats[0];
+        /*Damage          = stats[0];
         shotTimer       = stats[1];
         Power           = stats[2];
-        bulletSpread    = stats[3];
+        bulletSpread    = stats[3];*/
     }
     private int Sum(int[] stats)
     {
