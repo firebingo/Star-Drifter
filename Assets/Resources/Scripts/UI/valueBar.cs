@@ -11,7 +11,6 @@ public class valueBar : MonoBehaviour
     public float currentValue; //the current value of the bar
     public float maxValue; //the maximum value for the bar
 
-    
     public bool colorFade; //whether or not to fade the colors for the bar.
     public Color normalColor; //the color the bar should use if it is not fading.
     public Color fullColor; //the color to use when the bar is full.

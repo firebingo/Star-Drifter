@@ -24,18 +24,23 @@ public class Weapon : ScriptableObject, inventoryItem
     public bulletTypes bulletType = bulletTypes.Basic;
 
     [SerializeField]
-    private float bulletSpeed;
+    public float bulletSpeed { get; private set; }
+
+    //Accuracy of the weapon, determines the spread
+    [SerializeField]
+    public float bulletSpread { get; private set; }
+
 
     [SerializeField]
-    private float bulletTime; //How long the bullet lasts
+    public float bulletTime { get; private set; } //How long the bullet lasts
 
     [SerializeField]
-    private float Damage;
+    public float Damage { get; private set; }
 
-    public float shotTimer; //Fire rate
+    public float shotTimer { get; private set; } //Fire rate
 
     [SerializeField]
-    private weaponTypes Type;
+    public weaponTypes Type { get; private set; }
 
     [SerializeField]
     private weaponLayers Layer;

@@ -2,6 +2,7 @@
 
 public enum itemType
 {
+    Null = -1,
     Weapon,
     Ammo,
     Scrap
