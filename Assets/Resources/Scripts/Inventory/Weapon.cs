@@ -46,7 +46,7 @@ public class Weapon : ScriptableObject, inventoryItem
     private weaponLayers Layer;
 
     [SerializeField]
-    private float Power;
+    public float Power { get; private set; }
 
     private float Timer;
 
