@@ -14,7 +14,7 @@ public class AlienDefender : MonoBehaviour
 {
 
     //Enums for the FSM
-    public enum AIFSM { Wander, Attack, Defend, InShip };
+    public enum AIFSM { Wander, Attack, Defend, InShip, ObAv };
     public AIFSM AIState = AIFSM.Wander;
 
     //Target  variables
@@ -52,6 +52,21 @@ public class AlienDefender : MonoBehaviour
     public Inventory alienInventory;
     public Guid weaponId;
 
+    public TestCode path;
+
+    //
+    public ArrayList ObList;
+    public Node2 startNode { get; set; }
+    public Node2 goalNode { get; set; }
+   public  Vector3 point;
+
+   public  int desIndex = 1;
+    int PDesIndex = 0;
+
+    private float elapsedTime = 0.0f;
+    //Interval time between pathfinding
+    private float intervalTime = 1.0f;
+
     // Use this for initialization
     void Start()
     {
@@ -67,6 +82,9 @@ public class AlienDefender : MonoBehaviour
         target = targetObj.transform;//transform of target
         Wander();//start off in wander state
         ShipI = gameObject.GetComponent<ShipInteraction>();
+        path = gameObject.GetComponent<TestCode>();
+
+        ObList = new ArrayList();
 
     }
 
@@ -113,6 +131,24 @@ public class AlienDefender : MonoBehaviour
                 break;
             case AIFSM.InShip:
                 break;
+
+            case AIFSM.ObAv:
+
+                
+               point = asl();
+                //  targetDis = Vector3.Magnitude(transform.position - point);//magnitude/distane of enemy and target
+                targetDis = Vector3.Distance(transform.position, point);
+              //  if (targetDis < 0.6f)
+              //  { desIndex++; }
+                Attack2(point);
+                if (targetDis < 0.6f)
+                { desIndex++; }
+
+                //ObstacleAvoid(target.position);
+
+
+                break;
+
         }
     }
 
@@ -144,8 +180,8 @@ public class AlienDefender : MonoBehaviour
 
     private void Attack(Transform target)
     {
-        targetV = new Vector3(target.position.x, target.position.y, -1);
-        enemyV = new Vector3(transform.position.x, transform.position.y, -1);
+        targetV = new Vector3(target.position.x, target.position.y, 0);
+        enemyV = new Vector3(transform.position.x, transform.position.y, 0);
         NLinear = Norm(enemyV, targetV);
         transform.position += (NLinear * speed * Time.deltaTime);
         rotateForward(target.position);
@@ -159,6 +195,19 @@ public class AlienDefender : MonoBehaviour
             }
         }
     }//Attack()
+
+    private void Attack2(Vector3 point)
+    {
+
+        rotateForward(point);
+        targetV = new Vector3(point.x, point.y, 0);
+        enemyV = new Vector3(transform.position.x, transform.position.y, 0);
+        NLinear = Norm(enemyV, targetV);
+        transform.position += (NLinear * speed * Time.deltaTime);
+        
+       
+    }//Attack2()
+
 
     private void Defend()
     {
@@ -203,4 +252,98 @@ public class AlienDefender : MonoBehaviour
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
     }//rotateforward
+
+    private Vector3 asl()
+    {
+        Vector3 pos;
+        if (PDesIndex == 0) { 
+        ObList = path.pathArray;
+            PDesIndex++;
+    }
+
+        drawpath();
+
+        pos = getDestination(ObList);
+
+        return pos;
+        
+        // Debug.Log("yay");
+    }
+
+    private void ObstacleAvoid(Vector3 target)
+    {
+        startNode = new Node2(GridManager.instance.GetGridCellCenter(
+        GridManager.instance.GetGridIndex(transform.position)));
+
+        goalNode = new Node2(GridManager.instance.GetGridCellCenter(
+        GridManager.instance.GetGridIndex(target)));
+
+        ObList = AStar.FindPath(startNode, goalNode);
+
+    }
+
+    private Vector3 getDestination(ArrayList path)
+    {
+        Vector3 pos = new Vector3();
+       //  int desIndex = 1;
+      //  foreach (Node2 node in ObList)
+      //  {
+            if (desIndex < ObList.Count)
+            {
+
+                //float howfar = 0.0f;
+                Node2 nextNode = (Node2)ObList[desIndex];
+
+            pos = nextNode.position;
+
+            //    targetV = new Vector3(nextNode.position.x, nextNode.position.y, 0);
+               // enemyV = new Vector3(transform.position.x, transform.position.y, 0);
+               // NLinear = Norm(enemyV, targetV);
+              //  transform.position += (NLinear * speed * Time.deltaTime);
+              //  rotateForward(target.position);
+
+               // howfar = Vector3.Magnitude(transform.position - nextNode.position);
+
+
+
+
+                //Debug.DrawLine(node.position, nextNode.position,
+                //Color.green);
+               
+                  //  desIndex++;
+             //   }
+
+            }
+       // }
+
+        return pos;
+    }
+
+    void drawpath()
+    {
+        if (ObList == null)
+            return;
+        if (ObList.Count > 0)
+        {
+            int index = 1;
+            foreach (Node2 node in ObList)
+            {
+                if (index < ObList.Count)
+                {
+                    Node2 nextNode = (Node2)ObList[index];
+                    Debug.DrawLine(node.position, nextNode.position,
+                    Color.green);
+
+                    index++;
+                }
+            }
+        }
+
+    }
+
+
+
+
+
+
 }

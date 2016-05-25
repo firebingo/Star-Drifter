@@ -6,15 +6,17 @@ public class TestCode : MonoBehaviour
     public Node2 startNode { get; set; }
     public Node2 goalNode { get; set; }
     public ArrayList pathArray;
-    GameObject objStartCube, objEndCube;
+    GameObject startPosition, endPosition;
     private float elapsedTime = 0.0f;
     //Interval time between pathfinding
     public float intervalTime = 1.0f;
 
     void Start()
     {
-        objStartCube = GameObject.FindGameObjectWithTag("Start");
-        objEndCube = GameObject.FindGameObjectWithTag("End");
+        //startPosition = GameObject.FindGameObjectWithTag("Start");
+         endPosition = GameObject.FindGameObjectWithTag("End");
+        startPosition = gameObject.gameObject;
+      //  endPosition = GameObject.FindGameObjectWithTag("Player");
         pathArray = new ArrayList();
         FindPath();
     }
@@ -31,15 +33,15 @@ public class TestCode : MonoBehaviour
     }
     void FindPath()
     {
-        startPos = objStartCube.transform;
-        endPos = objEndCube.transform;
+        startPos = startPosition.transform;
+        endPos = endPosition.transform;
         startNode = new Node2(GridManager.instance.GetGridCellCenter(
         GridManager.instance.GetGridIndex(startPos.position)));
         goalNode = new Node2(GridManager.instance.GetGridCellCenter(
         GridManager.instance.GetGridIndex(endPos.position)));
         pathArray = AStar.FindPath(startNode, goalNode);
     }
-
+    /*
     void OnDrawGizmos()
     {
         if (pathArray == null)
@@ -58,5 +60,5 @@ public class TestCode : MonoBehaviour
                 }
             }
         }
-    }
+    }*/
 }
