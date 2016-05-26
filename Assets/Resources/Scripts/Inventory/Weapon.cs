@@ -96,7 +96,7 @@ public class Weapon : ScriptableObject, inventoryItem
 
     public void Initialize(GameObject Bullet, float bulletDamage, float speed, float shotTime, float bulletDecay, weaponTypes weaponType, weaponLayers layerType) //Allows the creation of weapon types
     {
-        this.setRandStats();
+       // this.setRandStats();
 
         this.Bullet = Bullet;
         this.bulletType = Bullet.GetComponent<BulletController>().bulletType;
@@ -117,7 +117,7 @@ public class Weapon : ScriptableObject, inventoryItem
     /// <summary>
     /// Sets the weapon stats based on character level and rarity level
     /// </summary>
-    public void setRandStats()
+   /* public void setRandStats()
     {
         //Random percentage
         int Rand = UnityEngine.Random.Range(1, 100);
@@ -193,5 +193,5 @@ public class Weapon : ScriptableObject, inventoryItem
         //Set the Min and Maxes
         //int Min = 
 
-    }
+    }*/
 }
