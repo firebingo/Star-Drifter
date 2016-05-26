@@ -13,7 +13,7 @@ public class LootGenerator : MonoBehaviour
 {
     //The player for reference of the current level
     [SerializeField]
-    public PlayerController player;
+    private PlayerController player;
 
     //the weapon to be set up
     [SerializeField]
