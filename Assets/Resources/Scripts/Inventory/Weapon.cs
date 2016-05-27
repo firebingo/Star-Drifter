@@ -12,7 +12,8 @@ public enum weaponTypes
     SMG     = 1,
     Shotgun = 2,
     Rifle   = 3,
-    Rocket  = 4
+    Rocket  = 4,
+    Grenade = 5   //Added fore grenades
 }
 
 //Rarity based on percentage
@@ -171,6 +172,13 @@ public class Weapon : ScriptableObject, inventoryItem
 
     public void Initialize(GameObject Bullet, float bulletDamage, float speed, float shotTime, float bulletDecay, float reloadTime, float clipSize, weaponTypes weaponType, weaponLayers layerType) //Allows the creation of weapon types
     {
+        if (weaponType == weaponTypes.Grenade || weaponType == weaponTypes.Rocket)
+            bulletType = bulletTypes.Explosive;
+        else
+        {
+            bulletType = bulletTypes.Basic;
+        }
+
         reload = false; //insuring that we don't start off having to reload
         reloadTimer = 0; //Starts the reload timer at 0 for when we need to reload;
 
@@ -182,7 +190,7 @@ public class Weapon : ScriptableObject, inventoryItem
 
 
         this.Bullet = Bullet;
-        this.bulletType = Bullet.GetComponent<BulletController>().bulletType;
+        //this.bulletType = Bullet.GetComponent<BulletController>().bulletType;  Removed due to new bullet type setting above.
         this.Layer = layerType;
 
         //Set the randomized stats  
