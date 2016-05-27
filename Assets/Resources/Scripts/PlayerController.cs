@@ -59,10 +59,10 @@ public class PlayerController : MonoBehaviour
         maxHealth = 100;
 
         Weapon tempPrimary = new Weapon();
-        tempPrimary.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 50f, 8f, 1f, 5f, weaponTypes.Rifle, weaponLayers.Player);
+        tempPrimary.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 50f, 8f, 1f, 5f, 10f, 15, weaponTypes.Rifle, weaponLayers.Player);
         primaryWeapon = tempPrimary.itemId;
         Weapon tempSecondary = new Weapon();
-        tempSecondary.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 5f, 10f, 0.5f, 0.5f, weaponTypes.Pistol, weaponLayers.Player);
+        tempSecondary.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 5f, 10f, 0.5f, 0.5f, 6f, 15, weaponTypes.Pistol, weaponLayers.Player);
         secondaryWeapon = tempSecondary.itemId;
 
         playerInventory.items.Add(tempPrimary.itemId, tempPrimary);

@@ -94,6 +94,18 @@ public class Weapon : ScriptableObject, inventoryItem
 
     public float shotTimer { get; private set; } //Fire rate
 
+    public float reloadTime { get; private set; } //Time to reload
+
+    private bool reload; //Checks if reloading
+
+    [SerializeField]
+    private float reloadTimer; //Counts up to the reload time
+
+    public float clipSize { get; private set; }
+    
+    [SerializeField]
+    private float clip;
+
     [SerializeField]
     public weaponTypes Type { get; private set; }
 
@@ -122,21 +134,52 @@ public class Weapon : ScriptableObject, inventoryItem
     {
         if (Timer < shotTimer)
             Timer += Time.deltaTime;
+
+        if (clip <= 0)
+            reload = true;
+
+        Reload();
     }
 
     public void Fire(Transform initTransform)
     {
-        if (Timer >= shotTimer)
+        if (Timer >= shotTimer && reload == false)
         {
             GameObject temp = Instantiate(Bullet, initTransform.position, initTransform.rotation) as GameObject;
             temp.GetComponent<BulletController>().Initialize(bulletType, bulletSpeed, bulletTime, Damage + Power, Layer);
             Timer = 0f;
+            clip--;
         }
     }
 
-    public void Initialize(GameObject Bullet, float bulletDamage, float speed, float shotTime, float bulletDecay, weaponTypes weaponType, weaponLayers layerType) //Allows the creation of weapon types
+    void Reload()
     {
-         
+        if (reload == true)
+        {
+            reloadTimer += Time.deltaTime;
+            Debug.Log("Reloading");
+
+            if (reloadTimer >= reloadTime)
+            {
+                Debug.Log("Reloaded");
+                reload = false;
+                clip = clipSize;
+                reloadTimer = 0;
+            }
+        }
+    }
+
+    public void Initialize(GameObject Bullet, float bulletDamage, float speed, float shotTime, float bulletDecay, float reloadTime, float clipSize, weaponTypes weaponType, weaponLayers layerType) //Allows the creation of weapon types
+    {
+        reload = false; //insuring that we don't start off having to reload
+        reloadTimer = 0; //Starts the reload timer at 0 for when we need to reload;
+
+        //new ones to be randomized
+        this.clipSize = clipSize;
+        this.reloadTime = reloadTime;
+
+        this.clip = clipSize; //throw this in once clip size is determined
+
 
         this.Bullet = Bullet;
         this.bulletType = Bullet.GetComponent<BulletController>().bulletType;
