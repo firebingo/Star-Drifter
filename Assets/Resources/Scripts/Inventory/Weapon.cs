@@ -1,15 +1,18 @@
 ﻿//5-25; Allen: Added the SetRandStats function to randomize all the loot based on character level, loot type, and loot rarity.
+//5-27; Allen: Completed the setRandStats function
 
 using UnityEngine;
 using System.Collections;
 using System;
 
+
 public enum weaponTypes
 {
     Pistol  = 0,
     SMG     = 1,
-    Rifle   = 2,
-    Rocket  = 3
+    Shotgun = 2,
+    Rifle   = 3,
+    Rocket  = 4
 }
 
 //Rarity based on percentage
@@ -21,6 +24,17 @@ public enum weaponRarity
     Legendary   = 3
 }
 
+//Classes, currently unused
+/*
+public enum weaponClasses
+{
+    Bullet = 0, //Currently the only in use
+    Laser = 1,
+    Electric = 2,
+    Kinetic = 3,
+    
+}
+*/
 
 //used for determing what collision layer bullets from this weapon should be on.
 public enum weaponLayers
@@ -29,8 +43,30 @@ public enum weaponLayers
     Enemy = 9
 }
 
+
 public class Weapon : ScriptableObject, inventoryItem
 {
+    //Minimum values (for a lv 1 common)
+    private static readonly float[] MINIMUM = {
+    5.0F,   //0//Damage
+    2.0F,   //1//bullet speed
+    0.3F,   //2//rate of fire
+    1.0F,   //3//bullet decay
+    0.2F,   //4//bullet spread
+    0.0F    //5//burst count
+    };
+
+    //Maximum values (for a lv 1 common)
+    private static readonly float[] MAXIMUM = {
+    30.0F,   //0//Damage
+    10.0F,   //1//bullet speed
+    1.5F,   //2//rate of fire
+    1.0F,   //3//bullet decay
+    1.0F,   //4//bullet spread
+    1.0F    //5//burst count
+    };
+
+
     public itemType inventoryItemType { get { return itemType.Weapon; } }
 
     [SerializeField]
@@ -44,6 +80,10 @@ public class Weapon : ScriptableObject, inventoryItem
     //Accuracy of the weapon, determines the spread
     [SerializeField]
     public float bulletSpread { get; private set; }
+
+    //Number of shots per fire
+    [SerializeField]
+    public float burstCount { get; private set; }
 
 
     [SerializeField]
@@ -76,7 +116,7 @@ public class Weapon : ScriptableObject, inventoryItem
 
     //The player for reference of the current level
     [SerializeField]
-    private PlayerController player;
+    private PlayerController player; //Will always be null??
 
     public void updateItem()
     {
@@ -96,17 +136,36 @@ public class Weapon : ScriptableObject, inventoryItem
 
     public void Initialize(GameObject Bullet, float bulletDamage, float speed, float shotTime, float bulletDecay, weaponTypes weaponType, weaponLayers layerType) //Allows the creation of weapon types
     {
-       // this.setRandStats();
+         
 
         this.Bullet = Bullet;
         this.bulletType = Bullet.GetComponent<BulletController>().bulletType;
-        this.Damage = bulletDamage;
-        this.bulletSpeed = speed;
-        this.shotTimer = shotTime;
-        this.bulletTime = bulletDecay;
-        this.Type = weaponType;
         this.Layer = layerType;
-        this.itemId = Guid.NewGuid();
+
+        //Set the randomized stats  
+        float[] Stats = setRandStats();
+        /*float[] Stats = { 1.0F,   //0//Damage
+                            1.0F,   //1//bullet speed
+                            1.0F,   //2//rate of fire
+                            1.0F,   //3//bullet decay
+                            1.0F,   //4//bullet spread
+                            1.0F,   //5//burst count
+                            1.0F,   //6//Type
+                            100.0F  };*/
+    
+        this.Damage =       Stats[0];
+        this.bulletSpeed =  Stats[1];
+        this.shotTimer =    Stats[2];
+        this.bulletTime =   Stats[3];
+        this.bulletSpread = Stats[4];
+        this.burstCount =   Stats[5];
+        this.Type =         (weaponTypes)Stats[6];
+        this.Rarity =       (weaponRarity)Stats[7];
+
+    
+
+        this.itemId =       Guid.NewGuid();   
+        
     }
 
     void setStats(float iPower)
@@ -117,81 +176,140 @@ public class Weapon : ScriptableObject, inventoryItem
     /// <summary>
     /// Sets the weapon stats based on character level and rarity level
     /// </summary>
-   /* public void setRandStats()
+    private float[] setRandStats()
     {
         //Random percentage
         int Rand = UnityEngine.Random.Range(1, 100);
 
-        //Boost from rarity
-        float Boost = 0.0F;
-        //Boost from
-        float[] TypeBoost = { 1.0F, 1.0F, 1.0F, 1.0F, 1.0F }; //Damage, bullet speed, rate of fire, bullet decay, bullet spread
+
+        //Boost from type & rarity
+        float[] Boost = {   1.0F,   //0//Damage
+                            1.0F,   //1//bullet speed
+                            1.0F,   //2//rate of fire
+                            1.0F,   //3//bullet decay
+                            1.0F,   //4//bullet spread
+                            1.0F,   //5//burst count
+                            1.0F,   //6//overall
+                            1.0F  };//7//Level 
+        //Array to hold stats
+        float[] GunStats = {1.0F,   //0//Damage
+                            1.0F,   //1//bullet speed
+                            1.0F,   //2//rate of fire
+                            1.0F,   //3//bullet decay
+                            1.0F,   //4//bullet spread
+                            1.0F,   //5//burst count
+                            1.0F,   //6//Type
+                            1.0F  };//7//Rarity 
 
         //Set up the chances
         int[] RareValues = { (int)weaponRarity.Legendary, (int)weaponRarity.Rare, (int)weaponRarity.Uncommon, (int)weaponRarity.Common };
-     
+
         //Find matching rarity
         if (Rand > RareValues[2])
         {
-            Rarity = weaponRarity.Common;
-            Boost = 1.0F;
+            GunStats[7] = (float)weaponRarity.Common;
+            Boost[6] = 1.0F;
         }
         else if (Rand > RareValues[1])
         {
-            Rarity = weaponRarity.Uncommon;
-            Boost = 1.5F;
+            GunStats[7] = (float)weaponRarity.Uncommon;
+            Boost[6] = 1.5F;
         }
         else if (Rand > RareValues[0])
         {
-            Rarity = weaponRarity.Rare;
-            Boost = 2.5F;
+            GunStats[7] = (float)weaponRarity.Rare;
+            Boost[6] = 2.5F;
+            Boost[5] = 2.0F;
         }
         else
         {
-            Rarity = weaponRarity.Legendary;
-            Boost = 4.0F;
+            GunStats[7] = (float)weaponRarity.Legendary;
+            Boost[6] = 4.0F;
+            Boost[5] = 3.0F;
         }
 
         //Determine boost by type
-        Rand = UnityEngine.Random.Range(0, 3);
+        Rand = UnityEngine.Random.Range(0, 4);
+        GunStats[6] = (float)weaponTypes.Pistol;
 
         switch (Rand)
         {
             case 0:
-                Type = weaponTypes.Pistol;
-                TypeBoost[0] = 0.6F;
-                TypeBoost[2] = 0.4F;
-                TypeBoost[4] = 1.4F;
+                GunStats[6] = (float)weaponTypes.Pistol;
+                Boost[0] = 0.6F;
+                Boost[2] = 0.9F;
+                Boost[4] = 1.4F;
                 break;
             case 1:
-                Type = weaponTypes.SMG;
-                TypeBoost[0] = 0.8F;
-                TypeBoost[2] = 2.0F;
-                TypeBoost[4] = 1.5F;
+                GunStats[6] = (float)weaponTypes.SMG;
+                Boost[0] = 0.8F;
+                Boost[2] = 0.5F;
+                Boost[4] = 1.5F;
                 break;
 
             case 2:
-                Type = weaponTypes.Rifle;
-                TypeBoost[0] = 1.2F;
-                TypeBoost[2] = 2.2F;
-                TypeBoost[4] = 1.6F;
+                GunStats[6] = (float)weaponTypes.Shotgun;
+                Boost[0] = 0.4F;
+                Boost[2] = 1.2F;
+                Boost[4] = 1.6F;
+                Boost[5] *= 6.0F;
                 break;
 
             case 3:
-                Type = weaponTypes.Rocket;
-                TypeBoost[0] = 10.0F;
-                TypeBoost[1] = 0.8F;
-                TypeBoost[2] = 0.3F;
-                TypeBoost[4] = 1.2F;
+                GunStats[6] = (float)weaponTypes.Rifle;
+                Boost[0] = 1.2F;
+                Boost[2] = 0.4F;
+                Boost[4] = 1.6F;
                 break;
-            
+
+            case 4:
+                GunStats[6] = (float)weaponTypes.Rocket;
+                Boost[0] = 10.0F;
+                Boost[1] = 0.8F;
+                Boost[2] = 2.0F;
+                Boost[4] = 1.2F;
+                break;
+
         }
 
         //Player level
-        int PlayerLevel = player.Leveler.level;
+        // The following causes the Key error
+      ////float PlayerLevel = player.Leveler.level;//
 
-        //Set the Min and Maxes
-        //int Min = 
+        //Determine boost by Player level
+        //Removed due to KeyFound Error
+        Boost[7] = 1.0F;
 
-    }*/
+
+        //Set the stat, based on the equation a * b * c * d, where a is the randomly selected stat (from min to max), 
+        // b is the respective boost from type, c is the level boost, and d is the rarity boost.
+        // Needs work
+       
+        
+        //Damage
+        GunStats[0] = UnityEngine.Random.Range(MINIMUM[0], MAXIMUM[0]) * Boost[0] * Boost[7] * Boost[6];
+
+        //1//bullet speed
+        GunStats[1] = UnityEngine.Random.Range(MINIMUM[1], MAXIMUM[1]);
+
+        //2//rate of fire
+        GunStats[2] = (UnityEngine.Random.Range(MINIMUM[2], MAXIMUM[2]) * Boost[0]) / Boost[7] / Boost[6];
+
+        //3//bullet decay
+        GunStats[3] = UnityEngine.Random.Range(MINIMUM[3], MAXIMUM[3]);
+
+        //4//bullet spread
+        GunStats[4] = UnityEngine.Random.Range(MINIMUM[4], MAXIMUM[4]) * Boost[0] / Boost[7] / Boost[6];
+
+        //5//burst count
+        GunStats[5] = Boost[5] * UnityEngine.Random.Range((int)MINIMUM[5], (int)MAXIMUM[5]);
+            if (GunStats[5] < 1.0F)
+                GunStats[5] = 1.0F;
+
+        //Apply the effects
+        return GunStats;
+       
+
+        //Stat setup completed
+    }
 }
