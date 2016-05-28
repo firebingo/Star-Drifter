@@ -3,7 +3,8 @@ using System.Collections;
 
 public enum bulletTypes
 {
-    Basic
+    Basic,
+    Explosive
 }
 
 public class BulletController : MonoBehaviour
@@ -26,7 +27,15 @@ public class BulletController : MonoBehaviour
         transform.position += transform.up.normalized * bulletSpeed * Time.deltaTime;
 
         if (bulletTimer >= bulletTime)
-            Destroy(this.gameObject);
+        {
+            if (bulletType == bulletTypes.Explosive)
+            {
+                AreaDamage();
+                Destroy(this.gameObject);
+            }
+            else
+                Destroy(this.gameObject);
+        }
 
         bulletTimer += Time.deltaTime;
     }
@@ -42,7 +51,26 @@ public class BulletController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D other)
     {
-        other.gameObject.SendMessage("ApplyDamage", damage);
-        Destroy(this.gameObject);
+        if (bulletType == bulletTypes.Explosive)
+        {
+            AreaDamage();
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            other.gameObject.SendMessage("ApplyDamage", damage);
+            Destroy(this.gameObject);
+        }
+    }
+
+    void AreaDamage()
+    {
+        Collider2D[] targets = Physics2D.OverlapCircleAll(transform.position, 3);
+
+        foreach (Collider2D col in targets)
+        {
+            if (col.tag != "Player")
+                col.SendMessage("ApplyDamage", damage);
+        }
     }
 }

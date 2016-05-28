@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
     public Inventory playerInventory;
     private Guid primaryWeapon;  //Hold the id of the player's primary weapon so it can be accessed from the inventory.
     private Guid secondaryWeapon; //Hold the id of the player's secondary weapon so it can be accessed from the inventory.
+    private Guid grenade; //Holds equipped grenade's id.
     bool usingPrimary; //whether the player is using the primary or secondary weapon.
 
     private Vector2 position;
@@ -59,14 +60,21 @@ public class PlayerController : MonoBehaviour
         maxHealth = 100;
 
         Weapon tempPrimary = new Weapon();
-        tempPrimary.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 50f, 8f, 1f, 5f, weaponTypes.Pistol, weaponLayers.Player);
+        tempPrimary.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 50f, 8f, 1f, 5f, 10f, 15, weaponTypes.Rifle, weaponLayers.Player);
         primaryWeapon = tempPrimary.itemId;
         Weapon tempSecondary = new Weapon();
-        tempSecondary.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 5f, 10f, 0.5f, 0.5f, weaponTypes.Pistol, weaponLayers.Player);
+        tempSecondary.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 5f, 10f, 0.5f, 0.5f, 6f, 15, weaponTypes.Pistol, weaponLayers.Player);
         secondaryWeapon = tempSecondary.itemId;
+
+        //Grenades
+        Weapon tempGrenade = new Weapon();
+        tempGrenade.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 5f, 10f, 0.5f, 0.5f, 4f, 1, weaponTypes.Grenade, weaponLayers.Player);
+        grenade = tempGrenade.itemId;
 
         playerInventory.items.Add(tempPrimary.itemId, tempPrimary);
         playerInventory.items.Add(tempSecondary.itemId, tempSecondary);
+
+        playerInventory.items.Add(tempGrenade.itemId, tempGrenade); //Adds starting grenade
 
         //secondary = new WeaponHolder();
         //secondary.initialize(5, 10, 0.5f, 0.50f, 8);
@@ -95,6 +103,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         Shoot();
+        Grenade();
         CheckChangeWeapon();
         if(HudManager)
         {
@@ -120,6 +129,16 @@ public class PlayerController : MonoBehaviour
                 if (tempWeapon)
                     tempWeapon.Fire(this.transform);
             }
+        }
+    }
+
+    void Grenade()
+    {
+        if (Input.GetButton("Grenade"))
+        {
+            var tempGrenade = playerInventory.items[grenade] as Weapon;
+            if (tempGrenade)
+                tempGrenade.Fire(this.transform);
         }
     }
 

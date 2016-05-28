@@ -74,7 +74,7 @@ public class Occupant : MonoBehaviour
     {
         occupantInventory = this.GetComponent<Inventory>();
         Weapon tempWeapon = new Weapon();
-        tempWeapon.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 5f, 5f, shotTimer, 3f, weaponTypes.Pistol, weaponLayers.Enemy);
+        tempWeapon.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 5f, 5f, shotTimer, 3f, 1f, 32, weaponTypes.Pistol, weaponLayers.Enemy);
         occupantInventory.items.Add(tempWeapon.itemId, tempWeapon);
         weaponId = tempWeapon.itemId;
 

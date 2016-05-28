@@ -16,9 +16,9 @@ public class Leveling : MonoBehaviour
     int statPoints = 0;
 
     [SerializeField]
-    int level = 1;
+    public int level = 1;
     [SerializeField]
-    public float currentExperience { get; private set; }
+    public float currentExperience;
     [SerializeField]
     public float toNextLevel { get; private set; }
     [SerializeField]
