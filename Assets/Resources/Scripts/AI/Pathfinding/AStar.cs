@@ -33,7 +33,7 @@ Node2 goalNode)
             for (int i = 0; i < neighbours.Count; i++)
             {
                 Node2 neighbourNode = (Node2)neighbours[i];
-                if (!closedList.Contains(neighbourNode))
+                if (!closedList.Contains(neighbourNode) && neighbourNode.bObstacle == false)
                 {
                     float cost = HeuristicEstimateCost(node,
                     neighbourNode);

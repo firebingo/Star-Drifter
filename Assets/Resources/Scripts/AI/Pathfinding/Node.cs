@@ -1,20 +1,4 @@
-﻿/*using UnityEngine;
-using System.Collections;
-
-public class Node : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-}
-*/
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 using System;

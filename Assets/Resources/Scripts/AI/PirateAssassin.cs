@@ -126,7 +126,7 @@ public class PirateAssassin : MonoBehaviour {
         rotateForward(CT.position);
 
         dis = Vector3.Magnitude(transform.position - CT.position);
-       if (dis < 0.5)
+        if (dis < 0.5)
         {
             loot = true;
             DestroyObject(itemObj[index]); 
@@ -139,17 +139,14 @@ public class PirateAssassin : MonoBehaviour {
         NLinear = Norm(targetV, enemyV);
         transform.position += (NLinear * speed * Time.deltaTime);
         rotateForward(target.position);
-
     }//Attack
+
    private void Return() {
         targetV = new Vector3(ship.position.x, ship.position.y, 0);
         enemyV = new Vector3(transform.position.x, transform.position.y, 0);
         NLinear = Norm(targetV, enemyV);
         transform.position += (NLinear * speed * Time.deltaTime);
         rotateForward(ship.position);
-
-
-
     }//Return
 
 
@@ -180,20 +177,17 @@ public class PirateAssassin : MonoBehaviour {
     {
         float sDis =Mathf.Infinity;// variable for smallest distance
         Transform near = transform;
-      //  Vector3 next;
-
+     
         for (int i = 0; i < size; i++)
         {
             float dis = Vector3.Magnitude(transform.position - item[i].position);//magnitude/distane of enemy and target
             if (dis < sDis)
             {
-
                 near = item[i];
                 sDis = dis;
                 index = i;
             }
         }
-
         return near;
     }//FindClosestItem
 

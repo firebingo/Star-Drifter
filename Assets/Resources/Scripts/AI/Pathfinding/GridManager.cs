@@ -29,10 +29,10 @@ public class GridManager : MonoBehaviour
     public Node2[,] nodes { get; set; }
     public Vector3 Origin
     {
-        get { return new Vector3(-20.0f,-10.0f,0); }
+        get { return new Vector3(-23.5f,-10.5f,0); }
     }
 
-    void Awake()
+    void Start()
     {
         obstacleList = GameObject.FindGameObjectsWithTag("Obstacle");
         CalculateObstacles();
@@ -75,8 +75,8 @@ public class GridManager : MonoBehaviour
     {
         int row = GetRow(index);
         int col = GetColumn(index);
-        float xPosInGrid = col * gridCellSize;
-        float yPosInGrid = row * gridCellSize;
+        float xPosInGrid = (col * gridCellSize) ;
+        float yPosInGrid = (row * gridCellSize) ;
         return Origin + new Vector3(xPosInGrid, yPosInGrid, 0.0f);
     }
     public int GetGridIndex(Vector3 pos)
