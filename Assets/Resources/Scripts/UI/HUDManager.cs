@@ -36,7 +36,7 @@ public class HUDManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Hud Manager missing references.");
+           Debug.LogError("Hud Manager missing references.");
         }
     }
 }

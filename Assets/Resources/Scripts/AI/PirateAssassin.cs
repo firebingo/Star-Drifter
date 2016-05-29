@@ -20,7 +20,7 @@ public class PirateAssassin : MonoBehaviour {
 
     //variables for Raid
     GameObject[] itemObj;
-   public Transform[] item;
+    public Transform[] item;
     int itemSize;
     public Transform closestItem;
     private float disO;
@@ -40,37 +40,45 @@ public class PirateAssassin : MonoBehaviour {
 
     //temporary Vectors
     Vector3 targetV, enemyV, NLinear;
-
-
-
-
     void Awake() { }
     // Use this for initialization
+
+
+    //Pathfinding Variables 
+    public ItemAStar path;
+    public ArrayList ObList;
+    public Node2 startNode { get; set; }
+    public Node2 goalNode { get; set; }
+    public Vector3 point;
+    public int desIndex = 1;
+    int PDesIndex = 0;
+    public float disP;
+
     void Start()
     {
-
-        //get list of items
+        //get the closest ship
         shipObj = GameObject.Find("PirateShip");
         ship = shipObj.transform;
+        //find all objects in the Map
         itemObj = GameObject.FindGameObjectsWithTag("Item");
         itemSize = itemObj.Length;
         item = new Transform[itemSize];
         for (int i = 0; i < itemSize; i++)
         {
             item[i] = itemObj[i].transform;
-
         }//end for
         //get player/target info
         targetObj = GameObject.FindGameObjectWithTag("Player");
         target = targetObj.transform;
-
+        //A*
+        path = gameObject.GetComponent<ItemAStar>();
+        ObList = new ArrayList();
     }//start()
 
     // Update is called once per frame
     void Update()
     {
         dis = Vector3.Magnitude(transform.position - target.position);//magnitude/distane of enemy and target
-
         if (AIState != AIFSM.Return) {State(target, dis);}//check whether to attack or raid as long as the enemy is not already returning an item;
 
         switch (AIState)
@@ -79,7 +87,14 @@ public class PirateAssassin : MonoBehaviour {
                 if (dis < 2.5f)
                 { spotted = true; }
                 closestItem = FindClosestItem(item,itemSize);
-                Raid(closestItem);
+                //A* to get item
+                point = AstarP();
+                disP = Vector3.Distance(transform.position, point);
+                if(PDesIndex > 0) { WalkPath(point); }
+                if (disP < 0.6f)
+                { desIndex++; }
+                
+                //  Raid(closestItem);
                 break;
             case AIFSM.Attack:
                 Attack();
@@ -149,6 +164,76 @@ public class PirateAssassin : MonoBehaviour {
         rotateForward(ship.position);
     }//Return
 
+    /////////////////////////////////////////////////////////
+    //////////////////A* Pathfinding Functions///////////////
+    /////////////////////////////////////////////////////////
+    private Vector3 AstarP()
+    {
+        Vector3 pos;
+        if (PDesIndex == 0)
+        {
+            ObList = path.pathArray;
+            if(ObList.Count > 0)
+            { PDesIndex++;}
+        
+        }
+        
+        drawpath();
+        
+        pos = getDestination(ObList);
+        return pos;
+    }
+
+    private Vector3 getDestination(ArrayList path)
+    {
+        Vector3 pos = new Vector3();
+        
+        if (desIndex < ObList.Count)
+        {
+            Node2 nextNode = (Node2)ObList[desIndex];
+            pos = nextNode.position;
+        
+        }
+
+        if (desIndex == ObList.Count) { AIState = AIFSM.Return; }
+        return pos;
+    }
+
+    private void WalkPath(Vector3 point)
+    {
+
+        rotateForward(point);
+        targetV = new Vector3(point.x, point.y, 0);
+        enemyV = new Vector3(transform.position.x, transform.position.y, 0);
+        //NLinear = Norm(enemyV, targetV);
+        NLinear = Norm(targetV, enemyV);
+        transform.position += (NLinear * speed * Time.deltaTime);
+
+
+    }//WalklPath
+
+    void drawpath()
+    {
+        if (ObList == null) 
+        { return; } 
+        if (ObList.Count > 0)
+        {
+           
+            int index = 1;
+            foreach (Node2 node in ObList)
+            {
+                if (index < ObList.Count)
+                {
+                    Node2 nextNode = (Node2)ObList[index];
+                    Debug.DrawLine(node.position, nextNode.position,
+                    Color.green);
+
+                    index++;
+                }
+            }
+        }
+
+    }
 
     /// //////////////////////////////////////////
     /// ///////extra functions///////////////////

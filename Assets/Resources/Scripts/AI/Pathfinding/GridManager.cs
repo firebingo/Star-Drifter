@@ -23,13 +23,13 @@ public class GridManager : MonoBehaviour
     public int numOfColumns;
     public float gridCellSize;
     public bool showGrid = true;
-    public bool showObstacleBlocks = true;
+    public bool showObstacleBlocks = false;
     private Vector3 origin = new Vector3();
     private GameObject[] obstacleList;
     public Node2[,] nodes { get; set; }
     public Vector3 Origin
     {
-        get { return new Vector3(-23.5f,-10.5f,0); }
+        get { return new Vector3(-23.5f,-19.5f,0); }
     }
 
     void Start()

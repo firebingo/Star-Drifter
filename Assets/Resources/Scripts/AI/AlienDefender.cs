@@ -241,14 +241,14 @@ public class AlienDefender : MonoBehaviour
         return pos;
     }
 
-    private void ObstacleAvoid(Vector3 target)
+   /* private void ObstacleAvoid(Vector3 target)
     {
         startNode = new Node2(GridManager.instance.GetGridCellCenter(
         GridManager.instance.GetGridIndex(transform.position)));
         goalNode = new Node2(GridManager.instance.GetGridCellCenter(
         GridManager.instance.GetGridIndex(target)));
         ObList = AStar.FindPath(startNode, goalNode);
-    }
+    }*/
 
     private Vector3 getDestination(ArrayList path)
     {
