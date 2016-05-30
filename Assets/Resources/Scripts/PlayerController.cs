@@ -117,17 +117,20 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetButton("Fire"))
         {
-            if (usingPrimary)
+            if (GetComponent<Building>().building == false)
             {
-                var tempWeapon = playerInventory.items[primaryWeapon] as Weapon;
-                if (tempWeapon)
-                    tempWeapon.Fire(this.transform);
-            }
-            else
-            {
-                var tempWeapon = playerInventory.items[secondaryWeapon] as Weapon;
-                if (tempWeapon)
-                    tempWeapon.Fire(this.transform);
+                if (usingPrimary)
+                {
+                    var tempWeapon = playerInventory.items[primaryWeapon] as Weapon;
+                    if (tempWeapon)
+                        tempWeapon.Fire(this.transform);
+                }
+                else
+                {
+                    var tempWeapon = playerInventory.items[secondaryWeapon] as Weapon;
+                    if (tempWeapon)
+                        tempWeapon.Fire(this.transform);
+                }
             }
         }
     }
