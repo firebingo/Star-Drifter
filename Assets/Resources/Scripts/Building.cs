@@ -49,7 +49,8 @@ public class Building : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0))
             {
-                ghost.GetComponent<SpriteRenderer>().color = Color.Lerp(ghost.GetComponent<SpriteRenderer>().color, new Color(ghost.GetComponent<SpriteRenderer>().color.r, ghost.GetComponent<SpriteRenderer>().color.b, ghost.GetComponent<SpriteRenderer>().color.g, 1), 1);
+                if (ghost != null)
+                    ghost.GetComponent<SpriteRenderer>().color = Color.Lerp(ghost.GetComponent<SpriteRenderer>().color, new Color(ghost.GetComponent<SpriteRenderer>().color.r, ghost.GetComponent<SpriteRenderer>().color.b, ghost.GetComponent<SpriteRenderer>().color.g, 1), 1);
                 ghost = null;
             }
         }
