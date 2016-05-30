@@ -59,16 +59,16 @@ public class PlayerController : MonoBehaviour
 
         maxHealth = 100;
 
-        Weapon tempPrimary = new Weapon();
-        tempPrimary.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 50f, 8f, 1f, 5f, 10f, 15, weaponTypes.Rifle, weaponLayers.Player);
+        Weapon tempPrimary = ScriptableObject.CreateInstance("Weapon") as Weapon;
+		tempPrimary.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 50f, 8f, 1f, 5f, 10f, 15, weaponTypes.Rifle, weaponLayers.Player);
         primaryWeapon = tempPrimary.itemId;
-        Weapon tempSecondary = new Weapon();
-        tempSecondary.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 5f, 10f, 0.5f, 0.5f, 6f, 15, weaponTypes.Pistol, weaponLayers.Player);
+        Weapon tempSecondary = ScriptableObject.CreateInstance("Weapon") as Weapon;
+		tempSecondary.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 5f, 10f, 0.5f, 0.5f, 6f, 15, weaponTypes.Pistol, weaponLayers.Player);
         secondaryWeapon = tempSecondary.itemId;
 
         //Grenades
-        Weapon tempGrenade = new Weapon();
-        tempGrenade.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 5f, 10f, 0.5f, 0.5f, 4f, 1, weaponTypes.Grenade, weaponLayers.Player);
+        Weapon tempGrenade = ScriptableObject.CreateInstance("Weapon") as Weapon;
+		tempGrenade.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 5f, 10f, 0.5f, 0.5f, 4f, 1, weaponTypes.Grenade, weaponLayers.Player);
         grenade = tempGrenade.itemId;
 
         playerInventory.items.Add(tempPrimary.itemId, tempPrimary);
