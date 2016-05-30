@@ -26,6 +26,7 @@ public class Building : MonoBehaviour
                     {
                         tile = Resources.Load("Prefabs/Tile_0") as GameObject;
                         ghost = (GameObject)Instantiate(tile, new Vector3(Mathf.Round(coords.x), Mathf.Round(coords.y), 0), tile.transform.rotation);
+                        ghost.GetComponent<SpriteRenderer>().color = Color.Lerp(ghost.GetComponent<SpriteRenderer>().color, new Color(ghost.GetComponent<SpriteRenderer>().color.r, ghost.GetComponent<SpriteRenderer>().color.b, ghost.GetComponent<SpriteRenderer>().color.g, 0.5f), 1);
                     }
                     break;
                 case "7":
@@ -33,6 +34,7 @@ public class Building : MonoBehaviour
                     {
                         tile = Resources.Load("Prefabs/Tile_1") as GameObject;
                         ghost = (GameObject)Instantiate(tile, new Vector3(Mathf.Round(coords.x), Mathf.Round(coords.y), 0), tile.transform.rotation);
+                        ghost.GetComponent<SpriteRenderer>().color = Color.Lerp(ghost.GetComponent<SpriteRenderer>().color, new Color(ghost.GetComponent<SpriteRenderer>().color.r, ghost.GetComponent<SpriteRenderer>().color.b, ghost.GetComponent<SpriteRenderer>().color.g, 0.5f), 1);
                     }
                     break;
                 case "8":
@@ -40,12 +42,16 @@ public class Building : MonoBehaviour
                     {
                         tile = Resources.Load("Prefabs/Tile_2") as GameObject;
                         ghost = (GameObject)Instantiate(tile, new Vector3(Mathf.Round(coords.x), Mathf.Round(coords.y), 0), tile.transform.rotation);
+                        ghost.GetComponent<SpriteRenderer>().color = Color.Lerp(ghost.GetComponent<SpriteRenderer>().color, new Color(ghost.GetComponent<SpriteRenderer>().color.r, ghost.GetComponent<SpriteRenderer>().color.b, ghost.GetComponent<SpriteRenderer>().color.g, 0.5f), 1);
                     }
                     break;
             }
 
             if (Input.GetMouseButtonDown(0))
+            {
+                ghost.GetComponent<SpriteRenderer>().color = Color.Lerp(ghost.GetComponent<SpriteRenderer>().color, new Color(ghost.GetComponent<SpriteRenderer>().color.r, ghost.GetComponent<SpriteRenderer>().color.b, ghost.GetComponent<SpriteRenderer>().color.g, 1), 1);
                 ghost = null;
+            }
         }
     }
 }
