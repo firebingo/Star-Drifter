@@ -12,11 +12,14 @@ public class WeaponDetails : MonoBehaviour
     Text bulletSpeed;
     Text Damage;
     Text fireRate;
+    Text clipSize;
+    Text reloadTime;
     Guid weaponGuid;
     bool isPrimary;
     bool isSecondary;
 
-    public void Initilize(string itemName, string weaponClass, string bulletType, string bulletSpeed, string damage, string fireRate, Guid weaponGuid, bool isPrimary, bool isSecondary, UIInventory uiScript)
+    public void Initilize(string itemName, string weaponClass, string bulletType, string bulletSpeed, string damage, string fireRate, Guid weaponGuid, 
+        bool isPrimary, bool isSecondary, UIInventory uiScript, string clipSize, string reloadTime)
     {
         if (!checkFailure())
             return;
@@ -27,6 +30,8 @@ public class WeaponDetails : MonoBehaviour
         this.bulletSpeed.text = "Bullet Speed: " + bulletSpeed;
         this.Damage.text = "Damage: " + damage;
         this.fireRate.text = "Fire Rate: " + fireRate;
+        this.clipSize.text = "Clip Size: " + clipSize;
+        this.reloadTime.text = "Reload Time: " + reloadTime;
         this.weaponGuid = weaponGuid;
         this.isPrimary = isPrimary;
         this.isSecondary = isSecondary;
@@ -65,12 +70,20 @@ public class WeaponDetails : MonoBehaviour
         fireRate = temp ? temp.GetComponent<Text>() : null;
         temp = null;
 
+        temp = this.gameObject.transform.FindChild("ReloadTime").gameObject;
+        reloadTime = temp ? temp.GetComponent<Text>() : null;
+        temp = null;
+
+        temp = this.gameObject.transform.FindChild("ClipSize").gameObject;
+        clipSize = temp ? temp.GetComponent<Text>() : null;
+        temp = null;
+
         checkFailure();
     }
 
     bool checkFailure()
     {
-        if (!itemName || !weaponClass || !bulletType || !bulletSpeed || !Damage || !fireRate)
+        if (!itemName || !weaponClass || !bulletType || !bulletSpeed || !Damage || !fireRate || !reloadTime || !clipSize)
         {
             Debug.Log("Item Details Failed");
             return false;

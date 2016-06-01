@@ -13,6 +13,8 @@ public class UIItem : MonoBehaviour
     private Text itemCount;
     [SerializeField]
     private Text itemPrimaryStatus;
+    [SerializeField]
+    private Text itemRarity;
 
     public Guid itemId {get; private set;}
 
@@ -20,7 +22,7 @@ public class UIItem : MonoBehaviour
 
     public bool hasComps = false;
 
-    public void Initilize(string imagePath, string itemName, int itemCount, bool itemPrimary, bool itemSecondary, Guid itemId)
+    public void Initilize(string imagePath, string itemName, int itemCount, bool itemPrimary, bool itemSecondary, Guid itemId, string itemRarity)
     {
         if (!hasComps)
             findComps();
@@ -40,6 +42,8 @@ public class UIItem : MonoBehaviour
             else
                 itemPrimaryStatus.text = "";
         }
+        if (this.itemRarity)
+            this.itemRarity.text = itemRarity;
 
         this.itemId = itemId;
     }
@@ -50,6 +54,7 @@ public class UIItem : MonoBehaviour
         itemName = this.transform.GetChild(1).GetComponent<Text>();
         itemCount = this.transform.GetChild(2).GetComponent<Text>();
         itemPrimaryStatus = this.transform.GetChild(3).GetComponent<Text>();
+        itemRarity = this.transform.GetChild(4).GetComponent<Text>();
         hasComps = true;
     }
 

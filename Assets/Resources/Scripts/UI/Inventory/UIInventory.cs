@@ -148,9 +148,17 @@ public class UIInventory : MonoBehaviour
                     created.transform.localPosition = new Vector3(-133, 198 - (index * 85), 0);
                     var itemScript = created.GetComponent<UIItem>();
                     uiItems.Add(itemScript);
-                    var isPrimary = item.itemId == hudManager.player.primaryWeapon ? true : false;
-                    var isSecondary = item.itemId == hudManager.player.secondaryWeapon ? true : false;
-                    itemScript.Initilize("Textures/Items/" + item.itemName, item.itemName, item.count, isPrimary, isSecondary, item.itemId);
+                    var isPrimary = false; 
+                    var isSecondary = false; 
+                    string itemRarity = "";
+                    var itemWeapon = item as Weapon;
+                    if(itemWeapon)
+                    {
+                        isPrimary = item.itemId == hudManager.player.primaryWeapon ? true : false;
+                        isSecondary = item.itemId == hudManager.player.secondaryWeapon ? true : false;
+                        itemRarity = Enum.GetName(typeof(weaponRarity), itemWeapon.Rarity);
+                    }
+                    itemScript.Initilize("Textures/Items/" + item.itemName, item.itemName, item.count, isPrimary, isSecondary, item.itemId, itemRarity);
                     itemScript.index = index;
                     if (index > currentItemIndex + 5)
                         created.SetActive(false);
@@ -271,7 +279,8 @@ public class UIInventory : MonoBehaviour
                         bool isPrimary = item.itemId == hudManager.player.primaryWeapon ? true : false;
                         bool isSecondary = item.itemId == hudManager.player.secondaryWeapon ? true : false;
                         detailScript.Initilize(item.itemName, Enum.GetName(typeof(weaponTypes), item.Type), Enum.GetName(typeof(bulletTypes), item.bulletType),
-                            item.bulletSpeed.ToString(), item.Damage.ToString(), item.shotTimer.ToString(), item.itemId, isPrimary, isSecondary, this);
+                            item.bulletSpeed.ToString(), item.Damage.ToString(), item.shotTimer.ToString(), item.itemId, isPrimary, isSecondary, this, 
+                            item.clipSize.ToString(), item.reloadTime.ToString());
                     }
                 }
             }

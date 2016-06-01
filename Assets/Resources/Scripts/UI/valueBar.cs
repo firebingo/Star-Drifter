@@ -52,7 +52,9 @@ public class valueBar : MonoBehaviour
     public void ManualUpdate()
     {
         //change the scale to match the ratio of the current and the max adjusted based on the min.
-        transform.localScale = new Vector3((currentValue - minValue) / (maxValue - minValue), 1.0f, 1.0f);
+        float calcValue = (currentValue - minValue) / (maxValue - minValue);
+        if (!float.IsNaN(calcValue))
+            transform.localScale = new Vector3(calcValue, 1.0f, 1.0f);
 
         //fade the color based on the given full and empty colors.
         if (colorFade)
