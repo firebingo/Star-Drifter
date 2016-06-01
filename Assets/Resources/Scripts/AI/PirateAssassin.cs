@@ -11,7 +11,7 @@ using System.Collections;
 public class PirateAssassin : MonoBehaviour {
 
     //enum for FSM
-    public enum AIFSM { Raid, Attack, Return }
+    public enum AIFSM { Raid, Attack, Return,Steal }
     public AIFSM AIState = AIFSM.Raid;
 
     
@@ -94,8 +94,13 @@ public class PirateAssassin : MonoBehaviour {
                 if (disP < 0.6f)
                 { desIndex++; }
                 
-                //  Raid(closestItem);
+             
                 break;
+            case AIFSM.Steal:
+                closestItem = FindClosestItem(item, itemSize);
+                point = closestItem.position;
+                Raid(closestItem);
+                  break; 
             case AIFSM.Attack:
                 Attack();
                 break;
@@ -195,21 +200,18 @@ public class PirateAssassin : MonoBehaviour {
         
         }
 
-        if (desIndex == ObList.Count) { AIState = AIFSM.Return; }
+        if (desIndex == ObList.Count) {}
         return pos;
     }
 
     private void WalkPath(Vector3 point)
     {
-
         rotateForward(point);
         targetV = new Vector3(point.x, point.y, 0);
         enemyV = new Vector3(transform.position.x, transform.position.y, 0);
         //NLinear = Norm(enemyV, targetV);
         NLinear = Norm(targetV, enemyV);
         transform.position += (NLinear * speed * Time.deltaTime);
-
-
     }//WalklPath
 
     void drawpath()

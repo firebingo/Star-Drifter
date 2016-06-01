@@ -4,8 +4,6 @@
 // Version: 1.0
 // Description: This code runs the Alien Defender AI
 //==========================================================
-
-
 using UnityEngine;
 using System.Collections;
 using System;
@@ -25,18 +23,15 @@ public class AlienDefender : MonoBehaviour
     //AI stat variables
     float speed = 0.7f;// movement speed variable
 
-    //max variables for AI
-    float maxRotation;// max rotation of the enemy
-    float maxSpeed;//max speed of the enemy
+ 
 
     //variables for Wander 
     Vector3 wanderPoint;
-    float wanderBreak = 0.0f;//break time for the wander state
     float wanderRange = 2.0f;//range for how far the enemy will walk during the wander state
     float wanderSpeed = 0.3f;//the speed the enemy will walk when wandering
 
     //variables for Attack
-    float attackRange = 20.0f;//range before shooting
+   // float attackRange = 20.0f;//range before shooting
     Vector3 targetV, enemyV, NLinear;//new vectors for attacking
     public float fireTimer;//cooldown timer for shooting
     private float shotTimer = 1.3f;//cooldown time required for shooting
@@ -62,21 +57,21 @@ public class AlienDefender : MonoBehaviour
 
     // Use this for initialization
     void Start()
-    {
+    {   //invetory for AI
         alienInventory = this.GetComponent<Inventory>();
         Weapon tempWeapon = new Weapon();
         tempWeapon.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 5f, 5f, shotTimer, 3f, 1f, 32, weaponTypes.Pistol, weaponLayers.Enemy);
         alienInventory.items.Add(tempWeapon.itemId, tempWeapon);
         weaponId = tempWeapon.itemId;
-
+        //Rigid Body
         rb = GetComponent<Rigidbody2D>();
         fireTimer = 0;//start timer at 0;
         targetObj = GameObject.FindGameObjectWithTag("Player");//target the player
         target = targetObj.transform;//transform of target
         Wander();//start off in wander state
-        ShipI = gameObject.GetComponent<ShipInteraction>();
-        path = gameObject.GetComponent<TestCode>();
-        ObList = new ArrayList();
+        ShipI = gameObject.GetComponent<ShipInteraction>();//using ShipInteraction.CS
+        path = gameObject.GetComponent<TestCode>();//Using TestCode.cs
+        ObList = new ArrayList();//new array list to hold all nodes for A* algorithm
     }
 
     // Update is called once per frame
@@ -109,6 +104,11 @@ public class AlienDefender : MonoBehaviour
                 break;
 
             case AIFSM.Attack:
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.forward,0.0f);
+                if (hit)
+                {
+                    print(hit.collider.name);
+                }
                 Attack(target);
                 break;
 
@@ -143,6 +143,10 @@ public class AlienDefender : MonoBehaviour
         else if (distance >= 2.8f && spotted == true)
         {
             AIState = AIFSM.Defend;
+        }
+        else if (distance >= 2.8f && distance <= 3.5f)
+        {
+            AIState = AIFSM.ObAv;
         }
     }//State()
 
@@ -232,23 +236,15 @@ public class AlienDefender : MonoBehaviour
     private Vector3 asl()
     {
         Vector3 pos;
-        if (PDesIndex == 0) { 
+       // if (desIndex > 2) { 
         ObList = path.pathArray;
-            PDesIndex++;
-    }
+        desIndex = 0;
+     //  PDesIndex++;
+    //}
         drawpath();
         pos = getDestination(ObList);
         return pos;
     }
-
-   /* private void ObstacleAvoid(Vector3 target)
-    {
-        startNode = new Node2(GridManager.instance.GetGridCellCenter(
-        GridManager.instance.GetGridIndex(transform.position)));
-        goalNode = new Node2(GridManager.instance.GetGridCellCenter(
-        GridManager.instance.GetGridIndex(target)));
-        ObList = AStar.FindPath(startNode, goalNode);
-    }*/
 
     private Vector3 getDestination(ArrayList path)
     {
@@ -261,7 +257,7 @@ public class AlienDefender : MonoBehaviour
 
         if (desIndex == ObList.Count) {AIState = AIFSM.Defend;}
         return pos;
-    }
+    }//getdestination;
 
     void drawpath()
     {
@@ -283,7 +279,7 @@ public class AlienDefender : MonoBehaviour
             }
         }
 
-    }
+    }//drawpath()
 
 
 
