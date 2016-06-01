@@ -41,8 +41,8 @@ public class TestCode : MonoBehaviour
         GridManager.instance.GetGridIndex(endPos.position)));
         pathArray = AStar.FindPath(startNode, goalNode);
     }
-    /*
-    void OnDrawGizmos()
+    
+   /* void OnDrawGizmos()
     {
         if (pathArray == null)
             return;
