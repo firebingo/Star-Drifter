@@ -29,8 +29,8 @@ public class PlayerController : MonoBehaviour
     public HUDManager HudManager;
 
     public Inventory playerInventory;
-    private Guid primaryWeapon;  //Hold the id of the player's primary weapon so it can be accessed from the inventory.
-    private Guid secondaryWeapon; //Hold the id of the player's secondary weapon so it can be accessed from the inventory.
+    public Guid primaryWeapon;  //Hold the id of the player's primary weapon so it can be accessed from the inventory.
+    public Guid secondaryWeapon; //Hold the id of the player's secondary weapon so it can be accessed from the inventory.
     private Guid grenade; //Holds equipped grenade's id.
     bool usingPrimary; //whether the player is using the primary or secondary weapon.
 

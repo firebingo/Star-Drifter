@@ -1,17 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System;
 
 public class WeaponDetails : MonoBehaviour
 {
+    UIInventory inventoryScript;
     Text itemName;
     Text weaponClass;
     Text bulletType;
     Text bulletSpeed;
     Text Damage;
     Text fireRate;
+    Guid weaponGuid;
+    bool isPrimary;
+    bool isSecondary;
 
-    public void Initilize(string itemName, string weaponClass, string bulletType, string bulletSpeed, string damage, string fireRate)
+    public void Initilize(string itemName, string weaponClass, string bulletType, string bulletSpeed, string damage, string fireRate, Guid weaponGuid, bool isPrimary, bool isSecondary, UIInventory uiScript)
     {
         if (!checkFailure())
             return;
@@ -22,6 +27,15 @@ public class WeaponDetails : MonoBehaviour
         this.bulletSpeed.text = "Bullet Speed: " + bulletSpeed;
         this.Damage.text = "Damage: " + damage;
         this.fireRate.text = "Fire Rate: " + fireRate;
+        this.weaponGuid = weaponGuid;
+        this.isPrimary = isPrimary;
+        this.isSecondary = isSecondary;
+        inventoryScript = uiScript;
+
+        if (isPrimary)
+            this.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        if (isSecondary)
+            this.gameObject.transform.GetChild(1).gameObject.SetActive(false);
     }
 
     // Use this for initialization
@@ -62,5 +76,25 @@ public class WeaponDetails : MonoBehaviour
             return false;
         }
         return true;
+    }
+
+    public void setPrimary()
+    {
+        if(!isPrimary)
+        {
+            this.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+            inventoryScript.hudManager.player.primaryWeapon = weaponGuid;
+            inventoryScript.buildUI();
+        }
+    }
+
+    public void setSecondary()
+    {
+        if (!isSecondary)
+        {
+            this.gameObject.transform.GetChild(1).gameObject.SetActive(false);
+            inventoryScript.hudManager.player.secondaryWeapon = weaponGuid;
+            inventoryScript.buildUI();
+        }
     }
 }

@@ -52,5 +52,4 @@ public class WorldDrop : Inventory
             Destroy(this.gameObject);
         }
     }
-
 }
