@@ -10,7 +10,9 @@ public class PlayerFacePoint : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        var coords = Camera.current.ScreenToWorldPoint(Input.mousePosition);
+		var coords = new Vector2(0, 0);
+		if (Camera.current != null && Input.mousePosition != null)
+			coords = Camera.current.ScreenToWorldPoint(Input.mousePosition);
         lastMousePosition.x = coords.x;
         lastMousePosition.y = coords.y;
     }
@@ -18,8 +20,10 @@ public class PlayerFacePoint : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if the mouse position has changed, move the pointer to that position.
-        var currentCoords = (Vector2)(Camera.current.ScreenToWorldPoint(Input.mousePosition));
+		var currentCoords = lastMousePosition;
+		//if the mouse position has changed, move the pointer to that position.
+		if (Camera.current != null && Input.mousePosition != null)
+			currentCoords = (Vector2)(Camera.current.ScreenToWorldPoint(Input.mousePosition));
 
         if (Vector2.SqrMagnitude(currentCoords - lastMousePosition) > 0.0025)
         {

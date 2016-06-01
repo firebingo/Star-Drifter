@@ -54,7 +54,9 @@ public class Weapon : ScriptableObject, inventoryItem
     0.3F,   //2//rate of fire
     1.0F,   //3//bullet decay
     0.2F,   //4//bullet spread
-    0.0F    //5//burst count
+    0.0F,   //5//burst count
+    5.0F,   //6//clip
+    1.0F    //7//reload
     };
 
     //Maximum values (for a lv 1 common)
@@ -64,7 +66,9 @@ public class Weapon : ScriptableObject, inventoryItem
     1.5F,   //2//rate of fire
     1.0F,   //3//bullet decay
     1.0F,   //4//bullet spread
-    1.0F    //5//burst count
+    1.0F,    //5//burst count
+    30.0F,   //6//clip
+    4.0F    //7//reload
     };
 
 
@@ -172,6 +176,9 @@ public class Weapon : ScriptableObject, inventoryItem
 
     public void Initialize(GameObject Bullet, float bulletDamage, float speed, float shotTime, float bulletDecay, float reloadTime, float clipSize, weaponTypes weaponType, weaponLayers layerType) //Allows the creation of weapon types
     {
+         //Set the randomized stats  
+        float[] Stats = setRandStats();
+
         if (weaponType == weaponTypes.Grenade || weaponType == weaponTypes.Rocket)
             bulletType = bulletTypes.Explosive;
         else
@@ -190,19 +197,10 @@ public class Weapon : ScriptableObject, inventoryItem
 
 
         this.Bullet = Bullet;
-        //this.bulletType = Bullet.GetComponent<BulletController>().bulletType;  Removed due to new bullet type setting above.
-        this.Layer = layerType;
 
-        //Set the randomized stats  
-        float[] Stats = setRandStats();
-        /*float[] Stats = { 1.0F,   //0//Damage
-                            1.0F,   //1//bullet speed
-                            1.0F,   //2//rate of fire
-                            1.0F,   //3//bullet decay
-                            1.0F,   //4//bullet spread
-                            1.0F,   //5//burst count
-                            1.0F,   //6//Type
-                            100.0F  };*/
+        //this.bulletType = Bullet.GetComponent<BulletController>().bulletType;  Removed due to new bullet type setting above.
+
+        this.Layer = layerType; 
     
         this.Damage =       Stats[0];
         this.bulletSpeed =  Stats[1];
@@ -241,7 +239,9 @@ public class Weapon : ScriptableObject, inventoryItem
                             1.0F,   //4//bullet spread
                             1.0F,   //5//burst count
                             1.0F,   //6//overall
-                            1.0F  };//7//Level 
+                            1.0F,   //7//Level
+                            1.0F,   //8//Clip size
+                            1.0F  };//9//Reload
         //Array to hold stats
         float[] GunStats = {1.0F,   //0//Damage
                             1.0F,   //1//bullet speed
@@ -250,10 +250,12 @@ public class Weapon : ScriptableObject, inventoryItem
                             1.0F,   //4//bullet spread
                             1.0F,   //5//burst count
                             1.0F,   //6//Type
-                            1.0F  };//7//Rarity 
+                            1.0F,   //7//Rarity 
+                            1.0F,   //8//Clip size
+                            1.0F  };//9//Reload
 
-        //Set up the chances
-        int[] RareValues = { (int)weaponRarity.Legendary, (int)weaponRarity.Rare, (int)weaponRarity.Uncommon, (int)weaponRarity.Common };
+    //Set up the chances
+    int[] RareValues = { (int)weaponRarity.Legendary, (int)weaponRarity.Rare, (int)weaponRarity.Uncommon, (int)weaponRarity.Common };
 
         //Find matching rarity
         if (Rand > RareValues[2])
@@ -264,18 +266,18 @@ public class Weapon : ScriptableObject, inventoryItem
         else if (Rand > RareValues[1])
         {
             GunStats[7] = (float)weaponRarity.Uncommon;
-            Boost[6] = 1.5F;
+            Boost[6] = 1.3F;
         }
         else if (Rand > RareValues[0])
         {
             GunStats[7] = (float)weaponRarity.Rare;
-            Boost[6] = 2.5F;
+            Boost[6] = 2.0F;
             Boost[5] = 2.0F;
         }
         else
         {
             GunStats[7] = (float)weaponRarity.Legendary;
-            Boost[6] = 4.0F;
+            Boost[6] = 3.0F;
             Boost[5] = 3.0F;
         }
 
@@ -290,12 +292,16 @@ public class Weapon : ScriptableObject, inventoryItem
                 Boost[0] = 0.6F;
                 Boost[2] = 0.9F;
                 Boost[4] = 1.4F;
+                Boost[8] = 0.9F;
+                Boost[9] = 0.7F;
                 break;
             case 1:
                 GunStats[6] = (float)weaponTypes.SMG;
                 Boost[0] = 0.8F;
                 Boost[2] = 0.5F;
                 Boost[4] = 1.5F;
+                Boost[8] = 1.3F;
+                Boost[9] = 0.8F;
                 break;
 
             case 2:
@@ -304,6 +310,8 @@ public class Weapon : ScriptableObject, inventoryItem
                 Boost[2] = 1.2F;
                 Boost[4] = 1.6F;
                 Boost[5] *= 6.0F;
+                Boost[8] = 0.7F;
+                Boost[9] = 1.5F;
                 break;
 
             case 3:
@@ -311,6 +319,8 @@ public class Weapon : ScriptableObject, inventoryItem
                 Boost[0] = 1.2F;
                 Boost[2] = 0.4F;
                 Boost[4] = 1.6F;
+                Boost[8] = 2.3F;
+                Boost[9] = 1.2F;
                 break;
 
             case 4:
@@ -319,6 +329,8 @@ public class Weapon : ScriptableObject, inventoryItem
                 Boost[1] = 0.8F;
                 Boost[2] = 2.0F;
                 Boost[4] = 1.2F;
+                Boost[8] = 0.3F;
+                Boost[9] = 2.3F;
                 break;
 
         }
@@ -344,18 +356,24 @@ public class Weapon : ScriptableObject, inventoryItem
         GunStats[1] = UnityEngine.Random.Range(MINIMUM[1], MAXIMUM[1]);
 
         //2//rate of fire
-        GunStats[2] = (UnityEngine.Random.Range(MINIMUM[2], MAXIMUM[2]) * Boost[0]) / Boost[7] / Boost[6];
+        GunStats[2] = (UnityEngine.Random.Range(MINIMUM[2], MAXIMUM[2]) * Boost[2]) / Boost[7] / Boost[6];
 
         //3//bullet decay
         GunStats[3] = UnityEngine.Random.Range(MINIMUM[3], MAXIMUM[3]);
 
         //4//bullet spread
-        GunStats[4] = UnityEngine.Random.Range(MINIMUM[4], MAXIMUM[4]) * Boost[0] / Boost[7] / Boost[6];
+        GunStats[4] = UnityEngine.Random.Range(MINIMUM[4], MAXIMUM[4]) * Boost[4] / Boost[7] / Boost[6];
 
         //5//burst count
         GunStats[5] = Boost[5] * UnityEngine.Random.Range((int)MINIMUM[5], (int)MAXIMUM[5]);
             if (GunStats[5] < 1.0F)
                 GunStats[5] = 1.0F;
+
+        //8//clip size
+        GunStats[8] = UnityEngine.Random.Range(MINIMUM[6], MAXIMUM[6]) * Boost[2] * Boost[7] * Boost[6] ;
+
+        //9//Reload time
+        GunStats[9] = UnityEngine.Random.Range(MINIMUM[7], MAXIMUM[7]) * Boost[2] / Boost[7] / Boost[6] ;
 
         //Apply the effects
         return GunStats;

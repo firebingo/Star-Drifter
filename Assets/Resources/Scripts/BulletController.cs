@@ -19,6 +19,8 @@ public class BulletController : MonoBehaviour
 
     private float damage;
 
+    private GameObject particles;
+
     /// <summary>
     /// Unity's Update Function
     /// </summary>
@@ -47,6 +49,7 @@ public class BulletController : MonoBehaviour
         bulletTime = time;
         damage = bulletDamage;
         gameObject.layer = (int)type; //Determines collision layers (8 = player vs 9 = enemy)
+       
     }
 
     void OnCollisionEnter2D(Collision2D other)
@@ -59,6 +62,15 @@ public class BulletController : MonoBehaviour
         else
         {
             other.gameObject.SendMessage("ApplyDamage", damage);
+
+            //Load particles for collision
+            if (other.gameObject.tag == "Player" || other.gameObject.tag == "Enemy")
+                particles = (GameObject)Resources.Load("Prefabs/BulletParticleSystem-Character");
+            else
+                particles = (GameObject)Resources.Load("Prefabs/BulletParticleSystem-Tiles");
+            
+            Instantiate(particles, transform.position, transform.rotation);
+
             Destroy(this.gameObject);
         }
     }

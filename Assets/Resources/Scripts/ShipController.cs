@@ -55,11 +55,11 @@ public class ShipController : MonoBehaviour
         currentHealth = maxHealth;
         player = GameObject.FindGameObjectWithTag("Player");
 
-        Weapon tempPrimary = new Weapon();
-        tempPrimary.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 100f, 12f, 30f, 5f, 6f, 32, weaponTypes.Pistol, weaponLayers.Player);
+        Weapon tempPrimary = ScriptableObject.CreateInstance("Weapon") as Weapon;
+		tempPrimary.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 100f, 12f, 30f, 5f, 6f, 32, weaponTypes.Pistol, weaponLayers.Player);
         primaryWeapon = tempPrimary.itemId;
-        Weapon tempSecondary = new Weapon();
-        tempPrimary.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 25f, 15f, 5f, 0.5f, 10f, 32, weaponTypes.Pistol, weaponLayers.Player);
+        Weapon tempSecondary = ScriptableObject.CreateInstance("Weapon") as Weapon;
+		tempPrimary.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 25f, 15f, 5f, 0.5f, 10f, 32, weaponTypes.Pistol, weaponLayers.Player);
         secondaryWeapon = tempSecondary.itemId;
 
         ChangeWeapon(true);

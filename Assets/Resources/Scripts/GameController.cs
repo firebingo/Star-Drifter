@@ -46,6 +46,7 @@ public class GameController : MonoBehaviour
         if (instance != null)
         {
             Destroy(this.gameObject);
+			return;
         }
         else
         {
