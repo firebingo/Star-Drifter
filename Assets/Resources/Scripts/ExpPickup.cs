@@ -16,8 +16,10 @@ public class ExpPickup : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.tag == "Player")
+        {
             player.GetComponent<Leveling>().currentExperience += expAmount;
-        
-        Destroy(this.gameObject);    
+            Destroy(this.gameObject);
+        }
+           
     }
 }

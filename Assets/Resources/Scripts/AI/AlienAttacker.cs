@@ -159,4 +159,14 @@ public class AlienAttacker : MonoBehaviour
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
     }//rotateforward
+
+
+    //Adam - Creating a drop when enemy is destroyed based on their inventory
+    void OnDestroy()
+    {
+        var worldDrop = Resources.Load("Prefabs/WorldPickup");
+        var temp = (GameObject)Instantiate(worldDrop, transform.position, transform.rotation);
+        temp.GetComponent<WorldDrop>().Merge(alienInventory.items);
+    }
+
 }

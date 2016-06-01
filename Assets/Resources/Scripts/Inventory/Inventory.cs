@@ -28,7 +28,5 @@ public class Inventory : MonoBehaviour
         {
             items.Add(item.Key, item.Value);
         }
-        //items = items.Concat(merger).ToDictionary(item => item.Key, item => item.Value);
-        //merger.ToList().ForEach(item => items.Add(item.Key, item.Value));
     }
 }

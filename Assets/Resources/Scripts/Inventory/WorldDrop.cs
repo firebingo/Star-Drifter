@@ -52,4 +52,12 @@ public class WorldDrop : Inventory
             Destroy(this.gameObject);
         }
     }
+
+    public void Merge(Dictionary<Guid, inventoryItem> merger) //Not tested
+    {
+        foreach (KeyValuePair<Guid, inventoryItem> item in merger)
+        {
+            items.Add(item.Key, item.Value);
+        }
+    }
 }

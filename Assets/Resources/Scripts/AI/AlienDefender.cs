@@ -281,7 +281,14 @@ public class AlienDefender : MonoBehaviour
 
     }//drawpath()
 
+    //Adam - Creating a drop when enemy is destroyed based on their inventory, and a random exp drop amount.
+    void OnDestroy()
+    {
+        var worldDrop = Resources.Load("Prefabs/WorldPickup");
+        var temp = (GameObject)Instantiate(worldDrop, transform.position, transform.rotation);
+        temp.GetComponent<WorldDrop>().Merge(alienInventory.items);
 
+    }
 
 
 
