@@ -14,9 +14,9 @@ public class TestCode : MonoBehaviour
     void Start()
     {
         //startPosition = GameObject.FindGameObjectWithTag("Start");
-         //endPosition = GameObject.FindGameObjectWithTag("End");
+         endPosition = GameObject.FindGameObjectWithTag("End");
         startPosition = gameObject.gameObject;
-        endPosition = GameObject.FindGameObjectWithTag("Player");
+     //   endPosition = GameObject.FindGameObjectWithTag("Player");
         pathArray = new ArrayList();
         FindPath();
     }

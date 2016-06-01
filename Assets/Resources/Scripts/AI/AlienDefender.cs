@@ -236,11 +236,11 @@ public class AlienDefender : MonoBehaviour
     private Vector3 asl()
     {
         Vector3 pos;
-       // if (desIndex > 2) { 
+        if (PDesIndex == 0) { 
         ObList = path.pathArray;
         desIndex = 0;
-     //  PDesIndex++;
-    //}
+      PDesIndex++;
+    }
         drawpath();
         pos = getDestination(ObList);
         return pos;
