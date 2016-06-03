@@ -10,6 +10,9 @@ using System;
 
 public class AlienDefender : MonoBehaviour
 {
+    [SerializeField]
+    float range = 2; //Used for drop offset
+
     //Enums for the FSM
     public enum AIFSM { Wander, Attack, Defend, InShip, ObAv };
     public AIFSM AIState = AIFSM.Wander;
@@ -282,12 +285,20 @@ public class AlienDefender : MonoBehaviour
     }//drawpath()
 
     //Adam - Creating a drop when enemy is destroyed based on their inventory, and a random exp drop amount.
-    void OnDestroy()
+    void Drops()
     {
+        var expDrop = Resources.Load("Prefabs/ExpPickup");
+        var exp = UnityEngine.Random.Range(1, 3);
+        for (int i = 0; i < exp; i++)
+        {
+            Vector3 offset = new Vector3(UnityEngine.Random.Range(-range, range), UnityEngine.Random.Range(-2, 2), 0);
+            Instantiate(expDrop, transform.position + offset, transform.rotation);
+        }
+
         var worldDrop = Resources.Load("Prefabs/WorldPickup");
         var temp = (GameObject)Instantiate(worldDrop, transform.position, transform.rotation);
         temp.GetComponent<WorldDrop>().Merge(alienInventory.items);
-
+ 
     }
 
 

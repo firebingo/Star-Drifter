@@ -19,6 +19,7 @@ public class AIHealth : MonoBehaviour {
 
         if (currentHealth <= 0)
         {
+            SendMessage("Drops");
             Destroy(this.gameObject);
 
         } 

@@ -11,6 +11,9 @@ using System;
 
 public class AlienAttacker : MonoBehaviour
 {
+    [SerializeField]
+    float range = 2; //used for drop offset
+
     //enum for FSM
     public enum AIFSM { Patrol, Attack, Flee }
     public AIFSM AIState = AIFSM.Patrol;
@@ -162,11 +165,20 @@ public class AlienAttacker : MonoBehaviour
 
 
     //Adam - Creating a drop when enemy is destroyed based on their inventory
-    void OnDestroy()
+    void Drops()
     {
+        var expDrop = Resources.Load("Prefabs/ExpPickup");
+        var exp = UnityEngine.Random.Range(1, 3);
+        for (int i = 0; i < exp; i++)
+        {
+            Vector3 offset = new Vector3(UnityEngine.Random.Range(-range, range), UnityEngine.Random.Range(-2, 2), 0);
+            Instantiate(expDrop, transform.position + offset, transform.rotation);
+        }
+
         var worldDrop = Resources.Load("Prefabs/WorldPickup");
         var temp = (GameObject)Instantiate(worldDrop, transform.position, transform.rotation);
         temp.GetComponent<WorldDrop>().Merge(alienInventory.items);
+
     }
 
 }
