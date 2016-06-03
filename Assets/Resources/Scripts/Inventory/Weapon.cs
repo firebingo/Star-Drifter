@@ -71,6 +71,10 @@ public class Weapon : ScriptableObject, inventoryItem
     4.0F    //7//reload
     };
 
+    [SerializeField]
+    public int level = 1; //Upgrade level of weapon
+
+    public int upgradePoints = 0; //Points to increase weapon stats
 
     public itemType inventoryItemType { get { return itemType.Weapon; } }
 
@@ -144,6 +148,12 @@ public class Weapon : ScriptableObject, inventoryItem
             reload = true;
 
         Reload();
+        Upgrade(); //Can throw this when upgrade screen is present only
+
+        if (Input.GetKeyDown(KeyCode.Alpha0)) //Only for testing, will be moved to upgrade UI
+        {
+            LevelUp();
+        }
     }
 
     public void Fire(Transform initTransform)
@@ -215,6 +225,60 @@ public class Weapon : ScriptableObject, inventoryItem
 
         this.itemId =       Guid.NewGuid();   
         
+    }
+
+    void LevelUp()
+    {
+        level++;
+        upgradePoints += 5;
+    }
+
+    void Upgrade()
+    {
+        if (Input.anyKeyDown)
+        {
+            switch (Input.inputString) //Placeholder system till UI is implemented
+            {
+                case "y":
+                    if (upgradePoints >= 1)
+                    {
+                        upgradePoints -= 1;
+                        this.Damage += 5;
+                    }
+                    break;
+                case "u":
+                    if (upgradePoints >= 1)
+                    {
+                        upgradePoints -= 1;
+                        this.bulletSpeed += 1;
+                    }
+                    break;
+                case "i":
+                    if (upgradePoints >= 1)
+                    {
+                        if (shotTimer >= 0.06)
+                        {
+                            upgradePoints -= 1;
+                            this.shotTimer -= 0.05f;
+                        }
+                    }
+                    break;
+                case "o":
+                    if (upgradePoints >= 1)
+                    {
+                        upgradePoints -= 1;
+                        this.clipSize += 2;
+                    }
+                    break;
+                case "p":
+                    if (upgradePoints >= 1)
+                    {
+                        upgradePoints -= 1;
+                        this.reloadTime -= 0.25f;
+                    }
+                    break;
+            }
+        }
     }
 
     void setStats(float iPower)
