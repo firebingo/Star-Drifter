@@ -52,7 +52,7 @@ public class Weapon : ScriptableObject, inventoryItem
     5.0F,   //0//Damage
     2.0F,   //1//bullet speed
     0.3F,   //2//rate of fire
-    1.0F,   //3//bullet decay
+    2.0F,   //3//bullet decay
     0.2F,   //4//bullet spread
     0.0F,   //5//burst count
     5.0F,   //6//clip
@@ -64,7 +64,7 @@ public class Weapon : ScriptableObject, inventoryItem
     30.0F,   //0//Damage
     10.0F,   //1//bullet speed
     1.5F,   //2//rate of fire
-    1.0F,   //3//bullet decay
+    5.0F,   //3//bullet decay
     1.0F,   //4//bullet spread
     1.0F,    //5//burst count
     30.0F,   //6//clip
@@ -355,6 +355,7 @@ public class Weapon : ScriptableObject, inventoryItem
                 GunStats[6] = (float)weaponTypes.Pistol;
                 Boost[0] = 0.6F;
                 Boost[2] = 0.9F;
+                Boost[3] = 0.8F;
                 Boost[4] = 1.4F;
                 Boost[8] = 0.9F;
                 Boost[9] = 0.7F;
@@ -363,6 +364,7 @@ public class Weapon : ScriptableObject, inventoryItem
                 GunStats[6] = (float)weaponTypes.SMG;
                 Boost[0] = 0.8F;
                 Boost[2] = 0.5F;
+                Boost[3] = 0.9F;
                 Boost[4] = 1.5F;
                 Boost[8] = 1.3F;
                 Boost[9] = 0.8F;
@@ -372,6 +374,7 @@ public class Weapon : ScriptableObject, inventoryItem
                 GunStats[6] = (float)weaponTypes.Shotgun;
                 Boost[0] = 0.4F;
                 Boost[2] = 1.2F;
+                Boost[3] = 0.6F;
                 Boost[4] = 1.6F;
                 Boost[5] *= 6.0F;
                 Boost[8] = 0.7F;
@@ -382,6 +385,7 @@ public class Weapon : ScriptableObject, inventoryItem
                 GunStats[6] = (float)weaponTypes.Rifle;
                 Boost[0] = 1.2F;
                 Boost[2] = 0.4F;
+                Boost[3] = 1.4F;
                 Boost[4] = 1.6F;
                 Boost[8] = 2.3F;
                 Boost[9] = 1.2F;
@@ -392,6 +396,7 @@ public class Weapon : ScriptableObject, inventoryItem
                 Boost[0] = 10.0F;
                 Boost[1] = 0.8F;
                 Boost[2] = 2.0F;
+                Boost[3] = 1.8F;
                 Boost[4] = 1.2F;
                 Boost[8] = 0.3F;
                 Boost[9] = 2.3F;
