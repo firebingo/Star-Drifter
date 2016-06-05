@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
-public class TestCode : MonoBehaviour
-{
+
+public class PathFindDefender : MonoBehaviour {
+
     private Transform startPos, endPos;
     public Node2 startNode { get; set; }
     public Node2 goalNode { get; set; }
@@ -18,11 +19,11 @@ public class TestCode : MonoBehaviour
     {
         state = gameObject.GetComponent<AlienDefender>();
         //startPosition = GameObject.FindGameObjectWithTag("Start");
-     //    endPosition = GameObject.FindGameObjectWithTag("End");
+        //    endPosition = GameObject.FindGameObjectWithTag("End");
         startPosition = gameObject.gameObject;
         endPosition = GameObject.FindGameObjectWithTag("Player");
         pathArray = new ArrayList();
-       // FindPath();
+        // FindPath();
     }
     void Update()
     {
@@ -41,9 +42,9 @@ public class TestCode : MonoBehaviour
             {
                 FindPath();
             }
-           
+
         }
-       
+
     }
     void FindPath()
     {
@@ -55,24 +56,4 @@ public class TestCode : MonoBehaviour
         GridManager.instance.GetGridIndex(endPos.position)));
         pathArray = AStar.FindPath(startNode, goalNode);
     }
-    
-   /* void OnDrawGizmos()
-    {
-        if (pathArray == null)
-            return;
-        if (pathArray.Count > 0)
-        {
-            int index = 1;
-            foreach (Node2 node in pathArray)
-            {
-                if (index < pathArray.Count)
-                {
-                    Node2 nextNode = (Node2)pathArray[index];
-                    Debug.DrawLine(node.position, nextNode.position,
-                    Color.green);
-                    index++;
-                }
-            }
-        }
-    }*/
 }

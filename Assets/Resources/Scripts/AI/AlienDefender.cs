@@ -19,7 +19,7 @@ public class AlienDefender : MonoBehaviour
     //Target  variables
     private Transform target;
     public GameObject targetObj;
-    public float targetDis;//distance from target
+    public float targetDis, targetDisA;//distance from target
     bool spotted = false;// determines if the enemy has spotted the player before or not
 
 
@@ -50,13 +50,13 @@ public class AlienDefender : MonoBehaviour
     public Guid weaponId;
 
     //Pathfinding Variables 
-    public TestCode path;
+    public PathFindDefender path;
     public ArrayList ObList;
     public Node2 startNode { get; set; }
     public Node2 goalNode { get; set; }
     public Vector3 point;
     public  int desIndex = 1;
-    int PDesIndex = 0;
+    public int PDesIndex = 0;
 
     // Use this for initialization
     void Start()
@@ -73,7 +73,7 @@ public class AlienDefender : MonoBehaviour
         target = targetObj.transform;//transform of target
         Wander();//start off in wander state
         ShipI = gameObject.GetComponent<ShipInteraction>();//using ShipInteraction.CS
-        path = gameObject.GetComponent<TestCode>();//Using TestCode.cs
+        path = gameObject.GetComponent<PathFindDefender>();//Using TestCode.cs
         ObList = new ArrayList();//new array list to hold all nodes for A* algorithm
     }
 
@@ -82,7 +82,7 @@ public class AlienDefender : MonoBehaviour
     {
         targetDis = Vector3.Magnitude(transform.position - target.position);//magnitude/distane of enemy and target
 
-        if (ShipI.seat != ShipInteraction.ShipSeat.passenger) { State(target, targetDis); }
+        if (ShipI.seat != ShipInteraction.ShipSeat.passenger) { State( targetDis); }
         else
         {   AIState = AIFSM.InShip;}
 
@@ -107,11 +107,11 @@ public class AlienDefender : MonoBehaviour
                 break;
 
             case AIFSM.Attack:
-                RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.forward,0.0f);
-                if (hit)
-                {
-                    print(hit.collider.name);
-                }
+             //   RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.forward,0.0f);
+             //   if (hit)
+             ////   {
+                //    print(hit.collider.name);
+             //   }
                 Attack(target);
                 break;
 
@@ -124,9 +124,14 @@ public class AlienDefender : MonoBehaviour
 
             case AIFSM.ObAv:
                 point = asl();
-                targetDis = Vector3.Distance(transform.position, point);
-                Attack2(point);
-                if (targetDis < 0.6f)
+                targetDisA = Vector2.Distance(transform.position, point);
+                MovetoPoint(point);
+                if (targetDis > 2.8f && targetDis < 3.5f)
+                {
+                    AIState = AIFSM.Defend;
+                    resetAstar();
+                }
+                if (targetDisA < 0.7f)
                 { desIndex++; }
                 break;
         }
@@ -137,19 +142,25 @@ public class AlienDefender : MonoBehaviour
     //////////////////////////////////////////
 
     //determines which state the enemy should be in
-    private void State(Transform target, float distance)
+    private void State( float distance)
     {
         if (0.8f <= distance && distance <= 2.8f && spotted == true)
         {
             AIState = AIFSM.Attack;
         }//end if
-        else if (distance >= 2.8f && spotted == true)
+        else if (distance > 2.8f && spotted == true && distance < 3.5f)
         {
             AIState = AIFSM.Defend;
         }
-        else if (distance >= 2.8f && distance <= 3.5f)
+        else if (distance >= 3.5f && distance <= 5.0f && spotted == true)
         {
             AIState = AIFSM.ObAv;
+        }
+        else if (distance > 5.0f && spotted == true)
+        {
+            AIState = AIFSM.ObAv;
+            resetAstar();
+              
         }
     }//State()
 
@@ -179,7 +190,7 @@ public class AlienDefender : MonoBehaviour
         }
     }//Attack()
 
-    private void Attack2(Vector3 point)
+    private void MovetoPoint(Vector3 point)
     {
 
         rotateForward(point);
@@ -236,10 +247,16 @@ public class AlienDefender : MonoBehaviour
         }
     }//rotateforward
 
+    
+    /// /////////////////////////////////////////////////////
+    /// ///////////////////////A* Functions/////////////////
+    /// ///////////////////////////////////////////////////
+  
     private Vector3 asl()
     {
         Vector3 pos;
-        if (PDesIndex == 0) { 
+        path = gameObject.GetComponent<PathFindDefender>();
+        if (PDesIndex == 0 && path.pathArray.Count > 0) { 
         ObList = path.pathArray;
         desIndex = 0;
       PDesIndex++;
@@ -252,15 +269,23 @@ public class AlienDefender : MonoBehaviour
     private Vector3 getDestination(ArrayList path)
     {
         Vector3 pos = new Vector3();
-            if (desIndex < ObList.Count)
+            if (desIndex < path.Count)
             {
-            Node2 nextNode = (Node2)ObList[desIndex];
+            Node2 nextNode = (Node2)path[desIndex];
             pos = nextNode.position;
             }
 
-        if (desIndex == ObList.Count) {AIState = AIFSM.Defend;}
+        if (desIndex >= path.Count) {//AIState = AIFSM.Defend;
+            PDesIndex = 0; }
         return pos;
     }//getdestination;
+
+    void resetAstar() {
+        PDesIndex = 0;
+        desIndex = 0;
+    }
+
+
 
     void drawpath()
     {

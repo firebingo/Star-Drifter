@@ -15,7 +15,7 @@ public class AlienAttacker : MonoBehaviour
     float range = 2; //used for drop offset
 
     //enum for FSM
-    public enum AIFSM { Patrol, Attack, Flee }
+    public enum AIFSM { Patrol, Attack, Flee, ObAv }
     public AIFSM AIState = AIFSM.Patrol;
 
     //variables for AI stats
@@ -39,28 +39,45 @@ public class AlienAttacker : MonoBehaviour
     public Guid weaponId;
 
     //variables for targeting player
-    GameObject targetObj;
+   public GameObject targetObj;
     private Transform target;
     private float targetDis;
     private bool spotted = false;
+
+
+    //Pathfinding Variables 
+    public PathfindAttacker path;
+    public ArrayList ObList;
+    public Node2 startNode { get; set; }
+    public Node2 goalNode { get; set; }
+    public Vector3 point;
+    public int desIndex = 1;
+    public int PDesIndex = 0;
+    public float targetDisA;
 
     // Use this for initialization
     void Start()
     {
         alienInventory = this.GetComponent<Inventory>();
-        Weapon tempWeapon = new Weapon();
+        Weapon tempWeapon = ScriptableObject.CreateInstance("Weapon") as Weapon;
         tempWeapon.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 5f, 5f, shotTimer, 3f, 1f, 32, weaponTypes.Pistol, weaponLayers.Enemy);
         alienInventory.items.Add(tempWeapon.itemId, tempWeapon);
         weaponId = tempWeapon.itemId;
 
-        targetObj = GameObject.FindGameObjectWithTag("Player");//target the player
-        target = targetObj.transform;//target transform
+        targetObj = GameObject.FindGameObjectWithTag("Player");
+        target = targetObj.transform;
+        path = gameObject.GetComponent<PathfindAttacker>();//Using TestCode.cs
+        ObList = new ArrayList();//new array list to hold all nodes for A* algorithm
         Patrol();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (targetObj == null) { 
+        targetObj = GameObject.FindGameObjectWithTag("Player");
+        target = targetObj.transform;
+        }
         Debug.DrawLine(target.position, transform.position, Color.yellow);//Make sure that the right target is being pointed too
         targetDis = Vector3.Magnitude(transform.position - target.position);//magnitude/distane of enemy and target
         State(target, targetDis);
@@ -87,6 +104,18 @@ public class AlienAttacker : MonoBehaviour
             case AIFSM.Flee:
                 Flee(target);
                 break;
+            case AIFSM.ObAv:
+                point = asl();
+                targetDisA = Vector2.Distance(transform.position, point);
+                MovetoPoint(point);
+                if (targetDis > 2.8f && targetDis < 3.5f)
+                {
+                    AIState = AIFSM.Attack;
+                    resetAstar();
+                }
+                if (targetDisA < 0.7f)
+                { desIndex++; }
+                break;
 
         }//end switch
     }
@@ -99,7 +128,12 @@ public class AlienAttacker : MonoBehaviour
         {
             AIState = AIFSM.Attack;
         }//end if
+        else if (distance > 5.0f && spotted == true)
+        {
+            AIState = AIFSM.ObAv;
+            resetAstar();
 
+        }
     }//State()
 
     private void Patrol()
@@ -139,6 +173,82 @@ public class AlienAttacker : MonoBehaviour
         transform.position += (NLinear * speed * Time.deltaTime);
         rotateForward(transform.position);
     }
+    /// /////////////////////////////////////////////////////
+    /// ///////////////////////A* Functions/////////////////
+    /// ///////////////////////////////////////////////////
+
+    private Vector3 asl()
+    {
+        Vector3 pos;
+        path = gameObject.GetComponent<PathfindAttacker>();
+        if (PDesIndex == 0 && path.pathArray.Count > 0)
+        {
+            ObList = path.pathArray;
+            desIndex = 0;
+            PDesIndex++;
+        }
+        drawpath();
+        pos = getDestination(ObList);
+        return pos;
+    }
+
+    private Vector3 getDestination(ArrayList path)
+    {
+        Vector3 pos = new Vector3();
+        if (desIndex < path.Count)
+        {
+            Node2 nextNode = (Node2)path[desIndex];
+            pos = nextNode.position;
+        }
+
+        if (desIndex >= path.Count)
+        {//AIState = AIFSM.Defend;
+            PDesIndex = 0;
+        }
+        return pos;
+    }//getdestination;
+
+    void resetAstar()
+    {
+        PDesIndex = 0;
+        desIndex = 0;
+    }
+
+    private void MovetoPoint(Vector3 point)
+    {
+
+        rotateForward(point);
+        targetV = new Vector3(point.x, point.y, 0);
+        enemyV = new Vector3(transform.position.x, transform.position.y, 0);
+        NLinear = Norm(enemyV, targetV);
+        transform.position += (NLinear * speed * Time.deltaTime);
+
+
+    }//Attack2()
+
+
+
+    void drawpath()
+    {
+        if (ObList == null)
+            return;
+        if (ObList.Count > 0)
+        {
+            int index = 1;
+            foreach (Node2 node in ObList)
+            {
+                if (index < ObList.Count)
+                {
+                    Node2 nextNode = (Node2)ObList[index];
+                    Debug.DrawLine(node.position, nextNode.position,
+                    Color.green);
+
+                    index++;
+                }
+            }
+        }
+
+    }//drawpath()
 
     /// //////////////////////////////////////////
     /// ///////extra functions///////////////////

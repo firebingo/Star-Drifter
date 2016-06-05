@@ -14,30 +14,35 @@ public class ShipInteraction : MonoBehaviour
     void Start()
     {
         shipObj = GameObject.Find("AlienShip");
-        ship = shipObj.transform;
-        boarded = shipObj.GetComponent<AIShip>();
+        if (!(shipObj == null))
+        {
+            ship = shipObj.transform;
+            boarded = shipObj.GetComponent<AIShip>();
+        }
+       
     }
 
     // Update is called once per frame
     void Update()
     {
         // steerShipPilot();
-
-        switch (seat)
-        {
-            case ShipSeat.none:
-                dis = Vector3.Magnitude(transform.position - ship.position);
-                if (dis < 1.3f)
-                {
-                    FindSeat();
-                }
-                break;
-            case ShipSeat.passenger:
-                RideShipPassenger();
-                break;
-            case ShipSeat.pilot:
-                SteerShipPilot();
-                break;
+        if (!(shipObj == null)) {
+            switch (seat)
+            {
+                case ShipSeat.none:
+                    dis = Vector3.Magnitude(transform.position - ship.position);
+                    if (dis < 1.3f)
+                    {
+                        FindSeat();
+                    }
+                    break;
+                case ShipSeat.passenger:
+                    RideShipPassenger();
+                    break;
+                case ShipSeat.pilot:
+                    SteerShipPilot();
+                    break;
+            }
         }
     }
 

@@ -29,7 +29,7 @@ public class GridManager : MonoBehaviour
     public Node2[,] nodes { get; set; }
     public Vector3 Origin
     {
-        get { return new Vector3(-23.5f,-19.5f,0); }
+        get { return new Vector3(-25.5f,-21.5f,0); }
     }
 
     void Start()
