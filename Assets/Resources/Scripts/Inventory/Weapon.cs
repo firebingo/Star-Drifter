@@ -200,8 +200,8 @@ public class Weapon : ScriptableObject, inventoryItem
         reloadTimer = 0; //Starts the reload timer at 0 for when we need to reload;
 
         //new ones to be randomized
-        this.clipSize = clipSize;
-        this.reloadTime = reloadTime;
+        this.clipSize = Stats[8];
+        this.reloadTime = Stats[9];
 
         this.clip = clipSize; //throw this in once clip size is determined
 
@@ -434,12 +434,12 @@ public class Weapon : ScriptableObject, inventoryItem
                 GunStats[5] = 1.0F;
 
         //8//clip size
-        GunStats[8] = UnityEngine.Random.Range(MINIMUM[6], MAXIMUM[6]) * Boost[2] * Boost[7] * Boost[6] ;
+        GunStats[8] = UnityEngine.Random.Range(MINIMUM[6], MAXIMUM[6]) * Boost[8] * Boost[7] * Boost[6] ;
 
         //9//Reload time
-        GunStats[9] = UnityEngine.Random.Range(MINIMUM[7], MAXIMUM[7]) * Boost[2] / Boost[7] / Boost[6] ;
+        GunStats[9] = UnityEngine.Random.Range(MINIMUM[7], MAXIMUM[7]) * Boost[9] / Boost[7] / Boost[6] ;
 
-        //Apply the effects
+        //Apply the effect
         return GunStats;
        
 
