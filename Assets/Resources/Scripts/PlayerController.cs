@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
     public Guid primaryWeapon;  //Hold the id of the player's primary weapon so it can be accessed from the inventory.
     public Guid secondaryWeapon; //Hold the id of the player's secondary weapon so it can be accessed from the inventory.
     private Guid grenade; //Holds equipped grenade's id.
-    bool usingPrimary; //whether the player is using the primary or secondary weapon.
+    public bool usingPrimary { get; private set; } //whether the player is using the primary or secondary weapon.
 
     private Vector2 position;
     private float rotation;

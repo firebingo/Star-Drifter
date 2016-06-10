@@ -16,6 +16,8 @@ public class HUDManager : MonoBehaviour
     valueBar healthBar;
     [SerializeField]
     valueBar EXPBar;
+    [SerializeField]
+    valueBar AmmoBar;
 
     [SerializeField]
     public GameObject inventoryParent;
@@ -23,7 +25,7 @@ public class HUDManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(EXPBar && healthBar && player && playerLeveling && inventoryParent)
+        if(EXPBar && healthBar && player && playerLeveling && inventoryParent && AmmoBar)
         {
             healthBar.maxValue = player.maxHealth;
             healthBar.currentValue = player.currentHealth;
@@ -32,6 +34,36 @@ public class HUDManager : MonoBehaviour
             EXPBar.currentValue = playerLeveling.currentExperience;
             EXPBar.minValue = playerLeveling.lastLevel;
             EXPBar.ManualUpdate();
+
+            if (player.usingPrimary)
+            {
+                if (!(player.playerInventory.items[player.primaryWeapon] as Weapon).reload)
+                {
+                    AmmoBar.maxValue = (player.playerInventory.items[player.primaryWeapon] as Weapon).clipSize;
+                    AmmoBar.currentValue = (player.playerInventory.items[player.primaryWeapon] as Weapon).clip;
+                }
+                else
+                {
+                    AmmoBar.maxValue = (player.playerInventory.items[player.primaryWeapon] as Weapon).reloadTime;
+                    AmmoBar.currentValue = (player.playerInventory.items[player.primaryWeapon] as Weapon).reloadTimer;
+                }
+                AmmoBar.ManualUpdate();
+            }
+            else if(!player.usingPrimary)
+            {
+                if (!(player.playerInventory.items[player.secondaryWeapon] as Weapon).reload)
+                {
+                    AmmoBar.maxValue = (player.playerInventory.items[player.secondaryWeapon] as Weapon).clipSize;
+                    AmmoBar.currentValue = (player.playerInventory.items[player.secondaryWeapon] as Weapon).clip;
+                }
+                else
+                {
+                    AmmoBar.maxValue = (player.playerInventory.items[player.secondaryWeapon] as Weapon).reloadTime;
+                    AmmoBar.currentValue = (player.playerInventory.items[player.secondaryWeapon] as Weapon).reloadTimer;
+                }
+                AmmoBar.ManualUpdate();
+            }
+
             player.HudManager = this;
         }
         else
