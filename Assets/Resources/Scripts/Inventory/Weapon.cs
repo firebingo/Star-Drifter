@@ -182,17 +182,10 @@ public class Weapon : ScriptableObject, inventoryItem
         }
     }
 
-    public void Initialize(GameObject Bullet, float bulletDamage, float speed, float shotTime, float bulletDecay, float reloadTime, float clipSize, weaponTypes weaponType, weaponLayers layerType) //Allows the creation of weapon types
+    public void Initialize(weaponLayers layerType)
     {
         //Set the randomized stats  
         float[] Stats = setRandStats();
-
-        if (weaponType == weaponTypes.Grenade || weaponType == weaponTypes.Rocket)
-            bulletType = bulletTypes.Explosive;
-        else
-        {
-            bulletType = bulletTypes.Basic;
-        }
 
         reload = false; //insuring that we don't start off having to reload
         reloadTimer = 0; //Starts the reload timer at 0 for when we need to reload;
@@ -204,7 +197,7 @@ public class Weapon : ScriptableObject, inventoryItem
         this.clip = clipSize; //throw this in once clip size is determined
 
 
-        this.Bullet = Bullet;
+        this.Bullet = Resources.Load("Prefabs/Bullet") as GameObject;
 
         //this.bulletType = Bullet.GetComponent<BulletController>().bulletType;  Removed due to new bullet type setting above.
 
@@ -219,7 +212,49 @@ public class Weapon : ScriptableObject, inventoryItem
         this.Type = (weaponTypes)Stats[6];
         this.Rarity = (weaponRarity)Stats[7];
 
+        if (Type == weaponTypes.Grenade || Type == weaponTypes.Rocket)
+            bulletType = bulletTypes.Explosive;
+        else
+        {
+            bulletType = bulletTypes.Basic;
+        }
 
+        this.itemId = Guid.NewGuid();
+    }
+
+    public void Initialize(GameObject Bullet, float bulletDamage, float speed, float shotTime, float bulletDecay, float spread, float burst, float reloadTime, float clipSize, weaponTypes weaponType, weaponLayers layerType) //Allows the creation of weapon types
+    {
+        reload = false; //insuring that we don't start off having to reload
+        reloadTimer = 0; //Starts the reload timer at 0 for when we need to reload;
+
+        //new ones to be randomized
+        this.clipSize = clipSize;
+        this.reloadTime = reloadTime ;
+
+        this.clip = clipSize; //throw this in once clip size is determined
+
+
+        this.Bullet = Bullet;
+
+        //this.bulletType = Bullet.GetComponent<BulletController>().bulletType;  Removed due to new bullet type setting above.
+
+        this.Layer = layerType;
+
+        this.Damage = bulletDamage;
+        this.bulletSpeed = speed;
+        this.shotTimer = shotTime;
+        this.bulletTime = bulletDecay;
+        this.bulletSpread = spread;
+        this.burstCount = burst;
+        this.Type = weaponType;
+        //this.Rarity = (weaponRarity);
+
+        if (Type == weaponTypes.Grenade || Type == weaponTypes.Rocket)
+            bulletType = bulletTypes.Explosive;
+        else
+        {
+            bulletType = bulletTypes.Basic;
+        }
 
         this.itemId = Guid.NewGuid();
 

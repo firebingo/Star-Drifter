@@ -56,10 +56,10 @@ public class ShipController : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
 
         Weapon tempPrimary = ScriptableObject.CreateInstance("Weapon") as Weapon;
-		tempPrimary.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 100f, 12f, 30f, 5f, 6f, 32, weaponTypes.Pistol, weaponLayers.Player);
+		tempPrimary.Initialize(weaponLayers.Player);
         primaryWeapon = tempPrimary.itemId;
         Weapon tempSecondary = ScriptableObject.CreateInstance("Weapon") as Weapon;
-		tempPrimary.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 25f, 15f, 5f, 0.5f, 10f, 32, weaponTypes.Pistol, weaponLayers.Player);
+		tempPrimary.Initialize(weaponLayers.Player);
         secondaryWeapon = tempSecondary.itemId;
 
         ChangeWeapon(true);

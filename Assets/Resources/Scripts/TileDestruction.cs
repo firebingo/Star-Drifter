@@ -19,7 +19,15 @@ public class TileDestruction : MonoBehaviour {
 	void Update () 
     {
         if (currentHealth <= 0)
+        {
+            int count = Random.Range(1, 3);
+            for (int i = 0; i < count; i++)
+            {
+                Vector3 positionOffset = new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f));
+                Instantiate(Resources.Load("Prefabs/Debris") as GameObject, transform.position + positionOffset, transform.rotation);
+            }
             Destroy(this.gameObject);
+        }
 	}
 
     void ApplyDamage(float damage)
