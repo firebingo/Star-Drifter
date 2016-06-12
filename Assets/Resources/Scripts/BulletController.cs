@@ -77,6 +77,9 @@ public class BulletController : MonoBehaviour
 
     void AreaDamage()
     {
+        particles = (GameObject)Resources.Load("Prefabs/BulletParticleSystem-Explosions");
+        Instantiate(particles, transform.position, transform.rotation);
+
         Collider2D[] targets = Physics2D.OverlapCircleAll(transform.position, 3);
 
         foreach (Collider2D col in targets)

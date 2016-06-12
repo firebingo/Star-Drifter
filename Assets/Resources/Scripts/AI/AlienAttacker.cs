@@ -60,7 +60,7 @@ public class AlienAttacker : MonoBehaviour
     {
         alienInventory = this.GetComponent<Inventory>();
         Weapon tempWeapon = ScriptableObject.CreateInstance("Weapon") as Weapon;
-        tempWeapon.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 5f, 5f, shotTimer, 3f, 1f, 32, weaponTypes.Pistol, weaponLayers.Enemy);
+        tempWeapon.Initialize(weaponLayers.Enemy);
         alienInventory.items.Add(tempWeapon.itemId, tempWeapon);
         weaponId = tempWeapon.itemId;
 
@@ -278,7 +278,7 @@ public class AlienAttacker : MonoBehaviour
     void Drops()
     {
         var expDrop = Resources.Load("Prefabs/ExpPickup");
-        var exp = UnityEngine.Random.Range(1, 3);
+        var exp = UnityEngine.Random.Range(1.0f, 3.0f);
         for (int i = 0; i < exp; i++)
         {
             Vector3 offset = new Vector3(UnityEngine.Random.Range(-range, range), UnityEngine.Random.Range(-2, 2), 0);

@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
     public Guid primaryWeapon;  //Hold the id of the player's primary weapon so it can be accessed from the inventory.
     public Guid secondaryWeapon; //Hold the id of the player's secondary weapon so it can be accessed from the inventory.
     private Guid grenade; //Holds equipped grenade's id.
-    bool usingPrimary; //whether the player is using the primary or secondary weapon.
+    public bool usingPrimary { get; private set; } //whether the player is using the primary or secondary weapon.
 
     private Vector2 position;
     private float rotation;
@@ -60,15 +60,15 @@ public class PlayerController : MonoBehaviour
         maxHealth = 100;
 
         Weapon tempPrimary = ScriptableObject.CreateInstance("Weapon") as Weapon;
-		tempPrimary.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 50f, 8f, 1f, 5f, 10f, 15, weaponTypes.Rifle, weaponLayers.Player);
+		tempPrimary.Initialize(weaponLayers.Player);
         primaryWeapon = tempPrimary.itemId;
         Weapon tempSecondary = ScriptableObject.CreateInstance("Weapon") as Weapon;
-		tempSecondary.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 5f, 10f, 0.5f, 0.5f, 6f, 15, weaponTypes.Pistol, weaponLayers.Player);
+		tempSecondary.Initialize(weaponLayers.Player);
         secondaryWeapon = tempSecondary.itemId;
 
         //Grenades
         Weapon tempGrenade = ScriptableObject.CreateInstance("Weapon") as Weapon;
-		tempGrenade.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 5f, 10f, 0.5f, 0.5f, 4f, 1, weaponTypes.Grenade, weaponLayers.Player);
+		tempGrenade.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 20f, 10f, 1f, 4f, 1f, 1, 5, 1, weaponTypes.Grenade, weaponLayers.Player);
         grenade = tempGrenade.itemId;
 
         playerInventory.items.Add(tempPrimary.itemId, tempPrimary);

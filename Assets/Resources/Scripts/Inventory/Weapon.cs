@@ -8,21 +8,21 @@ using System;
 
 public enum weaponTypes
 {
-    Pistol  = 0,
-    SMG     = 1,
+    Pistol = 0,
+    SMG = 1,
     Shotgun = 2,
-    Rifle   = 3,
-    Rocket  = 4,
+    Rifle = 3,
+    Rocket = 4,
     Grenade = 5   //Added fore grenades
 }
 
 //Rarity based on percentage
 public enum weaponRarity
 {
-    Common      = 100,
-    Uncommon    = 45,
-    Rare        = 15,
-    Legendary   = 3
+    Common = 100,
+    Uncommon = 45,
+    Rare = 15,
+    Legendary = 3
 }
 
 //Classes, currently unused
@@ -105,15 +105,13 @@ public class Weapon : ScriptableObject, inventoryItem
 
     public float reloadTime { get; private set; } //Time to reload
 
-    private bool reload; //Checks if reloading
+    public bool reload { get; private set; } //Checks if reloading
 
-    [SerializeField]
-    private float reloadTimer; //Counts up to the reload time
+    public float reloadTimer { get; private set; } //Counts up to the reload time
 
     public float clipSize { get; private set; }
-    
-    [SerializeField]
-    private float clip;
+
+    public float clip { get; private set; }
 
     [SerializeField]
     public weaponTypes Type { get; private set; }
@@ -184,17 +182,10 @@ public class Weapon : ScriptableObject, inventoryItem
         }
     }
 
-    public void Initialize(GameObject Bullet, float bulletDamage, float speed, float shotTime, float bulletDecay, float reloadTime, float clipSize, weaponTypes weaponType, weaponLayers layerType) //Allows the creation of weapon types
+    public void Initialize(weaponLayers layerType)
     {
-         //Set the randomized stats  
+        //Set the randomized stats  
         float[] Stats = setRandStats();
-
-        if (weaponType == weaponTypes.Grenade || weaponType == weaponTypes.Rocket)
-            bulletType = bulletTypes.Explosive;
-        else
-        {
-            bulletType = bulletTypes.Basic;
-        }
 
         reload = false; //insuring that we don't start off having to reload
         reloadTimer = 0; //Starts the reload timer at 0 for when we need to reload;
@@ -206,25 +197,67 @@ public class Weapon : ScriptableObject, inventoryItem
         this.clip = clipSize; //throw this in once clip size is determined
 
 
+        this.Bullet = Resources.Load("Prefabs/Bullet") as GameObject;
+
+        //this.bulletType = Bullet.GetComponent<BulletController>().bulletType;  Removed due to new bullet type setting above.
+
+        this.Layer = layerType;
+
+        this.Damage = Stats[0];
+        this.bulletSpeed = Stats[1];
+        this.shotTimer = Stats[2];
+        this.bulletTime = Stats[3];
+        this.bulletSpread = Stats[4];
+        this.burstCount = Stats[5];
+        this.Type = (weaponTypes)Stats[6];
+        this.Rarity = (weaponRarity)Stats[7];
+
+        if (Type == weaponTypes.Grenade || Type == weaponTypes.Rocket)
+            bulletType = bulletTypes.Explosive;
+        else
+        {
+            bulletType = bulletTypes.Basic;
+        }
+
+        this.itemId = Guid.NewGuid();
+    }
+
+    public void Initialize(GameObject Bullet, float bulletDamage, float speed, float shotTime, float bulletDecay, float spread, float burst, float reloadTime, float clipSize, weaponTypes weaponType, weaponLayers layerType) //Allows the creation of weapon types
+    {
+        reload = false; //insuring that we don't start off having to reload
+        reloadTimer = 0; //Starts the reload timer at 0 for when we need to reload;
+
+        //new ones to be randomized
+        this.clipSize = clipSize;
+        this.reloadTime = reloadTime ;
+
+        this.clip = clipSize; //throw this in once clip size is determined
+
+
         this.Bullet = Bullet;
 
         //this.bulletType = Bullet.GetComponent<BulletController>().bulletType;  Removed due to new bullet type setting above.
 
-        this.Layer = layerType; 
-    
-        this.Damage =       Stats[0];
-        this.bulletSpeed =  Stats[1];
-        this.shotTimer =    Stats[2];
-        this.bulletTime =   Stats[3];
-        this.bulletSpread = Stats[4];
-        this.burstCount =   Stats[5];
-        this.Type =         (weaponTypes)Stats[6];
-        this.Rarity =       (weaponRarity)Stats[7];
+        this.Layer = layerType;
 
-    
+        this.Damage = bulletDamage;
+        this.bulletSpeed = speed;
+        this.shotTimer = shotTime;
+        this.bulletTime = bulletDecay;
+        this.bulletSpread = spread;
+        this.burstCount = burst;
+        this.Type = weaponType;
+        //this.Rarity = (weaponRarity);
 
-        this.itemId =       Guid.NewGuid();   
-        
+        if (Type == weaponTypes.Grenade || Type == weaponTypes.Rocket)
+            bulletType = bulletTypes.Explosive;
+        else
+        {
+            bulletType = bulletTypes.Basic;
+        }
+
+        this.itemId = Guid.NewGuid();
+
     }
 
     void LevelUp()
@@ -318,8 +351,8 @@ public class Weapon : ScriptableObject, inventoryItem
                             1.0F,   //8//Clip size
                             1.0F  };//9//Reload
 
-    //Set up the chances
-    int[] RareValues = { (int)weaponRarity.Legendary, (int)weaponRarity.Rare, (int)weaponRarity.Uncommon, (int)weaponRarity.Common };
+        //Set up the chances
+        int[] RareValues = { (int)weaponRarity.Legendary, (int)weaponRarity.Rare, (int)weaponRarity.Uncommon, (int)weaponRarity.Common };
 
         //Find matching rarity
         if (Rand > RareValues[2])
@@ -406,7 +439,7 @@ public class Weapon : ScriptableObject, inventoryItem
 
         //Player level
         // The following causes the Key error
-      ////float PlayerLevel = player.Leveler.level;//
+        ////float PlayerLevel = player.Leveler.level;//
 
         //Determine boost by Player level
         //Removed due to KeyFound Error
@@ -416,8 +449,8 @@ public class Weapon : ScriptableObject, inventoryItem
         //Set the stat, based on the equation a * b * c * d, where a is the randomly selected stat (from min to max), 
         // b is the respective boost from type, c is the level boost, and d is the rarity boost.
         // Needs work
-       
-        
+
+
         //Damage
         GunStats[0] = UnityEngine.Random.Range(MINIMUM[0], MAXIMUM[0]) * Boost[0] * Boost[7] * Boost[6];
 
@@ -435,18 +468,18 @@ public class Weapon : ScriptableObject, inventoryItem
 
         //5//burst count
         GunStats[5] = Boost[5] * UnityEngine.Random.Range((int)MINIMUM[5], (int)MAXIMUM[5]);
-            if (GunStats[5] < 1.0F)
-                GunStats[5] = 1.0F;
+        if (GunStats[5] < 1.0F)
+            GunStats[5] = 1.0F;
 
         //8//clip size
-        GunStats[8] = UnityEngine.Random.Range(MINIMUM[6], MAXIMUM[6]) * Boost[8] * Boost[7] * Boost[6] ;
+        GunStats[8] = UnityEngine.Random.Range(MINIMUM[6], MAXIMUM[6]) * Boost[8] * Boost[7] * Boost[6];
 
         //9//Reload time
-        GunStats[9] = UnityEngine.Random.Range(MINIMUM[7], MAXIMUM[7]) * Boost[9] / Boost[7] / Boost[6] ;
+        GunStats[9] = UnityEngine.Random.Range(MINIMUM[7], MAXIMUM[7]) * Boost[9] / Boost[7] / Boost[6];
 
         //Apply the effect
         return GunStats;
-       
+
 
         //Stat setup completed
     }
