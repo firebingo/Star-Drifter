@@ -46,7 +46,7 @@ public class PirateWarrior : MonoBehaviour {
 
          alienInventory = this.GetComponent<Inventory>();
         Weapon tempWeapon = ScriptableObject.CreateInstance("Weapon") as Weapon;
-        tempWeapon.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 5f, 5f, shotTimer, 3f, 1f, 32, weaponTypes.Pistol, weaponLayers.Enemy);
+        tempWeapon.Initialize(weaponLayers.Enemy);
         alienInventory.items.Add(tempWeapon.itemId, tempWeapon);
         weaponId = tempWeapon.itemId;
 
