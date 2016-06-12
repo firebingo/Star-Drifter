@@ -43,7 +43,6 @@ public class TestCode : MonoBehaviour
             }
            
         }
-       
     }
     void FindPath()
     {

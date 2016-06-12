@@ -4,8 +4,7 @@ using System.Collections;
 public class AStar
 {
     public static PriorityQueue closedList, openList;
-    private static float HeuristicEstimateCost(Node2 curNode,
-Node2 goalNode)
+    private static float HeuristicEstimateCost(Node2 curNode,Node2 goalNode)
     {
         Vector3 vecCost = curNode.position - goalNode.position;
         return vecCost.magnitude;

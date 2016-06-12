@@ -37,6 +37,7 @@ public class GridManager : MonoBehaviour
         obstacleList = GameObject.FindGameObjectsWithTag("Obstacle");
         CalculateObstacles();
     }
+   
     // Find all the obstacles on the map
     void CalculateObstacles()
     {

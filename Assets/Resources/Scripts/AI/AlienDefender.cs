@@ -80,7 +80,7 @@ public class AlienDefender : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        targetDis = Vector3.Magnitude(transform.position - target.position);//magnitude/distane of enemy and target
+        targetDis = Vector3.Distance(transform.position, target.position);//magnitude/distane of enemy and target
 
         if (ShipI.seat != ShipInteraction.ShipSeat.passenger) { State( targetDis); }
         else
@@ -326,7 +326,9 @@ public class AlienDefender : MonoBehaviour
  
     }
 
+  
+        
 
 
 
-}
+    }
