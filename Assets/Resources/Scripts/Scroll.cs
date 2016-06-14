@@ -10,8 +10,11 @@ public class Scroll : MonoBehaviour {
     private GameObject player;
     private PlayerController pControl;
 
+    //Editor use, for adjustment
+    public float amp;
+
     //Speed of BG
-    public Vector2 speed = new Vector2(0,0);
+    private Vector2 speed = new Vector2(0,0);
 
 
     //offset of BG
@@ -37,7 +40,7 @@ public class Scroll : MonoBehaviour {
         speed = pControl.velocity;
 
         //update by time
-        offset += new Vector2(Time.fixedDeltaTime * speed.x, Time.fixedDeltaTime * speed.y);
+        offset += new Vector2(Time.fixedDeltaTime * speed.x * amp, Time.fixedDeltaTime * speed.y * amp);
 
 
         //apply update
