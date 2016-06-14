@@ -40,6 +40,11 @@ public class PlayerController : MonoBehaviour
 
     private int spawn = 0; //Used to insure that the respawn code (OnEnable) doesn't run when player origanlly spawns. Also counts how many times the player spawns.
 
+    //Speed measure
+    public Vector2 velocity;
+    private Vector2 prevPos;
+
+
     void Start()
     {
         Movement = this.GetComponent<PlayerMovement>();
@@ -80,6 +85,11 @@ public class PlayerController : MonoBehaviour
         //secondary.initialize(5, 10, 0.5f, 0.50f, 8);
 
         ChangeWeapon(true);
+
+        //speed measure
+        prevPos.x = 0.0F;
+        prevPos.y = 0.0F;
+
     }
 
     void OnEnable() //Used for Respawning
@@ -102,6 +112,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        UpdatePos();
         Shoot();
         Grenade();
         CheckChangeWeapon();
@@ -111,6 +122,17 @@ public class PlayerController : MonoBehaviour
                 HudManager.inventoryParent.SetActive(!HudManager.inventoryParent.activeSelf);
         }
         Death();
+    }
+
+    void UpdatePos()
+    {
+        velocity.x = transform.position.x - prevPos.x;
+        velocity.y = transform.position.y - prevPos.y;
+
+        prevPos.x = transform.position.x;
+        prevPos.y = transform.position.y;
+
+
     }
 
     void Shoot()

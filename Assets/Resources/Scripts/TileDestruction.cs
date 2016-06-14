@@ -9,9 +9,11 @@ public class TileDestruction : MonoBehaviour {
     [SerializeField]
     int armor = 0;
 
-    bool StationUnderAttack = false;
-	// Use this for initialization
-	void Start () 
+    //Removed for performance
+    //bool StationUnderAttack = false;
+
+    // Use this for initialization
+    void Start () 
     {
         currentHealth = maxHealth;
       
@@ -20,10 +22,11 @@ public class TileDestruction : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
     {
-        if (currentHealth < maxHealth)
-        {
-            StationUnderAttack = true;
-        }
+        //Removed for performance
+        /* if (currentHealth < maxHealth)
+         {
+             StationUnderAttack = true;
+         }*/
 
         if (currentHealth <= 0)
         {
@@ -44,11 +47,13 @@ public class TileDestruction : MonoBehaviour {
             damageDealt = 1;
         currentHealth -= damageDealt;
     }
-    void OnGUI()
+    //Removed for performance
+    /*void OnGUI()
     {
-        if (StationUnderAttack)
+        //Removed for performance
+       /* if (StationUnderAttack)
         {
             GUI.Label(new Rect(Screen.width / 2, Screen.height / 2, 200f, 200f), "Your Base is Being Attacked");
         }
-    }
+}*/
 }
