@@ -135,13 +135,13 @@ public class ShipController : MonoBehaviour
             {
                 var tempWeapon = shipInventory.items[primaryWeapon] as Weapon;
                 if (tempWeapon)
-                    tempWeapon.Fire(this.transform);
+                    StartCoroutine(tempWeapon.Fire(this.transform));
             }
             else
             {
                 var tempWeapon = shipInventory.items[secondaryWeapon] as Weapon;
                 if (tempWeapon)
-                    tempWeapon.Fire(this.transform);
+                    StartCoroutine(tempWeapon.Fire(this.transform));
             }
         }
     }

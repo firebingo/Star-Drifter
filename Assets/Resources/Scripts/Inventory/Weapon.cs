@@ -154,14 +154,19 @@ public class Weapon : ScriptableObject, inventoryItem
         }
     }
 
-    public void Fire(Transform initTransform)
+    public IEnumerator Fire(Transform initTransform)
     {
         if (Timer >= shotTimer && reload == false)
         {
-            GameObject temp = Instantiate(Bullet, initTransform.position, initTransform.rotation) as GameObject;
-            temp.GetComponent<BulletController>().Initialize(bulletType, bulletSpeed, bulletTime, Damage + Power, Layer);
-            Timer = 0f;
-            clip--;
+
+            for (int i = 0; i < burstCount; i++)
+            {
+                GameObject temp = Instantiate(Bullet, initTransform.position, initTransform.rotation) as GameObject;
+                temp.GetComponent<BulletController>().Initialize(bulletType, bulletSpeed, bulletTime, Damage + Power, Layer);
+                clip--;
+                Timer = 0f;
+                yield return new WaitForSeconds(0.1f);
+            }
         }
     }
 

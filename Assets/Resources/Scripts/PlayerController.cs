@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
 
         //Grenades
         Weapon tempGrenade = ScriptableObject.CreateInstance("Weapon") as Weapon;
-		tempGrenade.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 20f, 10f, 1f, 4f, 1f, 1, 5, 1, weaponTypes.Grenade, weaponLayers.Player);
+		tempGrenade.Initialize(Resources.Load("Prefabs/Bullet") as GameObject, 20f, 10f, 1f, 4f, 1f, 4, 5, 1, weaponTypes.Grenade, weaponLayers.Player);
         grenade = tempGrenade.itemId;
 
         playerInventory.items.Add(tempPrimary.itemId, tempPrimary);
@@ -145,13 +145,13 @@ public class PlayerController : MonoBehaviour
                 {
                     var tempWeapon = playerInventory.items[primaryWeapon] as Weapon;
                     if (tempWeapon)
-                        tempWeapon.Fire(this.transform);
+                        StartCoroutine(tempWeapon.Fire(this.transform));
                 }
                 else
                 {
                     var tempWeapon = playerInventory.items[secondaryWeapon] as Weapon;
                     if (tempWeapon)
-                        tempWeapon.Fire(this.transform);
+                        StartCoroutine(tempWeapon.Fire(this.transform));
                 }
             }
         }
@@ -163,7 +163,7 @@ public class PlayerController : MonoBehaviour
         {
             var tempGrenade = playerInventory.items[grenade] as Weapon;
             if (tempGrenade)
-                tempGrenade.Fire(this.transform);
+                StartCoroutine(tempGrenade.Fire(this.transform));
         }
     }
 

@@ -182,7 +182,7 @@ public class Occupant : MonoBehaviour
         //Fire
         var tempWeapon = occupantInventory.items[weaponId] as Weapon;
         if (tempWeapon)
-            tempWeapon.Fire(this.transform);
+            StartCoroutine(tempWeapon.Fire(this.transform));
     }//Shoot, a transition of Attack
 
     private void Wait() { }//Flee

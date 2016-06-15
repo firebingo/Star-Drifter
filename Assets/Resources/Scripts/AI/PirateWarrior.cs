@@ -96,7 +96,7 @@ public class PirateWarrior : MonoBehaviour {
             var tempWeapon = alienInventory.items[weaponId] as Weapon;
             if (tempWeapon)
             {
-                tempWeapon.Fire(this.transform);
+                StartCoroutine(tempWeapon.Fire(this.transform));
                 fireTimer = 0.0f;
             }
         }
