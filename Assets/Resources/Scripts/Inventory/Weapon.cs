@@ -53,7 +53,7 @@ public class Weapon : ScriptableObject, inventoryItem
     2.0F,   //1//bullet speed
     0.3F,   //2//rate of fire
     2.0F,   //3//bullet decay
-    0.2F,   //4//bullet spread
+    0.0F,   //4//bullet spread
     0.0F,   //5//burst count
     5.0F,   //6//clip
     1.0F    //7//reload
@@ -65,8 +65,8 @@ public class Weapon : ScriptableObject, inventoryItem
     10.0F,   //1//bullet speed
     1.5F,   //2//rate of fire
     5.0F,   //3//bullet decay
-    1.0F,   //4//bullet spread
-    1.0F,    //5//burst count
+    20.0F,   //4//bullet spread
+    3.0F,    //5//burst count
     30.0F,   //6//clip
     4.0F    //7//reload
     };
@@ -162,7 +162,7 @@ public class Weapon : ScriptableObject, inventoryItem
             for (int i = 0; i < burstCount; i++)
             {
                 GameObject temp = Instantiate(Bullet, initTransform.position, initTransform.rotation) as GameObject;
-                temp.GetComponent<BulletController>().Initialize(bulletType, bulletSpeed, bulletTime, Damage + Power, Layer);
+                temp.GetComponent<BulletController>().Initialize(bulletType, bulletSpeed, bulletTime, Damage + Power, bulletSpread, Layer);
                 clip--;
                 Timer = 0f;
                 yield return new WaitForSeconds(0.1f);
