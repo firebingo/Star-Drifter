@@ -161,11 +161,19 @@ public class Weapon : ScriptableObject, inventoryItem
 
             for (int i = 0; i < burstCount; i++)
             {
-                GameObject temp = Instantiate(Bullet, initTransform.position, initTransform.rotation) as GameObject;
-                temp.GetComponent<BulletController>().Initialize(bulletType, bulletSpeed, bulletTime, Damage + Power, bulletSpread, Layer);
-                clip--;
-                Timer = 0f;
-                yield return new WaitForSeconds(0.1f);
+                if (clip > 0)
+                {
+                    GameObject temp = Instantiate(Bullet, initTransform.position, initTransform.rotation) as GameObject;
+                    temp.GetComponent<BulletController>().Initialize(bulletType, bulletSpeed, bulletTime, Damage + Power, bulletSpread, Layer);
+                    clip--;
+                    Timer = 0f;
+                    yield return new WaitForSeconds(0.1f);
+                }
+                else
+                {
+                    Timer = 0f;
+                    break;
+                }
             }
         }
     }
