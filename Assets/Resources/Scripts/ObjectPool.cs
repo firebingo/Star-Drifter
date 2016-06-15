@@ -33,6 +33,12 @@ public class ObjectPool : MonoBehaviour {
 	// GameObject to be pooled
 	[SerializeField]
 	private GameObject pooledObject;
+	public GameObject PooledObject { get { return pooledObject; } }
+
+	// Entity type of the pool
+	[SerializeField]
+	private EntityType poolType;
+	public EntityType PoolType { get { return poolType; } }
 
 	// Initial size of the pool
 	[SerializeField]
