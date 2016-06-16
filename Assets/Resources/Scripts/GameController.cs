@@ -20,9 +20,9 @@ public enum EntityType
     Tile_30, Tile_31
 }
 
-public enum NodeType
+public enum POIType
 {
-    Node_0, Node_1, Node_2
+    POI_0, POI_1, POI_2, POI_3
 }
 
 [RequireComponent(typeof(OptionsController))]
@@ -32,9 +32,12 @@ public class GameController : MonoBehaviour
     public static GameController instance { get; private set; }
 
     // Create a public static dictionary for generation nodes and their contents
-    public static List<Node> nodes { get; set; }
+    public static List<POI> POIs { get; set; }
 
     public static int tileSize = 1;
+
+	public static float SectorCellSize = 80.0f;
+	public static int SectorCellCount = 4;
 
     [SerializeField]
     public OptionsController options;
@@ -57,7 +60,7 @@ public class GameController : MonoBehaviour
         }
 
         // Instantiate node dict
-        nodes = new List<Node>();
+        POIs = new List<POI>();
 
         options.InitOptions();
     }
@@ -82,9 +85,14 @@ public class GameController : MonoBehaviour
     {
         if (level == 1)
         {
-            EntityUtil.GenerateNode(new IntVector2(0, 3), NodeType.Node_0);
-            EntityUtil.GenerateNode(new IntVector2(-3, -20), NodeType.Node_1);
-            EntityUtil.GenerateNode(new IntVector2(-25, -10), NodeType.Node_2);
+			// Initialize the object pool controller and object pools
+			ObjectPoolController opc = GameObject.FindGameObjectWithTag("OPC").GetComponent<ObjectPoolController>();
+			opc.Initialize();
+
+			EntityUtil.GenerateSector( new IntVector2( 0, 0 ), 4 );
+			EntityUtil.GeneratePOI(new IntVector2(0, 3), POIType.POI_0);
+            EntityUtil.GeneratePOI(new IntVector2(-3, -20), POIType.POI_1);
+            EntityUtil.GeneratePOI(new IntVector2(-25, -10), POIType.POI_2);
         }
     }
 

@@ -19,11 +19,20 @@ public class BulletController : MonoBehaviour
 
     private float damage;
 
+    [SerializeField]
+    private float bulletSpread;
+
     private GameObject particles;
+
+    void Start()
+    {
+        transform.Rotate(0, 0, Random.Range(-bulletSpread, bulletSpread));
+    }
 
     /// <summary>
     /// Unity's Update Function
     /// </summary>
+    /// 
     void Update()
     {
         transform.position += transform.up.normalized * bulletSpeed * Time.deltaTime;
@@ -42,12 +51,13 @@ public class BulletController : MonoBehaviour
         bulletTimer += Time.deltaTime;
     }
 
-    public void Initialize(bulletTypes bType, float speed, float time, float bulletDamage, weaponLayers type)
+    public void Initialize(bulletTypes bType, float speed, float time, float bulletDamage, float accuracy, weaponLayers type)
     {
         bulletType = bType;
         bulletSpeed = speed;
         bulletTime = time;
         damage = bulletDamage;
+        bulletSpread = accuracy;
         gameObject.layer = (int)type; //Determines collision layers (8 = player vs 9 = enemy)
        
     }
