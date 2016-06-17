@@ -207,4 +207,70 @@ public class PlayerController : MonoBehaviour
         maxHealth = Leveler.stats.life;
         armor = Leveler.stats.armor;
     }
+	
+	public PlayerControllerSave savePlayer()
+	{
+		var saveObject = new PlayerControllerSave(maxHealth, currentHealth, startingPosition.x, startingPosition.y, armor, primaryWeapon.ToString(), secondaryWeapon.ToString(),
+		grenade.ToString(), usingPrimary, position.x, position.y, rotation, timer, spawn);
+		return saveObject;
+	}
+	
+	public void loadPlayer(PlayerControllerSave saveFile)
+	{
+		this.maxHealth = saveFile.maxHealth;
+		this.currentHealth = saveFile.currentHealth;
+		this.startingPosition = new Vector2(saveFile.startingPositionX, saveFile.startingPositionY);
+		this.armor = saveFile.armor;
+		this.primaryWeapon = new Guid(saveFile.primaryWeapon);
+		this.secondaryWeapon = new Guid(saveFile.secondaryWeapon);
+		this.grenade = new Guid(saveFile.grenade);
+		this.usingPrimary = saveFile.usingPrimary;
+		this.transform.position = new Vector3(saveFile.positionX, saveFile.positionY);
+		this.position = new Vector2(saveFile.positionX, saveFile.positionY);
+		this.rotation = saveFile.rotation;
+		this.timer = saveFile.timer;
+		this.spawn = saveFile.spawn;
+	}
+}
+
+[Serializable]
+public class PlayerControllerSave
+{
+	public PlayerControllerSave(float mHealth, float cHealth, float startX, float startY, float armor, string primWeapon, string secWeapon, string grenade, bool uPrimary, float posX, float posY,
+	float rot, float timer, int spawn)
+	{
+		this.maxHealth = mHealth;
+		this.currentHealth = cHealth;
+		this.startingPositionX = startX;
+		this.startingPositionY = startY;
+		this.armor = armor;
+		this.primaryWeapon = primWeapon;
+		this.secondaryWeapon = secWeapon;
+		this.grenade = grenade;
+		this.usingPrimary = uPrimary;
+		this.positionX = posX;
+		this.positionY = posY;
+		this.rotation = rot;
+		this.timer = timer;
+		this.spawn = spawn;
+	}
+	
+    public float maxHealth;
+    public float currentHealth;
+    public float startingPositionX;
+	public float startingPositionY;
+    public float armor;
+	
+    //public Inventory playerInventory;
+    public string primaryWeapon;
+    public string secondaryWeapon;
+    public string grenade;
+    public bool usingPrimary;
+
+    public float positionX;
+	public float positionY;
+    public float rotation;
+    public float timer;
+
+    public int spawn;
 }
