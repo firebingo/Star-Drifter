@@ -3,7 +3,7 @@ using System.Collections;
 
 public class AIShip : MonoBehaviour {
 
-    public bool boreded = false;
+    public bool boreded = true;
     public int maxSpace = 5;
     int numSpawn = 0;
     public int passengers = 0;

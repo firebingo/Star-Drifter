@@ -56,7 +56,12 @@ public class PirateWarrior : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        if(targetObj == null) {
 
+            targetObj = GameObject.FindGameObjectWithTag("StationWayPoint");
+
+            target = targetObj.transform;//transform of target
+        }
         distance = Vector3.Distance(transform.position, target.position);//magnitude/distane of enemy and target
 
 
