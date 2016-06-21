@@ -36,8 +36,8 @@ public class GameController : MonoBehaviour
 
     public static int tileSize = 1;
 
-	public static float SectorCellSize = 80.0f;
-	public static int SectorCellCount = 4;
+	public static float SectorCellSize = 50.0f;
+	public static int SectorCellCount = 5;
 
     [SerializeField]
     public OptionsController options;
@@ -89,10 +89,10 @@ public class GameController : MonoBehaviour
 			ObjectPoolController opc = GameObject.FindGameObjectWithTag("OPC").GetComponent<ObjectPoolController>();
 			opc.Initialize();
 
-			EntityUtil.GenerateSector( new IntVector2( 0, 0 ), 4 );
-			EntityUtil.GeneratePOI(new IntVector2(0, 3), POIType.POI_0);
-            EntityUtil.GeneratePOI(new IntVector2(-3, -20), POIType.POI_1);
-            EntityUtil.GeneratePOI(new IntVector2(-25, -10), POIType.POI_2);
+			EntityUtil.GenerateSector( new IntVector2( 0, 0 ), 3 );
+			//EntityUtil.GeneratePOI(new IntVector2(0, 3), POIType.POI_0);
+            //EntityUtil.GeneratePOI(new IntVector2(-3, -20), POIType.POI_1);
+            //EntityUtil.GeneratePOI(new IntVector2(-25, -10), POIType.POI_2);
         }
     }
 

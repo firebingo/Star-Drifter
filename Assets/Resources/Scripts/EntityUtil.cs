@@ -54,18 +54,18 @@ public class EntityUtil {
 		while ( randList.Count < POICount ) {
 
 			// Generate a random number between 0 and SectorCellCount^2
-			int number = rnd.Next(0, (GameController.SectorCellCount * GameController.SectorCellCount) + GameController.SectorCellCount);
-			//Debug.Log( number );
+			int number = rnd.Next(0, (GameController.SectorCellCount * GameController.SectorCellCount));
+			Debug.Log( randList.Count );
 
 			// Check to see if the random number is unique
 			if ( !randList.Contains(number) ) {
 				randList.Add( number );
-				//Debug.Log( string.Format( "Added POI ... {0}", randList.Count ) );
+				Debug.Log( string.Format( "Added POI ... {0}", randList.Count ) );
 			}
 		}
 
 		// Cycle through each randomly selected cell and generate a POI
-		foreach ( int poi in randList ) {
+		for (int i = 0; i < randList.Count; i++) {
 
 			// Set the position of the POI- fun maths; finds the location of the center of the cell in respect to the location of the sector
 			// i.e SectorPos.X = 2000
@@ -75,9 +75,9 @@ public class EntityUtil {
 			// Cell Center X = SectorPosX + (CellSize * POIX) - (CellSize * (CellCount / 2)) - (CellSize / 2)
 			// Cell Center X = 2000 + (250 * 2) - (250 * (8 / 2)) - (250 / 2)
 			// Cell Center X = 2000 + (500) - (1000) - (125) = 1375
-			int POIY = Mathf.FloorToInt( poi / GameController.SectorCellCount );
+			int POIY = Mathf.FloorToInt( randList[i] / GameController.SectorCellCount );
 			//Debug.Log( string.Format("POIY: {0}", POIY) );
-			int POIX = (( poi / GameController.SectorCellCount ) - POIY) * GameController.SectorCellCount;
+			int POIX = ( randList[i] % GameController.SectorCellCount );
 			//Debug.Log( string.Format( "POIX: {0}", POIX ) );
 			IntVector2 POIPos = new IntVector2( SectorPos.x + (int)((GameController.SectorCellSize * POIX) - (GameController.SectorCellSize * (GameController.SectorCellCount / 2)) - (GameController.SectorCellSize / 2)),
 												SectorPos.y + (int)((GameController.SectorCellSize * POIY) - (GameController.SectorCellSize * (GameController.SectorCellCount / 2)) - (GameController.SectorCellSize / 2)));
