@@ -40,8 +40,7 @@ public class PirateAssassin : MonoBehaviour {
 
     //temporary Vectors
     Vector3 targetV, enemyV, NLinear;
-    void Awake() { }
-    // Use this for initialization
+   
 
 
     //Pathfinding Variables 
@@ -53,6 +52,12 @@ public class PirateAssassin : MonoBehaviour {
     public int desIndex = 1;
     int PDesIndex = 0;
     public float disP;
+    void Awake() {
+        targetObj = GameObject.FindGameObjectWithTag("Player");
+        target = targetObj.transform;
+       
+    }
+    // Use this for initialization
 
     void Start()
     {
@@ -78,8 +83,10 @@ public class PirateAssassin : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        dis = Vector3.Magnitude(transform.position - target.position);//magnitude/distane of enemy and target
-        if (AIState != AIFSM.Return) {State(target, dis);}//check whether to attack or raid as long as the enemy is not already returning an item;
+        
+        if (AIState != AIFSM.Return) {
+            dis = Vector3.Magnitude(transform.position - target.position);//magnitude/distane of enemy and target
+            State(target, dis);}//check whether to attack or raid as long as the enemy is not already returning an item;
 
         switch (AIState)
         {
@@ -175,6 +182,12 @@ public class PirateAssassin : MonoBehaviour {
     private Vector3 AstarP()
     {
         Vector3 pos;
+        if (ObList == null)
+        {
+            path = gameObject.GetComponent<ItemAStar>();
+            ObList = new ArrayList();
+
+        }
         if (PDesIndex == 0)
         {
             ObList = path.pathArray;

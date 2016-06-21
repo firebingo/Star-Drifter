@@ -15,7 +15,7 @@ public class PirateWarrior : MonoBehaviour {
     public float distance;
 
     Vector3 targetV, enemyV, NLinear;//new vectors for attacking
-    public float fireTimer;//cooldown timer for shooting
+    public float fireTimer = 0;//cooldown timer for shooting
     private float shotTimer = 1.3f;//cooldown time required for shooting
 
     //AI stat variables
@@ -43,8 +43,7 @@ public class PirateWarrior : MonoBehaviour {
     void Start()
     {
 
-
-         alienInventory = this.GetComponent<Inventory>();
+        alienInventory = this.GetComponent<Inventory>();
         Weapon tempWeapon = ScriptableObject.CreateInstance("Weapon") as Weapon;
         tempWeapon.Initialize(weaponLayers.Enemy);
         alienInventory.items.Add(tempWeapon.itemId, tempWeapon);
@@ -57,7 +56,12 @@ public class PirateWarrior : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        if(targetObj == null) {
 
+            targetObj = GameObject.FindGameObjectWithTag("StationWayPoint");
+
+            target = targetObj.transform;//transform of target
+        }
         distance = Vector3.Distance(transform.position, target.position);//magnitude/distane of enemy and target
 
 
@@ -96,7 +100,7 @@ public class PirateWarrior : MonoBehaviour {
             var tempWeapon = alienInventory.items[weaponId] as Weapon;
             if (tempWeapon)
             {
-                tempWeapon.Fire(this.transform);
+                StartCoroutine(tempWeapon.Fire(this.transform));
                 fireTimer = 0.0f;
             }
         }

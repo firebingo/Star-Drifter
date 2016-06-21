@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Collections;
 using System;
 
-[RequireComponent(typeof(PlayerMovement))]
+[RequireComponent(typeof(ShipMovement))]
 [RequireComponent(typeof(CircleCollider2D))]
 [RequireComponent(typeof(SpriteRenderer))]
 public class ShipController : MonoBehaviour
@@ -39,16 +39,17 @@ public class ShipController : MonoBehaviour
 
     private GameObject player;
 
-    private PlayerMovement Movement;
+    private ShipMovement Movement;
     private BoxCollider2D Collider;
     private SpriteRenderer Renderer;
 
     // Use this for initialization
     void Start()
     {
-        Movement = this.GetComponent<PlayerMovement>();
+        Movement = this.GetComponent<ShipMovement>();
         Collider = this.GetComponent<BoxCollider2D>();
         Renderer = this.GetComponent<SpriteRenderer>();
+        shipInventory = this.GetComponent<Inventory>();
 
         Movement.enabled = false;
 
@@ -58,9 +59,13 @@ public class ShipController : MonoBehaviour
         Weapon tempPrimary = ScriptableObject.CreateInstance("Weapon") as Weapon;
 		tempPrimary.Initialize(weaponLayers.Player);
         primaryWeapon = tempPrimary.itemId;
+        
         Weapon tempSecondary = ScriptableObject.CreateInstance("Weapon") as Weapon;
-		tempPrimary.Initialize(weaponLayers.Player);
+		tempSecondary.Initialize(weaponLayers.Player);
         secondaryWeapon = tempSecondary.itemId;
+
+        shipInventory.items.Add(tempPrimary.itemId, tempPrimary);
+        shipInventory.items.Add(tempSecondary.itemId, tempSecondary);
 
         ChangeWeapon(true);
     }
@@ -72,22 +77,11 @@ public class ShipController : MonoBehaviour
         switch (cases)
         {
             case 1:
+                Sync();
                 ShipExit();
                 Shoot();
                 CheckChangeWeapon();
                 Death();
-                break;
-            default:
-                break;
-        }
-    }
-
-    void FixedUpdate()
-    {
-        switch (cases)
-        {
-            case 1:
-                Sync();
                 break;
             default:
                 break;
@@ -135,13 +129,13 @@ public class ShipController : MonoBehaviour
             {
                 var tempWeapon = shipInventory.items[primaryWeapon] as Weapon;
                 if (tempWeapon)
-                    tempWeapon.Fire(this.transform);
+                    StartCoroutine(tempWeapon.Fire(this.transform));
             }
             else
             {
                 var tempWeapon = shipInventory.items[secondaryWeapon] as Weapon;
                 if (tempWeapon)
-                    tempWeapon.Fire(this.transform);
+                    StartCoroutine(tempWeapon.Fire(this.transform));
             }
         }
     }
