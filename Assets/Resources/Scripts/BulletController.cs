@@ -23,10 +23,18 @@ public class BulletController : MonoBehaviour
     private float bulletSpread;
 
     private GameObject particles;
+    public AudioClip shot, boom, hit;
+    private AudioSource source;
+    private float volLowRange = .5f;
+    private float volHighRange = 1.0f;
+
 
     void Start()
     {
+        source = GetComponent<AudioSource>();
         transform.Rotate(0, 0, Random.Range(-bulletSpread, bulletSpread));
+        float vol = Random.Range(volLowRange, volHighRange);
+        source.PlayOneShot(shot, vol);
     }
 
     /// <summary>
@@ -34,7 +42,9 @@ public class BulletController : MonoBehaviour
     /// </summary>
     /// 
     void Update()
+
     {
+        source = GetComponent<AudioSource>();
         transform.position += transform.up.normalized * bulletSpeed * Time.deltaTime;
 
         if (bulletTimer >= bulletTime)
@@ -42,6 +52,8 @@ public class BulletController : MonoBehaviour
             if (bulletType == bulletTypes.Explosive)
             {
                 AreaDamage();
+                float vol = Random.Range(volLowRange, volHighRange);
+                source.PlayOneShot(boom, vol);
                 Destroy(this.gameObject);
             }
             else
@@ -53,6 +65,7 @@ public class BulletController : MonoBehaviour
 
     public void Initialize(bulletTypes bType, float speed, float time, float bulletDamage, float accuracy, weaponLayers type)
     {
+
         bulletType = bType;
         bulletSpeed = speed;
         bulletTime = time;
@@ -67,7 +80,11 @@ public class BulletController : MonoBehaviour
         if (bulletType == bulletTypes.Explosive)
         {
             AreaDamage();
+            float vol = Random.Range(volLowRange, volHighRange);
+            source.PlayOneShot(boom, vol);
             Destroy(this.gameObject);
+
+
         }
         else
         {
@@ -80,6 +97,9 @@ public class BulletController : MonoBehaviour
                 particles = (GameObject)Resources.Load("Prefabs/BulletParticleSystem-Tiles");
             
             Instantiate(particles, transform.position, transform.rotation);
+
+            float vol = Random.Range(volLowRange, volHighRange);
+            source.PlayOneShot(hit, vol);
 
             Destroy(this.gameObject);
         }
