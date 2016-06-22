@@ -55,7 +55,23 @@ public class PirateAssassin : MonoBehaviour {
     void Awake() {
         targetObj = GameObject.FindGameObjectWithTag("Player");
         target = targetObj.transform;
-       
+
+        //get the closest ship
+        shipObj = GameObject.Find("PirateShip");
+        ship = shipObj.transform;
+
+
+        itemObj = GameObject.FindGameObjectsWithTag("Item");
+        itemSize = itemObj.Length;
+        item = new Transform[itemSize];
+        for (int i = 0; i < itemSize; i++)
+        {
+            item[i] = itemObj[i].transform;
+        }//end for
+     
+        //A*
+        path = gameObject.GetComponent<ItemAStar>();
+        ObList = new ArrayList();
     }
     // Use this for initialization
 
@@ -156,7 +172,8 @@ public class PirateAssassin : MonoBehaviour {
         if (dis < 0.5)
         {
             loot = true;
-            DestroyObject(itemObj[index]); 
+            DestroyObject(itemObj[index]);
+            AIState = AIFSM.Return;
         }
     }//Raid
 
@@ -213,7 +230,9 @@ public class PirateAssassin : MonoBehaviour {
         
         }
 
-        if (desIndex == ObList.Count) {}
+        if (desIndex == ObList.Count) {
+            AIState = AIFSM.Return;
+        }
         return pos;
     }
 

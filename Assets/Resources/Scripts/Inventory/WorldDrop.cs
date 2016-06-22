@@ -7,6 +7,7 @@ public class WorldDrop : Inventory
 {
     [SerializeField]
     bool inRange;
+    public bool enemyHas;
 
     void Start()
     {
@@ -24,7 +25,14 @@ public class WorldDrop : Inventory
     void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.tag == "Player")
+        {
             inRange = true;
+        }
+        else
+        {
+            enemyHas = true;
+        }
+
     }
 
     void OnTriggerExit2D(Collider2D collider)
@@ -33,6 +41,8 @@ public class WorldDrop : Inventory
             inRange = false;
     }
 
+    
+
     void Update()
     {
         if (inRange == true)
@@ -40,6 +50,12 @@ public class WorldDrop : Inventory
             //Call Merge on Player/Enemies inventory script.
             GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().playerInventory.Merge(items);
             Destroy(this.gameObject);    
+        }
+        if (enemyHas == true)
+        {
+
+
+
         }
 
         foreach (var item in items)

@@ -5,12 +5,12 @@ public class AIShip : MonoBehaviour {
 
     public bool boreded = false;
     public int maxSpace = 5;
-    int numSpawn = 0;
+   public int numSpawn = 0;
     public int passengers = 0;
     private GameObject Assassin, Warrior, temp;
     float delay = 4.0f;
     int id = 0;
-    float timePassed = 0.0f;
+    float timePassed = 5.0f;
     Vector3 landingPoint = new Vector3(0.5f,-7f,1f);
     float speed = 1.0f;
    public float distance;
@@ -61,14 +61,14 @@ public class AIShip : MonoBehaviour {
 
         if (timePassed >= delay)
         {
-            id = (UnityEngine.Random.Range(1, 100)) % 3;
+            id = (UnityEngine.Random.Range(3, 100)) % 2;
 
             switch (id)
             {
-                case 1:
+                case 0:
                     temp = Instantiate(Assassin, gameObject.transform.position, gameObject.transform.rotation) as GameObject;
                     break;
-                case 2:
+                case 1:
                     temp = Instantiate(Warrior, gameObject.transform.position, gameObject.transform.rotation) as GameObject;
                     break;
             }
