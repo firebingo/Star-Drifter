@@ -108,21 +108,13 @@ public class PirateWarrior : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D col)
     {
-
-        print("collision with" + col.gameObject.name);
-
+        //print("collision with" + col.gameObject.name);
     }
     void OnCollisionStay2D(Collision2D col)
     {
-
-        print("collision with" + gameObject.name);
+        //print("collision with" + gameObject.name);
         col.gameObject.SendMessage("ApplyDamage", damage);
-
-       
     }
-   
-
-
 
     /// <summary>
     /// ///////////////////////////////////
