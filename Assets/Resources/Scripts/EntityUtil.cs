@@ -119,6 +119,7 @@ public class EntityUtil {
 		int sizeX = 0;
 		int sizeY = 0;
 		int[,] tileArray = new int[0,0];
+		int[,] entityArray = new int[0,0];
 
 		POI newPOI = new POI(POIPos, new List<GameObject>());
 		GameObject ent;
@@ -160,6 +161,18 @@ public class EntityUtil {
 		ObjectPool optt30 = opc.getObjectPool(EntityType.Tile_30);
 		ObjectPool optt31 = opc.getObjectPool(EntityType.Tile_31);
 
+		ObjectPool optt32 = opc.getObjectPool(EntityType.Tile_32);
+		ObjectPool optt33 = opc.getObjectPool(EntityType.Tile_33);
+		ObjectPool optt34 = opc.getObjectPool(EntityType.Tile_34);
+		ObjectPool optt35 = opc.getObjectPool(EntityType.Tile_35);
+		ObjectPool optt36 = opc.getObjectPool(EntityType.Tile_36);
+		ObjectPool optt37 = opc.getObjectPool(EntityType.Tile_37);
+		ObjectPool optt38 = opc.getObjectPool(EntityType.Tile_38);
+		ObjectPool optt39 = opc.getObjectPool(EntityType.Tile_39);
+		ObjectPool optt40 = opc.getObjectPool(EntityType.Tile_40);
+		ObjectPool optt41 = opc.getObjectPool(EntityType.Tile_41);
+		ObjectPool optt42 = opc.getObjectPool(EntityType.Tile_42);
+
 		// Switch case for setting the node array to the correct design
 		switch ( poiType ) {
 			case POIType.POI_0:
@@ -188,6 +201,27 @@ public class EntityUtil {
 						{50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50},
 						{50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50},
 						{50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50}   };
+				entityArray = new int[20, 20]
+					{   {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,2,0,0,8,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,9,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }	};
 				sizeX = 20;
 				sizeY = 20;
 				break;
@@ -213,6 +247,27 @@ public class EntityUtil {
 						{50,31,19,19, 4,14,19,19,19,19,19,19,19,19, 4,14,19,19,28,50},
 						{50,31,19,19, 1, 3,19,19,19,19,19,20,19,19, 3,10,19,19,28,50},
 						{50,50,29,29, 0,11,11,11,11,11,11,11,11,11,11, 9,29,29,50,50}   };
+				entityArray = new int[20, 20]
+					{   {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,3,0,4,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }  };
 				sizeX = 20;
 				sizeY = 20;
 				break;
@@ -238,6 +293,27 @@ public class EntityUtil {
 						{50,50,50,50, 0,11,11,11,11,11, 9,19, 1, 3,19,19,12,50,50,50},
 						{50,50,50,50,50,50,50, 4,14,25,26,27, 2,19,19,19,12,50,50,50},
 						{50,50,50,50,50,50,50,29,29,29,29,29, 0,11,11,11, 9,50,50,50}  };
+				entityArray = new int[20, 20]
+					{   {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,7,0,0,0,4,0,0,0,0,0,0,0,0,10,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }  };
 				sizeX = 20;
 				sizeY = 20;
 				break;
@@ -373,6 +449,55 @@ public class EntityUtil {
 						break;
 					case 31:
 						ent = PlaceEntity( optt31.GetPooledObject(), newPOI, new IntVector2( x, y ) );
+						ent.SetActive( true );
+						break;
+					default:
+						break;
+				}
+
+				switch ( entityArray[x, y] ) {
+					case 1:
+						ent = PlaceEntity( optt32.GetPooledObject(), newPOI, new IntVector2( x, y ) );
+						ent.SetActive( true );
+						break;
+					case 2:
+						ent = PlaceEntity( optt33.GetPooledObject(), newPOI, new IntVector2( x, y ) );
+						ent.SetActive( true );
+						break;
+					case 3:
+						ent = PlaceEntity( optt34.GetPooledObject(), newPOI, new IntVector2( x, y ) );
+						ent.SetActive( true );
+						break;
+					case 4:
+						ent = PlaceEntity( optt35.GetPooledObject(), newPOI, new IntVector2( x, y ) );
+						ent.SetActive( true );
+						break;
+					case 5:
+						ent = PlaceEntity( optt36.GetPooledObject(), newPOI, new IntVector2( x, y ) );
+						ent.SetActive( true );
+						break;
+					case 6:
+						ent = PlaceEntity( optt37.GetPooledObject(), newPOI, new IntVector2( x, y ) );
+						ent.SetActive( true );
+						break;
+					case 7:
+						ent = PlaceEntity( optt38.GetPooledObject(), newPOI, new IntVector2( x, y ) );
+						ent.SetActive( true );
+						break;
+					case 8:
+						ent = PlaceEntity( optt39.GetPooledObject(), newPOI, new IntVector2( x, y ) );
+						ent.SetActive( true );
+						break;
+					case 9:
+						ent = PlaceEntity( optt40.GetPooledObject(), newPOI, new IntVector2( x, y ) );
+						ent.SetActive( true );
+						break;
+					case 10:
+						ent = PlaceEntity( optt41.GetPooledObject(), newPOI, new IntVector2( x, y ) );
+						ent.SetActive( true );
+						break;
+					case 11:
+						ent = PlaceEntity( optt42.GetPooledObject(), newPOI, new IntVector2( x, y ) );
 						ent.SetActive( true );
 						break;
 					default:

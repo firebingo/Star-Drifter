@@ -17,7 +17,9 @@ public enum EntityType
     Tile_15, Tile_16, Tile_17, Tile_18, Tile_19,
     Tile_20, Tile_21, Tile_22, Tile_23, Tile_24,
     Tile_25, Tile_26, Tile_27, Tile_28, Tile_29,
-    Tile_30, Tile_31
+    Tile_30, Tile_31, Tile_32, Tile_33, Tile_34,
+	Tile_35, Tile_36, Tile_37, Tile_38, Tile_39,
+	Tile_40, Tile_41, Tile_42
 }
 
 public enum POIType
@@ -37,7 +39,9 @@ public class GameController : MonoBehaviour
     public static int tileSize = 1;
 
 	public static float SectorCellSize = 50.0f;
-	public static int SectorCellCount = 5;
+	public static int SectorCellCount = 11;
+
+	private bool sectorLoaded = false;
 
     [SerializeField]
     public OptionsController options;
@@ -85,14 +89,18 @@ public class GameController : MonoBehaviour
     {
         if (level == 1)
         {
-			// Initialize the object pool controller and object pools
-			ObjectPoolController opc = GameObject.FindGameObjectWithTag("OPC").GetComponent<ObjectPoolController>();
-			opc.Initialize();
+			if ( !sectorLoaded ) {
+				sectorLoaded = true;
 
-			EntityUtil.GenerateSector( new IntVector2( 0, 0 ), 3 );
-			//EntityUtil.GeneratePOI(new IntVector2(0, 3), POIType.POI_0);
-            //EntityUtil.GeneratePOI(new IntVector2(-3, -20), POIType.POI_1);
-            //EntityUtil.GeneratePOI(new IntVector2(-25, -10), POIType.POI_2);
+				// Initialize the object pool controller and object pools
+				ObjectPoolController opc = GameObject.FindGameObjectWithTag("OPC").GetComponent<ObjectPoolController>();
+				opc.Initialize();
+
+				EntityUtil.GenerateSector( new IntVector2( 0, 0 ), 25 );
+				//EntityUtil.GeneratePOI(new IntVector2(0, 3), POIType.POI_0);
+				//EntityUtil.GeneratePOI(new IntVector2(-3, -20), POIType.POI_1);
+				//EntityUtil.GeneratePOI(new IntVector2(-25, -10), POIType.POI_2);
+			}
         }
     }
 
@@ -132,6 +140,4 @@ public class GameController : MonoBehaviour
         else
             SceneManager.LoadScene(levelIndex, LoadSceneMode.Single);
     }
-
-
 }
