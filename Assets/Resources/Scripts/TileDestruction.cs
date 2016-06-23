@@ -9,15 +9,22 @@ public class TileDestruction : MonoBehaviour {
     [SerializeField]
     int armor = 0;
 
+    Renderer rend;
+    public Sprite newSprite;
+    private bool destroyed;
+
+
     //Removed for performance
     //bool StationUnderAttack = false;
 
     // Use this for initialization
     void Start () 
     {
+        
         currentHealth = maxHealth;
-      
-	}
+        rend = this.GetComponent<SpriteRenderer>() as SpriteRenderer;
+
+    }
 	
 	// Update is called once per frame
 	void Update () 
@@ -28,7 +35,7 @@ public class TileDestruction : MonoBehaviour {
              StationUnderAttack = true;
          }*/
 
-        if (currentHealth <= 0)
+        if (currentHealth <= 0 && !destroyed)
         {
             int count = Random.Range(1, 3);
             for (int i = 0; i < count; i++)
@@ -36,7 +43,10 @@ public class TileDestruction : MonoBehaviour {
                 Vector3 positionOffset = new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f));
                 Instantiate(Resources.Load("Prefabs/Debris") as GameObject, transform.position + positionOffset, transform.rotation);
             }
-            Destroy(this.gameObject);
+            //Destroy(this.gameObject);
+            destroyed = true;
+            this.GetComponent<BoxCollider2D>().enabled = false;
+            this.GetComponent<SpriteRenderer>().sprite = newSprite;
         }
 	}
 
