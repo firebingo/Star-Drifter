@@ -55,12 +55,12 @@ public class EntityUtil {
 
 			// Generate a random number between 0 and SectorCellCount^2
 			int number = rnd.Next(0, (GameController.SectorCellCount * GameController.SectorCellCount));
-			Debug.Log( randList.Count );
+			//Debug.Log( randList.Count );
 
 			// Check to see if the random number is unique
 			if ( !randList.Contains(number) ) {
 				randList.Add( number );
-				Debug.Log( string.Format( "Added POI ... {0}", randList.Count ) );
+				//Debug.Log( string.Format( "Added POI ... {0}", randList.Count ) );
 			}
 		}
 

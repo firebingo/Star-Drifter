@@ -3,11 +3,8 @@ using System.Collections;
 
 public class AIHealth : MonoBehaviour {
 
-   public  float maxHealth = 100.0f;
+    public  float maxHealth = 100.0f;
     public float currentHealth = 100.0f;
-
-
-
 
 	// Use this for initialization
 	void Start () {
@@ -23,14 +20,10 @@ public class AIHealth : MonoBehaviour {
             Destroy(this.gameObject);
 
         } 
-
-
 	}
-
 
     void ApplyDamage(float damage)
     {
         currentHealth -= damage;
     }
-
 }

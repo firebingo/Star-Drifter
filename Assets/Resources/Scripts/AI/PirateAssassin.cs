@@ -25,7 +25,6 @@ public class PirateAssassin : MonoBehaviour {
     public Transform closestItem;
     private float disO;
 
-
     //variables for Attack
     GameObject targetObj;
     Transform target;
@@ -40,8 +39,6 @@ public class PirateAssassin : MonoBehaviour {
 
     //temporary Vectors
     Vector3 targetV, enemyV, NLinear;
-   
-
 
     //Pathfinding Variables 
     public ItemAStar path;
@@ -58,8 +55,8 @@ public class PirateAssassin : MonoBehaviour {
 
         //get the closest ship
         shipObj = GameObject.Find("PirateShip");
-        ship = shipObj.transform;
-
+		if(ship)
+			ship = shipObj.transform;
 
         itemObj = GameObject.FindGameObjectsWithTag("Item");
         itemSize = itemObj.Length;
@@ -135,9 +132,6 @@ public class PirateAssassin : MonoBehaviour {
 
     }//Update
 
-
-
-
     //State Machine Functions 
     //determines which state the enemy should be in
     private void State(Transform target, float distance)
@@ -158,7 +152,6 @@ public class PirateAssassin : MonoBehaviour {
         
 
     }//State()
-
   
     private void Raid(Transform CT) {
 
@@ -266,7 +259,6 @@ public class PirateAssassin : MonoBehaviour {
                 }
             }
         }
-
     }
 
     /// //////////////////////////////////////////
@@ -309,5 +301,4 @@ public class PirateAssassin : MonoBehaviour {
         }
         return near;
     }//FindClosestItem
-
 }

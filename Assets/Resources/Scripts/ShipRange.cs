@@ -25,8 +25,8 @@ public class ShipRange : MonoBehaviour {
     {
         if (collider.tag == "Player" && Input.GetButton("Enter Ship") && time >= cooldown) //Enter ship is e
         {
-            Debug.Log("Enter");
-            ship.ShipEnter(collider.gameObject);
+			if(ship)
+				ship.ShipEnter(collider.gameObject);
         }
     }
 }

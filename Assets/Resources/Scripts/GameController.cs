@@ -41,7 +41,7 @@ public class GameController : MonoBehaviour
 	public static float SectorCellSize = 50.0f;
 	public static int SectorCellCount = 11;
 
-	private bool sectorLoaded = false;
+	private static bool sectorLoaded = false;
 
     [SerializeField]
     public OptionsController options;
@@ -85,32 +85,30 @@ public class GameController : MonoBehaviour
         Application.Quit();
     }
 
-    public void OnLevelWasLoaded(int level)
-    {
-        if (level == 1)
-        {
-			if ( !sectorLoaded ) {
-				sectorLoaded = true;
+	public void OnLevelWasLoaded(int level)
+	{
+		if (!sectorLoaded)
+		{
+			sectorLoaded = true;
 
-				// Initialize the object pool controller and object pools
-				ObjectPoolController opc = GameObject.FindGameObjectWithTag("OPC").GetComponent<ObjectPoolController>();
-				opc.Initialize();
+			// Initialize the object pool controller and object pools
+			ObjectPoolController opc = GameObject.FindGameObjectWithTag("OPC").GetComponent<ObjectPoolController>();
+			opc.Initialize();
 
-				EntityUtil.GenerateSector( new IntVector2( 0, 0 ), 25 );
-				//EntityUtil.GeneratePOI(new IntVector2(0, 3), POIType.POI_0);
-				//EntityUtil.GeneratePOI(new IntVector2(-3, -20), POIType.POI_1);
-				//EntityUtil.GeneratePOI(new IntVector2(-25, -10), POIType.POI_2);
-			}
-        }
-    }
+			EntityUtil.GenerateSector(new IntVector2(0, 0), 25);
+			//EntityUtil.GeneratePOI(new IntVector2(0, 3), POIType.POI_0);
+			//EntityUtil.GeneratePOI(new IntVector2(-3, -20), POIType.POI_1);
+			//EntityUtil.GeneratePOI(new IntVector2(-25, -10), POIType.POI_2);
+		}
+	}
 
-    /// <summary>
-    /// Loads a level given a scene name. Only uses single scene loading.
-    /// This is needed so buttons on menus can call it since they only support
-    ///  one in parameter.
-    /// </summary>
-    /// <param name="levelName"></param>
-    public void loadLevel(string levelName)
+	/// <summary>
+	/// Loads a level given a scene name. Only uses single scene loading.
+	/// This is needed so buttons on menus can call it since they only support
+	///  one in parameter.
+	/// </summary>
+	/// <param name="levelName"></param>
+	public void loadLevel(string levelName)
     {
         SceneManager.LoadScene(levelName, LoadSceneMode.Single);
     }

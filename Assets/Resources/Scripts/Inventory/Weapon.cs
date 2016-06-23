@@ -183,11 +183,9 @@ public class Weapon : ScriptableObject, inventoryItem
         if (reload == true)
         {
             reloadTimer += Time.deltaTime;
-            Debug.Log("Reloading");
 
             if (reloadTimer >= reloadTime)
             {
-                Debug.Log("Reloaded");
                 reload = false;
                 clip = clipSize;
                 reloadTimer = 0;
