@@ -500,6 +500,10 @@ public class EntityUtil {
 						ent = PlaceEntity( optt42.GetPooledObject(), newPOI, new IntVector2( x, y ) );
 						ent.SetActive( true );
 						break;
+					case 12:
+						Object obj = GameObject.Instantiate( Resources.Load("Prefabs/Enemy_Defender") );
+						PlaceEntity( ( GameObject )obj, newPOI, new IntVector2( x, y ) );
+						break;
 					default:
 						break;
 				}

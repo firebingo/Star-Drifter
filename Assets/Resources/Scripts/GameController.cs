@@ -96,7 +96,7 @@ public class GameController : MonoBehaviour
 			opc.Initialize();
 
 			EntityUtil.GenerateSector(new IntVector2(0, 0), 25);
-			//EntityUtil.GeneratePOI(new IntVector2(0, 3), POIType.POI_0);
+			EntityUtil.GeneratePOI(new IntVector2(-18, -8), POIType.POI_1);
 			//EntityUtil.GeneratePOI(new IntVector2(-3, -20), POIType.POI_1);
 			//EntityUtil.GeneratePOI(new IntVector2(-25, -10), POIType.POI_2);
 		}
