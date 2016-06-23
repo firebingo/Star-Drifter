@@ -253,15 +253,19 @@ public class AlienDefender : MonoBehaviour
     /// ///////////////////////////////////////////////////
   
     private Vector3 asl()
-    {
-        Vector3 pos;
-        path = gameObject.GetComponent<PathFindDefender>();
-        if (PDesIndex == 0 && path.pathArray.Count > 0) { 
-        ObList = path.pathArray;
-        desIndex = 0;
-      PDesIndex++;
-    }
-        drawpath();
+	{
+		Vector3 pos;
+		path = gameObject.GetComponent<PathFindDefender>();
+		if (path)
+		{
+			if (PDesIndex == 0 && path.pathArray.Count > 0)
+			{
+				ObList = path.pathArray;
+				desIndex = 0;
+				PDesIndex++;
+			}
+		}
+		drawpath();
         pos = getDestination(ObList);
         return pos;
     }
